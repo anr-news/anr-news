@@ -48,24 +48,24 @@
   </div>
 
   <!-- MASTHEAD SECTION (Classic Khmer Blackletter / Moul) -->
-  <header class="max-w-[1280px] mx-auto px-4 sm:px-6 pt-5 pb-3 text-center bg-[var(--bg-page)]">
-    <div id="siteMottoText" class="text-xs sm:text-sm text-[var(--text-muted)] mb-1.5 font-nyt-body font-medium">
+  <header class="max-w-[1280px] mx-auto px-4 sm:px-6 pt-6 pb-3 text-center bg-[var(--bg-page)]">
+    <div id="siteMottoText" class="text-sm sm:text-base text-[var(--text-muted)] mb-2 font-nyt-body font-medium">
       «ព័ត៌មានពិត សុក្រឹត និងស៊ីជម្រៅ»
     </div>
     
-    <h1 onclick="resetCategoryFilter()" id="siteMastheadText" class="font-nyt-masthead text-3xl sm:text-5xl md:text-6xl font-bold text-[var(--text-main)] leading-[1.3] select-none cursor-pointer hover:opacity-90 transition">
+    <h1 onclick="resetCategoryFilter()" id="siteMastheadText" class="font-nyt-masthead text-4xl sm:text-6xl md:text-7xl font-bold text-[var(--text-main)] leading-[1.3] select-none cursor-pointer hover:opacity-90 transition">
       សារព័ត៌មាន អេអិនអ័រ
     </h1>
 
-    <div class="flex items-center justify-between text-[11px] text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-1 font-nyt-ui">
+    <div class="flex items-center justify-between text-xs sm:text-sm text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-2 font-nyt-ui">
       <span class="hidden sm:inline">កម្រងទី ១៧៥ . . . លេខ ៦០,៨៩២</span>
       <span id="siteEditionText" class="font-semibold text-[var(--text-main)]">ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស តូក្យូ</span>
       <span class="hidden sm:inline">តម្លៃ ៤,០០០ រៀល</span>
     </div>
 
     <!-- Section Categories Navigation (Interactive Filter - Fix #3) -->
-    <nav class="border-b-2 border-[var(--border-dark)] py-2.5 overflow-x-auto no-scrollbar mt-1">
-      <div id="categoryNavList" class="flex items-center justify-between text-xs font-semibold text-[var(--text-main)] whitespace-nowrap gap-5 font-nyt-ui">
+    <nav class="border-b-2 border-[var(--border-dark)] py-3 overflow-x-auto no-scrollbar mt-1">
+      <div id="categoryNavList" class="flex items-center justify-between text-sm sm:text-[15px] font-semibold text-[var(--text-main)] whitespace-nowrap gap-6 font-nyt-ui">
         <button onclick="resetCategoryFilter()" class="hover:text-red-700 font-bold transition text-red-700">ទំព័រដើម</button>
         <button onclick="filterByCategory('សកលលោក')" class="hover:text-red-700 transition">សកលលោក</button>
         <button onclick="filterByCategory('នយោបាយ')" class="hover:text-red-700 transition">នយោបាយ</button>
@@ -83,12 +83,12 @@
 
   <!-- ACTIVE CATEGORY FILTER BADGE (Fix #3) -->
   <div id="activeCategoryFilterBar" class="max-w-[1280px] mx-auto px-4 sm:px-6 mt-3 hidden">
-    <div class="bg-neutral-100 dark:bg-neutral-800 border border-nyt-subtle py-1.5 px-3 rounded-sm flex items-center justify-between text-xs">
+    <div class="bg-neutral-100 dark:bg-neutral-800 border border-nyt-subtle py-2 px-4 rounded-sm flex items-center justify-between text-sm font-nyt-ui">
       <div class="flex items-center gap-2">
         <span class="text-[var(--text-muted)]">កំពុងបង្ហាញផ្នែក៖</span>
-        <span id="activeCategoryName" class="font-bold text-[var(--accent-red)]"></span>
+        <span id="activeCategoryName" class="font-bold text-[var(--accent-red)] text-base"></span>
       </div>
-      <button onclick="resetCategoryFilter()" class="text-[11px] underline font-medium hover:text-red-600 transition">
+      <button onclick="resetCategoryFilter()" class="text-xs sm:text-sm underline font-medium hover:text-red-600 transition">
         បង្ហាញព័ត៌មានទាំងអស់ (ទំព័រដើម) ✕
       </button>
     </div>

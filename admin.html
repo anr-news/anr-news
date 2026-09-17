@@ -218,34 +218,34 @@
         
         <!-- Headline Grid Fit Validation -->
         <div>
-          <div class="flex items-center justify-between text-[11px] text-gray-500 font-nyt-ui mb-1">
+          <div class="flex items-center justify-between text-xs sm:text-sm text-gray-600 font-nyt-ui mb-1.5">
             <span>ចំណងជើងអត្ថបទ (កម្រិត ៨០ តួអក្សរ)</span>
-            <span id="headlineCharBadge" class="text-emerald-600 font-semibold font-mono">០ / ៨០ តួអក្សរ (សមរម្យ)</span>
+            <span id="headlineCharBadge" class="text-emerald-600 font-semibold font-mono text-xs sm:text-sm">០ / ៨០ តួអក្សរ (សមរម្យ)</span>
           </div>
           <input 
             type="text" 
             id="editorHeadline" 
-            class="w-full font-nyt-headline text-2xl sm:text-3xl font-bold text-gray-900 border-b border-transparent focus:border-gray-400 outline-none pb-2 leading-[1.45] transition"
+            class="w-full font-nyt-headline text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 border-b border-transparent focus:border-gray-400 outline-none pb-2 leading-[1.4] transition"
             placeholder="បញ្ចូលចំណងជើងព័ត៌មាន..."
           />
         </div>
 
         <!-- Deck / Summary Excerpt -->
         <div>
-          <span class="text-[11px] font-bold text-gray-400 block mb-1 font-nyt-ui">សេចក្តីសង្ខេប (DECK / EXCERPT)</span>
+          <span class="text-xs sm:text-sm font-bold text-gray-500 block mb-1 font-nyt-ui">សេចក្តីសង្ខេប (DECK / EXCERPT)</span>
           <textarea 
             id="editorDeck" 
             rows="2" 
-            class="w-full font-nyt-body text-base text-gray-700 border-b border-gray-200 focus:border-gray-400 outline-none resize-none leading-[1.75]"
+            class="w-full font-nyt-body text-lg sm:text-xl text-gray-700 border-b border-gray-200 focus:border-gray-400 outline-none resize-none leading-[1.8]"
             placeholder="បញ្ចូលសេចក្តីសង្ខេប ២ ប្រយោគ..."
           ></textarea>
         </div>
 
         <!-- Lead Story Cover Photo Preview & Drive Connector -->
         <div class="border border-dashed border-gray-300 rounded-lg p-3 bg-gray-50/50 space-y-2">
-          <div class="flex items-center justify-between text-xs">
-            <span class="font-semibold text-gray-700">រូបភាពក្របមុខ (Google Drive Media Vault)</span>
-            <button onclick="openDriveModal('upload')" class="text-blue-600 hover:underline font-medium text-[11px] flex items-center gap-1">
+          <div class="flex items-center justify-between text-xs sm:text-sm">
+            <span class="font-semibold text-gray-700 font-nyt-ui">រូបភាពក្របមុខ (Google Drive Media Vault)</span>
+            <button onclick="openDriveModal('upload')" class="text-blue-600 hover:underline font-medium text-xs sm:text-sm flex items-center gap-1 font-nyt-ui">
               <span>📤 បង្ហោះរូបភាពពីកុំព្យូទ័រ</span>
             </button>
           </div>
@@ -256,14 +256,14 @@
         </div>
 
         <!-- Metadata Attributes -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 py-3 border-y border-gray-200 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 py-3 border-y border-gray-200 text-xs sm:text-sm font-nyt-ui">
           <div>
             <label class="font-semibold text-gray-700 block mb-1">អ្នកនិពន្ធ / អ្នករាយការណ៍</label>
-            <input type="text" id="editorAuthor" class="w-full border border-gray-300 rounded p-1.5 outline-none font-medium text-gray-800" value="ការិយាល័យនិពន្ធ អេអិនអ័រ"/>
+            <input type="text" id="editorAuthor" class="w-full border border-gray-300 rounded p-2 outline-none font-medium text-gray-800" value="ការិយាល័យនិពន្ធ អេអិនអ័រ"/>
           </div>
           <div>
             <label class="font-semibold text-gray-700 block mb-1">ផ្នែក / ប្រភេទព័ត៌មាន</label>
-            <select id="editorCategory" class="w-full border border-gray-300 rounded p-1.5 outline-none font-medium text-gray-800">
+            <select id="editorCategory" class="w-full border border-gray-300 rounded p-2 outline-none font-medium text-gray-800">
               <option value="ការស៊ើបអង្កេតពិសេស">ការស៊ើបអង្កេតពិសេស</option>
               <option value="សកលលោក">សកលលោក</option>
               <option value="នយោបាយ">នយោបាយ</option>
@@ -281,7 +281,7 @@
         <!-- Document Body Contenteditable -->
         <div 
           id="editableBody" 
-          class="font-nyt-body text-base sm:text-lg leading-[1.85] text-gray-800 space-y-4 outline-none min-h-[300px]" 
+          class="font-nyt-body text-lg sm:text-xl leading-[1.9] text-gray-800 space-y-4 outline-none min-h-[300px]" 
           contenteditable="true"
           oninput="updateWordCount()"
         >

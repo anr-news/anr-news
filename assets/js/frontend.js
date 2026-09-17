@@ -4,7 +4,7 @@
 
 let currentArticles = [];
 let currentArticleInModal = null;
-let currentFontSize = 18;
+let currentFontSize = 20;
 let isAudioPlaying = false;
 let activeCategory = null;
 
@@ -97,17 +97,17 @@ function renderBreaking(breaking) {
 
   container.classList.remove('hidden');
   container.innerHTML = `
-    <div class="border-b border-t border-red-700 bg-red-50/40 dark:bg-red-950/20 py-2 px-3 flex flex-wrap items-center justify-between gap-2">
-      <div class="flex items-center gap-2.5 flex-1 overflow-hidden">
-        <span class="px-2 py-0.5 bg-[#D0021B] text-white font-bold text-[10px] rounded-sm flex items-center gap-1.5 flex-shrink-0 font-nyt-ui">
+    <div class="border-b border-t border-red-700 bg-red-50/40 dark:bg-red-950/20 py-2.5 px-3.5 flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-3 flex-1 overflow-hidden">
+        <span class="px-2.5 py-1 bg-[#D0021B] text-white font-bold text-xs rounded-sm flex items-center gap-1.5 flex-shrink-0 font-nyt-ui">
           <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> ការផ្សាយផ្ទាល់
         </span>
-        <span class="text-xs text-[#666666] font-mono flex-shrink-0">${breaking.updatedAt || 'ថ្មីៗនេះ'}</span>
-        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breaking.text)}')" class="text-xs font-semibold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
+        <span class="text-xs sm:text-sm text-[#666666] font-mono flex-shrink-0">${breaking.updatedAt || 'ថ្មីៗនេះ'}</span>
+        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breaking.text)}')" class="text-sm sm:text-base font-semibold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
           ${breaking.text}
         </a>
       </div>
-      <span class="text-xs text-red-700 font-semibold cursor-pointer hover:underline flex-shrink-0 font-nyt-ui" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
+      <span class="text-xs sm:text-sm text-red-700 font-bold cursor-pointer hover:underline flex-shrink-0 font-nyt-ui" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
     </div>
   `;
 }
@@ -125,15 +125,15 @@ function renderLeadStory(lead) {
   if (!col1 || !lead) return;
 
   col1.innerHTML = `
-    <article class="space-y-3 cursor-pointer group" onclick="openStory('${lead.id}')">
-      <span class="text-[11px] font-bold text-[#D0021B] font-nyt-ui">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
-      <h2 class="font-nyt-headline text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
+    <article class="space-y-3.5 cursor-pointer group" onclick="openStory('${lead.id}')">
+      <span class="text-xs sm:text-sm font-bold text-[#D0021B] font-nyt-ui">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
+      <h2 class="font-nyt-headline text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.38] text-inherit group-hover:text-[#666666] transition">
         ${lead.headline}
       </h2>
-      <p class="font-nyt-body text-base sm:text-[17px] text-[var(--text-body)] leading-[1.8]">
+      <p class="font-nyt-body text-lg sm:text-xl text-[var(--text-body)] leading-[1.85]">
         ${lead.deck}
       </p>
-      <div class="text-xs text-[var(--text-muted)] font-nyt-ui flex items-center gap-2">
+      <div class="text-sm text-[var(--text-muted)] font-nyt-ui flex items-center gap-2.5">
         <span class="font-semibold text-inherit">ដោយ ${lead.author}</span>
         <span>•</span>
         <span>${lead.readTime}</span>
@@ -144,24 +144,24 @@ function renderLeadStory(lead) {
           <div class="bg-neutral-800 text-neutral-300 rounded-sm overflow-hidden aspect-[16/9] flex items-center justify-center relative">
             <img src="${lead.image}" alt="រូបភាពអត្ថបទសំខាន់" class="w-full h-full object-cover"/>
           </div>
-          <p class="text-xs text-[var(--text-muted)] font-nyt-body mt-1.5 leading-[1.6]">
-            ${lead.caption || ''} <span class="text-[var(--text-light)] text-[10px] ml-1 font-nyt-ui">${lead.credit || ''}</span>
+          <p class="text-sm text-[var(--text-muted)] font-nyt-body mt-2 leading-[1.6]">
+            ${lead.caption || ''} <span class="text-[var(--text-light)] text-xs ml-1 font-nyt-ui">${lead.credit || ''}</span>
           </p>
         </div>
       ` : ''}
 
       <!-- NYT Style Audio Bar (Khmer) -->
-      <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-2.5 rounded-sm flex items-center justify-between text-xs font-nyt-ui" onclick="event.stopPropagation()">
-        <div class="flex items-center gap-2.5">
-          <button onclick="toggleAudio(this)" class="w-7 h-7 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] flex items-center justify-center hover:opacity-80 transition shadow-sm">
+      <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-3 rounded-sm flex items-center justify-between text-sm font-nyt-ui" onclick="event.stopPropagation()">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleAudio(this)" class="w-8 h-8 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] flex items-center justify-center hover:opacity-80 transition shadow-sm">
             <span id="audioPlaySymbol">▶</span>
           </button>
           <div>
             <span class="font-semibold text-inherit block leading-none">ស្តាប់អត្ថបទជាសំឡេង</span>
-            <span class="text-[10px] text-[var(--text-muted)]">${lead.audio ? `${lead.audio.duration} • អានដោយ ${lead.audio.narrator}` : 'មានកំណែជាសំឡេង'}</span>
+            <span class="text-xs text-[var(--text-muted)] mt-0.5 block">${lead.audio ? `${lead.audio.duration} • អានដោយ ${lead.audio.narrator}` : 'មានកំណែជាសំឡេង'}</span>
           </div>
         </div>
-        <span class="text-[11px] font-mono text-[var(--text-muted)]">1.0x</span>
+        <span class="text-xs font-mono text-[var(--text-muted)]">1.0x</span>
       </div>
     </article>
   `;
@@ -173,19 +173,19 @@ function renderSecondaryStories(secondaries) {
 
   col2.innerHTML = secondaries.map((art, idx) => `
     <article class="space-y-2 cursor-pointer group pb-4 border-b border-nyt-subtle" onclick="openStory('${art.id}')">
-      <span class="text-[10px] font-bold text-[var(--accent-blue)] font-nyt-ui">${art.category || 'ព័ត៌មាន'}</span>
+      <span class="text-xs font-bold text-[var(--accent-blue)] font-nyt-ui">${art.category || 'ព័ត៌មាន'}</span>
       <div class="flex gap-3">
         <div class="flex-1">
-          <h3 class="font-nyt-headline text-base sm:text-lg font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
+          <h3 class="font-nyt-headline text-lg sm:text-xl font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
             ${art.headline}
           </h3>
-          <p class="font-nyt-body text-xs sm:text-sm text-[var(--text-muted)] mt-1.5 leading-[1.7]">
+          <p class="font-nyt-body text-sm sm:text-base text-[var(--text-muted)] mt-1.5 leading-[1.75]">
             ${art.deck || ''}
           </p>
-          <span class="text-[11px] text-[var(--text-light)] block mt-1.5 font-nyt-ui">ដោយ ${art.author} • ${art.readTime}</span>
+          <span class="text-xs sm:text-sm text-[var(--text-light)] block mt-1.5 font-nyt-ui">ដោយ ${art.author} • ${art.readTime}</span>
         </div>
         ${art.image ? `
-          <div class="w-24 h-20 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden">
+          <div class="w-28 h-24 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden">
             <img src="${art.image}" alt="${art.headline}" class="w-full h-full object-cover"/>
           </div>
         ` : ''}
@@ -199,16 +199,16 @@ function renderOpinions(opinions) {
   if (!col3) return;
 
   col3.innerHTML = opinions.map((op, idx) => `
-    <article class="flex gap-3 items-start group cursor-pointer ${idx > 0 ? 'pt-3 border-t border-nyt-subtle' : ''}" onclick="alert('កំពុងបើកអត្ថបទវិចារណកថារបស់ ${op.author}')">
-      <div class="w-12 h-12 rounded-full bg-neutral-300 overflow-hidden flex-shrink-0 border border-nyt-subtle">
+    <article class="flex gap-3.5 items-start group cursor-pointer ${idx > 0 ? 'pt-3.5 border-t border-nyt-subtle' : ''}" onclick="alert('កំពុងបើកអត្ថបទវិចារណកថារបស់ ${op.author}')">
+      <div class="w-13 h-13 rounded-full bg-neutral-300 overflow-hidden flex-shrink-0 border border-nyt-subtle">
         <img src="${op.image}" alt="${op.author}" class="w-full h-full object-cover"/>
       </div>
       <div class="space-y-1">
-        <span class="text-xs font-semibold text-inherit block font-nyt-ui">${op.author}</span>
-        <h4 class="font-nyt-headline text-sm font-bold leading-[1.48] text-inherit group-hover:text-[#666666] transition">
+        <span class="text-sm font-bold text-inherit block font-nyt-ui">${op.author}</span>
+        <h4 class="font-nyt-headline text-base font-bold leading-[1.5] text-inherit group-hover:text-[#666666] transition">
           ${op.headline}
         </h4>
-        <span class="text-[11px] text-[var(--text-muted)] block font-nyt-ui">${op.readTime}</span>
+        <span class="text-xs text-[var(--text-muted)] block font-nyt-ui">${op.readTime}</span>
       </div>
     </article>
   `).join('');
@@ -285,11 +285,11 @@ function closeStoryModal() {
 }
 
 function adjustFontSize(delta) {
-  currentFontSize = Math.max(14, Math.min(26, currentFontSize + delta));
+  currentFontSize = Math.max(16, Math.min(32, currentFontSize + delta));
   const body = document.getElementById('modalBody');
   if (body) {
     body.style.fontSize = `${currentFontSize}px`;
-    body.style.lineHeight = '1.85';
+    body.style.lineHeight = '1.9';
   }
 }
 
