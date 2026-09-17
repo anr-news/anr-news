@@ -6,6 +6,6 @@
  */
 
 window.ANR_DRIVE_CONFIG = {
-  // Replace with your Web App URL (starts with https://script.google.com/macros/s/...)
-  webAppUrl: localStorage.getItem('ANR_DRIVE_WEBAPP_URL') || ""
+  // Deployed Google Apps Script Web App URL for 5TB Google Drive vault
+  webAppUrl: localStorage.getItem('ANR_DRIVE_WEBAPP_URL') || "https://script.google.com/macros/s/AKfycbymyJtgZfENV4tixAotqIHEEBlQNPvYVflMbhoDnoARhVXnsSdAJ6aaUjqV6ZpzFCsv/exec"
 };
