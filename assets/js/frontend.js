@@ -150,18 +150,23 @@ function renderLeadStory(lead) {
         </div>
       ` : ''}
 
-      <!-- NYT Style Audio Bar (Khmer) -->
-      <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-3 rounded-sm flex items-center justify-between text-sm font-nyt-ui" onclick="event.stopPropagation()">
+      <!-- Senior Quick Action Bar (Audio + 1-Tap Telegram Share) -->
+      <div class="bg-[var(--bg-subtle)] border-2 border-nyt-subtle p-3.5 rounded-md flex flex-wrap items-center justify-between gap-3 text-sm sm:text-base font-nyt-ui shadow-sm" onclick="event.stopPropagation()">
         <div class="flex items-center gap-3">
-          <button onclick="toggleAudio(this)" class="w-8 h-8 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] flex items-center justify-center hover:opacity-80 transition shadow-sm">
-            <span id="audioPlaySymbol">▶</span>
+          <button onclick="toggleLeadAudio('${lead.id}')" class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:bg-emerald-700 transition shadow-sm font-bold text-base flex-shrink-0" title="ស្តាប់អត្ថបទជាសំឡេង">
+            <span id="leadAudioPlaySymbol">▶</span>
           </button>
           <div>
-            <span class="font-semibold text-inherit block leading-none">ស្តាប់អត្ថបទជាសំឡេង</span>
-            <span class="text-xs text-[var(--text-muted)] mt-0.5 block">${lead.audio ? `${lead.audio.duration} • អានដោយ ${lead.audio.narrator}` : 'មានកំណែជាសំឡេង'}</span>
+            <span class="font-bold text-inherit block leading-tight text-sm sm:text-base">ស្តាប់ព័ត៌មានជាសំឡេង</span>
+            <span class="text-xs sm:text-sm text-[var(--text-muted)] mt-0.5 block">${lead.audio ? `${lead.audio.duration} • អានដោយ ${lead.audio.narrator}` : 'ចុចដើម្បីស្តាប់ការអានស្វ័យប្រវត្តិ'}</span>
           </div>
         </div>
-        <span class="text-xs font-mono text-[var(--text-muted)]">1.0x</span>
+        <div class="flex items-center gap-2">
+          <button onclick="shareArticleToTelegram('${lead.id}')" class="px-4 py-2 rounded-full bg-[#229ED9] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm hover:bg-[#1a8bc0] transition" title="ចែករំលែកទៅ Telegram">
+            <span>✈</span>
+            <span>ចែករំលែក Telegram</span>
+          </button>
+        </div>
       </div>
     </article>
   `;
@@ -182,7 +187,13 @@ function renderSecondaryStories(secondaries) {
           <p class="font-nyt-body text-sm sm:text-base text-[var(--text-muted)] mt-1.5 leading-[1.75]">
             ${art.deck || ''}
           </p>
-          <span class="text-xs sm:text-sm text-[var(--text-light)] block mt-1.5 font-nyt-ui">ដោយ ${art.author} • ${art.readTime}</span>
+          <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-dashed border-nyt-subtle">
+            <span class="text-xs sm:text-sm text-[var(--text-light)] font-nyt-ui">ដោយ ${art.author} • ${art.readTime}</span>
+            <button onclick="event.stopPropagation(); shareArticleToTelegram('${art.id}')" class="text-xs text-[#229ED9] hover:underline font-bold flex items-center gap-1 font-nyt-ui px-2 py-0.5 rounded hover:bg-blue-50 dark:hover:bg-blue-950/40 transition" title="ចែករំលែកតាម Telegram">
+              <span>✈</span>
+              <span>Telegram</span>
+            </button>
+          </div>
         </div>
         ${art.image ? `
           <div class="w-28 h-24 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden">
@@ -214,6 +225,9 @@ function renderOpinions(opinions) {
   `).join('');
 }
 
+let speechUtterance = null;
+let isAudioNarrating = false;
+
 function openStory(id) {
   const article = currentArticles.find(a => a.id === id);
   if (!article) return;
@@ -224,19 +238,48 @@ function openStory(id) {
   const deck = document.getElementById('modalDeck');
   const byline = document.getElementById('modalByline');
   const body = document.getElementById('modalBody');
+  const catBadge = document.getElementById('modalCategoryBadge');
+  const dateStamp = document.getElementById('modalDateStamp');
+  const imgContainer = document.getElementById('modalImageContainer');
+  const imgEl = document.getElementById('modalImage');
+  const imgCaption = document.getElementById('modalImageCaption');
+
+  if (catBadge) catBadge.innerText = article.category || 'ព័ត៌មានទាន់ហេតុការណ៍';
+  if (dateStamp) dateStamp.innerText = article.date || 'ថ្ងៃនេះ';
 
   title.innerText = article.headline;
   deck.innerText = article.deck || '';
-  byline.innerText = `ដោយ ${article.author} • ${article.date || 'ថ្ងៃនេះ'} • ${article.readTime}`;
+  byline.innerText = `ដោយ ${article.author} • រយៈពេលអាន ${article.readTime || '៣ នាទី'}`;
+
+  // Image handling in modal
+  if (imgContainer && imgEl) {
+    if (article.image) {
+      imgEl.src = article.image;
+      imgEl.alt = article.headline;
+      if (imgCaption) {
+        imgCaption.innerText = article.caption || (article.credit ? 'ប្រភពរូបភាព៖ ' + article.credit : '');
+        imgCaption.style.display = (article.caption || article.credit) ? 'block' : 'none';
+      }
+      imgContainer.classList.remove('hidden');
+    } else {
+      imgContainer.classList.add('hidden');
+    }
+  }
 
   // Use editorial-lead for safe Khmer cluster handling instead of broken drop-caps
   let contentHtml = article.content || '';
   if (contentHtml.includes('class="drop-cap"')) {
     contentHtml = contentHtml.replace(/class="drop-cap"/g, 'class="editorial-lead"');
   } else if (!contentHtml) {
-    contentHtml = `<p class="editorial-lead">${article.deck || ''}</p><p>អត្ថបទព័ត៌មានពេញលេញចេញពីការិយាល័យនិពន្ធ។</p>`;
+    contentHtml = `<p class="editorial-lead">${article.deck || ''}</p><p>អត្ថបទព័ត៌មានពេញលេញចេញពីការិយាល័យនិពន្ធ អេអិនអ័រ។</p>`;
   }
   body.innerHTML = contentHtml;
+
+  // Apply optical font sizing
+  applyFontSizeUI();
+
+  // Reset audio state
+  stopAudioNarration();
 
   // Initialize saved font preference
   const savedFont = localStorage.getItem('ANR_READER_FONT') || 'sans';
@@ -279,31 +322,166 @@ function openStoryByHeadline(encoded) {
 }
 
 function closeStoryModal() {
+  stopAudioNarration();
   const modal = document.getElementById('storyModal');
   modal.classList.add('hidden');
   document.body.style.overflow = 'auto';
 }
 
 function adjustFontSize(delta) {
-  currentFontSize = Math.max(16, Math.min(32, currentFontSize + delta));
+  currentFontSize = Math.max(16, Math.min(36, currentFontSize + delta));
+  applyFontSizeUI();
+}
+
+function applyFontSizeUI() {
   const body = document.getElementById('modalBody');
   if (body) {
     body.style.fontSize = `${currentFontSize}px`;
     body.style.lineHeight = '1.9';
   }
+  const display1 = document.getElementById('fontSizeDisplay');
+  const display2 = document.getElementById('fontSizeDisplayTop');
+  if (display1) display1.innerText = `${currentFontSize}px`;
+  if (display2) display2.innerText = `${currentFontSize}px`;
 }
 
-function toggleAudio(btn) {
-  isAudioPlaying = !isAudioPlaying;
-  const symbol = document.getElementById('audioPlaySymbol');
-  if (isAudioPlaying) {
-    symbol.innerText = '⏸';
-  } else {
-    symbol.innerText = '▶';
+// Audio Narration Controller (Senior Friendly)
+function toggleAudioNarration() {
+  if (!('speechSynthesis' in window)) {
+    alert('ឧបករណ៍របស់អ្នកមិនទាន់គាំទ្រមុខងារអានជាសំឡេង Text-To-Speech នៅឡើយទេ។');
+    return;
   }
+
+  if (window.speechSynthesis.speaking) {
+    if (window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+      setAudioUIState(true);
+    } else {
+      window.speechSynthesis.pause();
+      setAudioUIState(false, true);
+    }
+    return;
+  }
+
+  if (!currentArticleInModal) return;
+
+  const titleText = currentArticleInModal.headline || '';
+  const deckText = currentArticleInModal.deck || '';
+  const bodyEl = document.getElementById('modalBody');
+  const bodyText = bodyEl ? bodyEl.innerText : '';
+
+  const fullSpeechText = `${titleText}។ ${deckText}។ ${bodyText}`;
+  speechUtterance = new SpeechSynthesisUtterance(fullSpeechText);
+
+  // Pick voice
+  const voices = window.speechSynthesis.getVoices();
+  const khmerVoice = voices.find(v => v.lang && (v.lang.includes('km') || v.lang.includes('kh')));
+  if (khmerVoice) {
+    speechUtterance.voice = khmerVoice;
+  }
+
+  // Slightly slower rate for elderly comprehension
+  speechUtterance.rate = 0.92;
+  speechUtterance.pitch = 1.0;
+
+  speechUtterance.onstart = () => {
+    setAudioUIState(true);
+  };
+  speechUtterance.onend = () => {
+    setAudioUIState(false);
+  };
+  speechUtterance.onerror = () => {
+    setAudioUIState(false);
+  };
+
+  window.speechSynthesis.speak(speechUtterance);
+}
+
+function stopAudioNarration() {
+  if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+  }
+  setAudioUIState(false);
+}
+
+function setAudioUIState(isPlaying, isPaused = false) {
+  isAudioNarrating = isPlaying;
+  const icon = document.getElementById('modalAudioIcon');
+  const text = document.getElementById('modalAudioText');
+  const btn = document.getElementById('btnModalAudio');
+
+  if (icon && text) {
+    if (isPlaying) {
+      icon.innerText = '⏸';
+      text.innerText = 'ផ្អាកសំឡេង';
+      if (btn) btn.classList.add('animate-pulse');
+    } else if (isPaused) {
+      icon.innerText = '▶';
+      text.innerText = 'បន្តស្តាប់';
+      if (btn) btn.classList.remove('animate-pulse');
+    } else {
+      icon.innerText = '▶';
+      text.innerText = 'ស្តាប់ព័ត៌មាន';
+      if (btn) btn.classList.remove('animate-pulse');
+    }
+  }
+}
+
+// Frontpage Lead Story Audio Toggle
+function toggleLeadAudio(id) {
+  const article = currentArticles.find(a => a.id === id);
+  if (!article) return;
+  
+  const sym = document.getElementById('leadAudioPlaySymbol');
+
+  if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
+    window.speechSynthesis.cancel();
+    if (sym) sym.innerText = '▶';
+    return;
+  }
+
+  if (sym) sym.innerText = '⏸';
+
+  const textToRead = `${article.headline}។ ${article.deck || ''}`;
+  const utterance = new SpeechSynthesisUtterance(textToRead);
+  utterance.rate = 0.92;
+  utterance.onend = () => {
+    if (sym) sym.innerText = '▶';
+  };
+  utterance.onerror = () => {
+    if (sym) sym.innerText = '▶';
+  };
+  window.speechSynthesis.speak(utterance);
+}
+
+// 1-Tap Share to Telegram
+function shareToTelegram() {
+  if (!currentArticleInModal) return;
+  const url = window.location.origin + window.location.pathname;
+  const headline = currentArticleInModal.headline;
+  const deck = currentArticleInModal.deck || '';
+  const shareText = `📰 ${headline}\n\n${deck}\n\n👉 អានព័ត៌មានលម្អិតនៅលើ ANR NEWS៖`;
+  const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
+  window.open(shareUrl, '_blank');
+}
+
+function shareArticleToTelegram(id) {
+  const article = currentArticles.find(a => a.id === id);
+  if (!article) return;
+  const url = window.location.origin + window.location.pathname;
+  const shareText = `📰 ${article.headline}\n\n${article.deck || ''}\n\n👉 អានព័ត៌មានលម្អិតនៅលើ ANR NEWS៖`;
+  const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(shareText)}`;
+  window.open(shareUrl, '_blank');
+}
+
+// Share to Facebook
+function shareToFacebook() {
+  const url = window.location.origin + window.location.pathname;
+  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  window.open(shareUrl, '_blank');
 }
 
 function giftArticle() {
   navigator.clipboard.writeText(window.location.href);
-  alert('🎁 [តំណភ្ជាប់អំណោយត្រូវបានបង្កើត]\nតំណភ្ជាប់សម្រាប់អានអត្ថបទពេញដោយឥតគិតថ្លៃត្រូវបានចម្លង។ មិត្តភក្តិរបស់អ្នកអាចអានអត្ថបទនេះដោយមិនចាំបាច់ជាវសមាជិកឡើយ។');
+  alert('🎁 [តំណភ្ជាប់អំណោយត្រូវបានចម្លង]\nតំណភ្ជាប់អានព័ត៌មានពេញលេញត្រូវបានចម្លងទៅកាន់ Clipboard។ លោកអ្នកអាចយកទៅ Paste ផ្ញើជូនមិត្តភក្តិ ឬគ្រួសារបានដោយសេរី។');
 }

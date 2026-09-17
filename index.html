@@ -157,48 +157,107 @@
     </div>
   </main>
 
-  <!-- ARTICLE READING MODAL (Focus / Distraction-Free Reader) -->
-  <div id="storyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-[var(--bg-card)] border border-nyt-subtle rounded-sm max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+  <!-- ARTICLE READING MODAL (Senior & Accessibility Optimized Distraction-Free Reader) -->
+  <div id="storyModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-[var(--bg-card)] border border-nyt-subtle rounded-md max-w-3xl w-full max-h-[94vh] overflow-y-auto shadow-2xl flex flex-col">
       
-      <!-- Top Sticky Reader Bar -->
-      <div class="sticky top-0 bg-[var(--bg-card)] border-b border-nyt-subtle p-4 flex items-center justify-between z-10">
-        <div class="flex items-center gap-3">
-          <span class="font-nyt-masthead font-bold text-xs text-inherit">សារព័ត៌មាន អេអិនអ័រ</span>
-          
-          <!-- Font Size Controls (A- / A+) -->
-          <div class="flex items-center gap-1 border border-nyt-subtle rounded px-2 py-0.5 text-xs font-medium font-nyt-ui">
-            <button onclick="adjustFontSize(-1)" class="hover:text-[#D0021B]" title="បន្ថយទំហំអក្សរ">A-</button>
-            <span class="text-[var(--text-light)] mx-1">|</span>
-            <button onclick="adjustFontSize(1)" class="hover:text-[#D0021B] font-bold" title="បង្កើនទំហំអក្សរ">A+</button>
+      <!-- Top Sticky Reader Navigation Bar -->
+      <div class="sticky top-0 bg-[var(--bg-card)] border-b-2 border-nyt-subtle p-3 sm:p-4 flex items-center justify-between z-20 shadow-sm">
+        <!-- Prominent Back Button (Never Get Lost) -->
+        <button onclick="closeStoryModal()" class="px-3.5 sm:px-4 py-2 rounded-full bg-[var(--bg-subtle)] border-2 border-neutral-300 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-white font-bold text-sm sm:text-base flex items-center gap-2 transition font-nyt-ui text-[var(--text-main)] shadow-sm" title="ត្រឡប់ទៅទំព័រព័ត៌មានដើម">
+          <span class="text-lg leading-none">←</span>
+          <span>ត្រឡប់ក្រោយ</span>
+        </button>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Font Sizer (A- / A+) -->
+          <div class="flex items-center border-2 border-neutral-300 dark:border-neutral-700 rounded-full px-2.5 py-1 text-xs sm:text-sm font-semibold font-nyt-ui bg-[var(--bg-subtle)] shadow-sm">
+            <button onclick="adjustFontSize(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 flex items-center justify-center font-bold text-base" title="បន្ថយទំហំអក្សរ">A-</button>
+            <span id="fontSizeDisplayTop" class="font-mono text-xs font-bold text-[var(--text-main)] px-1.5">20px</span>
+            <button onclick="adjustFontSize(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-full hover:bg-neutral-200 dark:hover:bg-neutral-700 flex items-center justify-center font-bold text-base text-[#D0021B]" title="បង្កើនទំហំអក្សរ">A+</button>
           </div>
 
-          <!-- Reader Font Family Switcher (Sans / Serif) -->
-          <div class="hidden sm:flex items-center border border-nyt-subtle rounded text-[11px] overflow-hidden font-nyt-ui">
-            <button id="btnReaderFontSans" onclick="setReaderFont('sans')" class="px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-page)] font-semibold transition" title="ពុម្ពអក្សរទំនើប អានស្រួលភ្នែក (Kantumruy Pro)">អក្សរមូល</button>
-            <button id="btnReaderFontSerif" onclick="setReaderFont('serif')" class="px-2 py-0.5 bg-[var(--bg-subtle)] text-[var(--text-main)] hover:bg-neutral-200 dark:hover:bg-neutral-700 transition" title="ពុម្ពអក្សរក្បាច់បែបកាសែត (Noto Serif Khmer)">អក្សរក្បាច់</button>
-          </div>
-        </div>
-        
-        <div class="flex items-center gap-2 font-nyt-ui">
-          <button onclick="giftArticle()" class="px-2.5 py-1 rounded bg-[var(--bg-subtle)] border border-nyt-subtle text-xs hover:border-gray-500 transition font-medium flex items-center gap-1">
-            <span>🎁 ចែករំលែកអត្ថបទ</span>
+          <!-- Quick Telegram Share -->
+          <button onclick="shareToTelegram()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#229ED9] text-white hover:bg-[#1a8bc0] text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow-sm transition font-nyt-ui" title="ចែករំលែកទៅកាន់ Telegram">
+            <span>✈</span>
+            <span class="hidden sm:inline">Telegram</span>
           </button>
-          <button onclick="closeStoryModal()" class="text-[var(--text-muted)] hover:text-inherit text-lg font-bold p-1">✕</button>
+
+          <!-- Large Close Button -->
+          <button onclick="closeStoryModal()" class="w-9 h-9 rounded-full bg-[var(--bg-subtle)] hover:bg-neutral-200 dark:hover:bg-neutral-800 text-[var(--text-muted)] hover:text-inherit text-xl font-bold flex items-center justify-center transition" title="បិទ">✕</button>
         </div>
       </div>
 
-      <!-- Modal Article Body -->
-      <div class="p-6 sm:p-10 space-y-4">
-        <h2 id="modalTitle" class="font-nyt-headline text-2xl sm:text-3xl font-bold leading-[1.42] text-inherit"></h2>
-        <p id="modalDeck" class="font-nyt-body text-base sm:text-lg text-[var(--text-muted)] leading-[1.75]"></p>
-        <div id="modalByline" class="text-xs text-[var(--text-muted)] border-b border-nyt-subtle pb-4 font-nyt-ui"></div>
-        <div id="modalBody" class="font-nyt-body text-base sm:text-lg leading-[1.85] text-[var(--text-body)] space-y-5 pt-2"></div>
-
-        <div class="mt-8 pt-6 border-t border-nyt-subtle flex justify-between items-center text-xs text-[var(--text-muted)] font-nyt-ui">
-          <span class="italic">© ២០២៦ ក្រុមហ៊ុនបោះពុម្ពផ្សាយ អេអិនអ័រ</span>
-          <button onclick="closeStoryModal()" class="px-4 py-2 bg-[var(--text-main)] text-[var(--bg-page)] rounded-sm font-semibold hover:opacity-90">បិទអត្ថបទ</button>
+      <!-- Modal Article Body Area -->
+      <div class="p-5 sm:p-8 md:p-10 space-y-5">
+        
+        <!-- Category & Date Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-nyt-subtle pb-3 font-nyt-ui">
+          <span id="modalCategoryBadge" class="px-3 py-1 bg-red-100 dark:bg-red-950/40 text-[#D0021B] font-bold text-xs sm:text-sm rounded-full">ព័ត៌មានជាតិ</span>
+          <div id="modalDateStamp" class="text-xs sm:text-sm text-[var(--text-muted)] font-medium"></div>
         </div>
+
+        <!-- Headline -->
+        <h2 id="modalTitle" class="font-nyt-headline text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.38] text-inherit"></h2>
+
+        <!-- Deck / Lead Summary -->
+        <p id="modalDeck" class="font-nyt-body text-lg sm:text-xl text-[var(--text-body)] leading-[1.85] font-medium"></p>
+
+        <!-- Senior Accessibility Toolbar (Prototype Match) -->
+        <div class="flex flex-wrap items-center gap-3 py-3 px-4 bg-[var(--bg-subtle)] border-2 border-nyt-subtle rounded-md font-nyt-ui shadow-sm">
+          <!-- Audio Narration Pill Button -->
+          <button id="btnModalAudio" onclick="toggleAudioNarration()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-neutral-800 border-2 border-emerald-600 text-emerald-700 dark:text-emerald-400 font-bold text-sm sm:text-base shadow-sm hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition">
+            <span id="modalAudioIcon" class="text-base">▶</span>
+            <span id="modalAudioText">ស្តាប់ព័ត៌មាន</span>
+          </button>
+
+          <!-- Optical Font Scaler with Label -->
+          <div class="flex items-center gap-1.5 border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-800 rounded-full px-3 py-1.5 text-sm font-semibold shadow-sm">
+            <span class="text-xs text-[var(--text-muted)]">ពង្រីកអក្សរ</span>
+            <button onclick="adjustFontSize(-1)" class="w-7 h-7 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700 flex items-center justify-center font-bold text-base" title="បន្ថយទំហំ">A-</button>
+            <span id="fontSizeDisplay" class="text-xs font-mono font-bold text-[var(--text-main)] px-1">20px</span>
+            <button onclick="adjustFontSize(1)" class="w-7 h-7 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700 flex items-center justify-center font-bold text-base text-red-600" title="បង្កើនទំហំ">A+</button>
+          </div>
+
+          <!-- Telegram 1-Tap Share -->
+          <button onclick="shareToTelegram()" class="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#229ED9] text-white font-bold text-sm sm:text-base shadow-sm hover:bg-[#1a8bc0] transition ml-auto">
+            <span>✈</span>
+            <span>ចែករំលែក Telegram</span>
+          </button>
+
+          <!-- Facebook Share -->
+          <button onclick="shareToFacebook()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#1877F2] text-white font-bold text-sm shadow-sm hover:bg-[#1465cf] transition" title="ចែករំលែកលើ Facebook">
+            <span>f</span>
+          </button>
+        </div>
+
+        <!-- Hero Photograph in Modal (Full Resolution) -->
+        <div id="modalImageContainer" class="hidden rounded-md overflow-hidden border-2 border-nyt-subtle my-4">
+          <img id="modalImage" class="w-full h-auto max-h-[460px] object-cover" src="" alt="រូបភាពព័ត៌មាន"/>
+          <p id="modalImageCaption" class="text-sm text-[var(--text-muted)] p-3 bg-[var(--bg-subtle)] border-t border-nyt-subtle font-nyt-body leading-[1.6]"></p>
+        </div>
+
+        <!-- Byline -->
+        <div id="modalByline" class="text-sm text-[var(--text-muted)] border-b border-nyt-subtle pb-3 font-nyt-ui"></div>
+
+        <!-- Article Body with Optimal Optical Line Height -->
+        <div id="modalBody" class="font-nyt-body text-lg sm:text-xl leading-[1.9] text-[var(--text-body)] space-y-5 pt-2"></div>
+
+        <!-- Bottom Return & Share Actions -->
+        <div class="mt-10 pt-6 border-t-2 border-nyt-subtle flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-nyt-ui">
+          <button onclick="closeStoryModal()" class="w-full sm:w-auto px-6 py-3 bg-[var(--text-main)] text-[var(--bg-page)] rounded-full font-bold text-base hover:opacity-90 shadow-md flex items-center justify-center gap-2">
+            <span>← ត្រឡប់ទៅទំព័រដើមវិញ</span>
+          </button>
+          <div class="flex items-center gap-2.5 w-full sm:w-auto justify-center">
+            <button onclick="shareToTelegram()" class="px-5 py-2.5 rounded-full bg-[#229ED9] text-white font-bold text-sm sm:text-base flex items-center gap-2 shadow-sm hover:bg-[#1a8bc0]">
+              <span>✈ ចែករំលែក Telegram</span>
+            </button>
+            <button onclick="giftArticle()" class="px-4 py-2.5 rounded-full border border-nyt-subtle bg-[var(--bg-subtle)] font-bold text-sm hover:bg-neutral-200 dark:hover:bg-neutral-800">
+              <span>🎁 ចម្លង Link</span>
+            </button>
+          </div>
+        </div>
+
       </div>
 
     </div>
