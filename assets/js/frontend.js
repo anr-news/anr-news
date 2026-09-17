@@ -126,17 +126,20 @@ function renderBreaking(breaking) {
 
   container.classList.remove('hidden');
   container.innerHTML = `
-    <div class="border-b border-t-2 border-red-700 bg-red-50/70 dark:bg-red-950/30 py-3 px-4 flex flex-wrap items-center justify-between gap-3 rounded-sm shadow-sm">
-      <div class="flex items-center gap-3 flex-1 overflow-hidden">
-        <span class="px-3 py-1 bg-[#D0021B] text-white font-bold text-xs sm:text-sm rounded-full flex items-center gap-1.5 flex-shrink-0 font-nyt-ui shadow-sm">
-          <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> ការផ្សាយផ្ទាល់
+    <div class="rounded-xl border border-rose-200 dark:border-rose-900/60 bg-rose-50/80 dark:bg-rose-950/30 p-3 sm:p-3.5 flex flex-wrap items-center justify-between gap-3 shadow-xs">
+      <div class="flex items-center gap-2.5 flex-1 min-w-0">
+        <span class="px-2.5 py-1 bg-red-600 text-white font-bold text-xs rounded-full flex items-center gap-1.5 flex-shrink-0 font-nyt-ui shadow-xs">
+          <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> ព័ត៌មានទាន់ហេតុការណ៍
         </span>
-        <span class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-bold flex-shrink-0 font-nyt-ui">${timeText}</span>
-        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breakingText)}')" class="text-base sm:text-lg font-bold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
+        <span class="text-xs text-neutral-600 dark:text-neutral-400 font-bold flex-shrink-0 font-nyt-ui">${timeText}</span>
+        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breakingText)}')" class="text-sm sm:text-base font-bold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
           ${breakingText}
         </a>
       </div>
-      <span class="text-sm font-bold text-red-700 cursor-pointer hover:underline flex-shrink-0 font-nyt-ui" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
+      <button onclick="openStory('art-1')" class="text-xs sm:text-sm font-bold text-red-700 hover:text-red-800 dark:text-rose-300 dark:hover:text-rose-200 hover:underline flex-shrink-0 font-nyt-ui flex items-center gap-1">
+        <span>អានសេចក្តីលម្អិត</span>
+        <span>→</span>
+      </button>
     </div>
   `;
 }
@@ -157,46 +160,50 @@ function renderLeadStory(lead) {
   const leadImg = (lead.image && !lead.image.includes('lh3.googleusercontent.com/d/1i0-X2f-FjqH1AqqW__AUOSeP9idg7W7u')) ? lead.image : fallbackImg;
 
   col1.innerHTML = `
-    <article class="space-y-3.5 cursor-pointer group" onclick="openStory('${lead.id}')">
-      <span class="text-xs sm:text-sm font-bold text-[#D0021B] font-nyt-ui">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
-      <h2 class="font-nyt-headline text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.38] text-inherit group-hover:text-[#666666] transition">
+    <article class="space-y-3 cursor-pointer group" onclick="openStory('${lead.id}')">
+      <div class="flex items-center gap-2 font-nyt-ui">
+        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 dark:bg-red-950/50 text-[#D0021B]">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
+        <span class="text-xs text-[var(--text-muted)] font-medium">អត្ថបទពិសេសប្រចាំថ្ងៃ</span>
+      </div>
+      
+      <h2 class="font-nyt-headline text-2xl sm:text-[28px] lg:text-[32px] font-bold leading-[1.42] text-inherit group-hover:text-red-700 transition">
         ${lead.headline}
       </h2>
-      <p class="font-nyt-body text-lg sm:text-xl text-[var(--text-body)] leading-[1.85]">
+
+      <p class="font-nyt-body text-base sm:text-lg text-[var(--text-body)] leading-[1.75] font-medium">
         ${lead.deck}
       </p>
-      <div class="text-sm text-[var(--text-muted)] font-nyt-ui flex items-center gap-2.5">
+
+      <div class="text-xs sm:text-sm text-[var(--text-muted)] font-nyt-ui flex items-center gap-2">
         <span class="font-semibold text-inherit">ដោយ ${lead.author}</span>
         <span>•</span>
-        <span>${lead.readTime}</span>
+        <span>រយៈពេលអាន ${lead.readTime}</span>
       </div>
 
-      <div class="pt-2">
-        <div class="bg-neutral-800 text-neutral-300 rounded-sm overflow-hidden aspect-[16/9] flex items-center justify-center relative shadow-sm">
-          <img src="${leadImg}" alt="រូបភាពអត្ថបទសំខាន់" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='${fallbackImg}';"/>
+      <div class="pt-1">
+        <div class="bg-neutral-800 text-neutral-300 rounded-xl overflow-hidden aspect-[16/9] flex items-center justify-center relative shadow-sm">
+          <img src="${leadImg}" alt="រូបភាពអត្ថបទសំខាន់" class="w-full h-full object-cover group-hover:scale-[1.01] transition duration-300" onerror="this.onerror=null; this.src='${fallbackImg}';"/>
         </div>
-        <p class="text-sm text-[var(--text-muted)] font-nyt-body mt-2 leading-[1.6]">
+        <p class="text-xs sm:text-sm text-[var(--text-muted)] font-nyt-body mt-2 leading-[1.6]">
           ${lead.caption || 'គណៈប្រតិភូនានាជួបប្រជុំគ្នានៅវិមាន Palais des Nations ក្នុងទីក្រុងហ្សឺណែវ មុនពេលការបោះឆ្នោតចុងក្រោយ។'} <span class="text-[var(--text-light)] text-xs ml-1 font-nyt-ui">${lead.credit || 'អាន់ឌ្រូ ថេស្តា សម្រាប់ The Chronicle Times'}</span>
         </p>
       </div>
 
       <!-- Senior Quick Action Bar (Audio + 1-Tap Telegram Share) -->
-      <div class="bg-[var(--bg-subtle)] border-2 border-nyt-subtle p-3.5 rounded-md flex flex-wrap items-center justify-between gap-3 text-sm sm:text-base font-nyt-ui shadow-sm" onclick="event.stopPropagation()">
+      <div class="bg-[var(--bg-card)] border border-neutral-200/90 dark:border-neutral-800 p-3 sm:p-3.5 rounded-xl flex flex-wrap items-center justify-between gap-3 text-sm font-nyt-ui shadow-xs" onclick="event.stopPropagation()">
         <div class="flex items-center gap-3">
           <button onclick="toggleLeadAudio('${lead.id}')" class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center hover:bg-emerald-700 transition shadow-sm font-bold text-base flex-shrink-0" title="ស្តាប់អត្ថបទជាសំឡេង">
             <span id="leadAudioPlaySymbol">▶</span>
           </button>
           <div>
-            <span class="font-bold text-inherit block leading-tight text-sm sm:text-base">ស្តាប់ព័ត៌មានជាសំឡេង</span>
-            <span class="text-xs sm:text-sm text-[var(--text-muted)] mt-0.5 block">${lead.audio ? `${lead.audio.duration} • អានដោយ ${lead.audio.narrator}` : 'ចុចដើម្បីស្តាប់ការអានស្វ័យប្រវត្តិ'}</span>
+            <span class="font-bold text-inherit block leading-tight text-xs sm:text-sm">ស្តាប់ព័ត៌មានជាសំឡេង</span>
+            <span class="text-[11px] sm:text-xs text-[var(--text-muted)] mt-0.5 block">${lead.audio ? `${lead.audio.duration} • អានដោយ ${lead.audio.narrator}` : 'ចុចដើម្បីស្តាប់ការអានស្វ័យប្រវត្តិ'}</span>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="shareArticleToTelegram('${lead.id}')" class="px-4 py-2 rounded-full bg-[#229ED9] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm hover:bg-[#1a8bc0] transition flex-shrink-0 whitespace-nowrap" title="ចែករំលែកទៅ Telegram">
-            <span>✈</span>
-            <span>ចែករំលែក Telegram</span>
-          </button>
-        </div>
+        <button onclick="shareArticleToTelegram('${lead.id}')" class="px-3.5 py-1.5 rounded-full bg-[#229ED9] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm hover:bg-[#1a8bc0] transition flex-shrink-0 whitespace-nowrap" title="ចែករំលែកទៅ Telegram">
+          <span>✈</span>
+          <span>ចែករំលែក Telegram</span>
+        </button>
       </div>
     </article>
   `;
@@ -207,29 +214,32 @@ function renderSecondaryStories(secondaries) {
   if (!col2) return;
 
   col2.innerHTML = secondaries.map((art, idx) => `
-    <article class="space-y-2 cursor-pointer group pb-4 border-b border-nyt-subtle" onclick="openStory('${art.id}')">
-      <span class="text-xs font-bold text-[var(--accent-blue)] font-nyt-ui">${art.category || 'ព័ត៌មាន'}</span>
-      <div class="flex gap-3">
-        <div class="flex-1 min-w-0">
-          <h3 class="font-nyt-headline text-lg sm:text-xl font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
+    <article class="p-3 sm:p-3.5 rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-[var(--bg-card)] hover:border-neutral-300 dark:hover:border-neutral-700 transition shadow-xs cursor-pointer group space-y-2.5" onclick="openStory('${art.id}')">
+      <div class="flex items-center justify-between gap-2 font-nyt-ui text-xs">
+        <span class="font-bold text-[var(--accent-blue)]">${art.category || 'ព័ត៌មាន'}</span>
+        <span class="text-[var(--text-light)]">${art.readTime}</span>
+      </div>
+      <div class="flex gap-3 items-start">
+        <div class="flex-1 min-w-0 space-y-1">
+          <h3 class="font-nyt-headline text-base sm:text-lg font-bold leading-[1.45] text-inherit group-hover:text-red-700 transition line-clamp-2">
             ${art.headline}
           </h3>
-          <p class="font-nyt-body text-sm sm:text-base text-[var(--text-muted)] mt-1.5 leading-[1.75] line-clamp-3">
+          <p class="font-nyt-body text-xs sm:text-sm text-[var(--text-muted)] leading-[1.65] line-clamp-2">
             ${art.deck || ''}
           </p>
-          <div class="flex items-center justify-between gap-2 mt-2 pt-1.5 border-t border-dashed border-nyt-subtle">
-            <span class="text-xs sm:text-sm text-[var(--text-light)] font-nyt-ui truncate">ដោយ ${art.author} • ${art.readTime}</span>
-            <button onclick="event.stopPropagation(); shareArticleToTelegram('${art.id}')" class="text-xs text-[#229ED9] hover:underline font-bold flex items-center gap-1 font-nyt-ui px-2 py-0.5 rounded hover:bg-blue-50 dark:hover:bg-blue-950/40 transition flex-shrink-0 whitespace-nowrap" title="ចែករំលែកតាម Telegram">
-              <span>✈</span>
-              <span>Telegram</span>
-            </button>
-          </div>
         </div>
         ${art.image ? `
-          <div class="w-28 h-24 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden shadow-sm">
-            <img src="${art.image}" alt="${art.headline}" class="w-full h-full object-cover"/>
+          <div class="w-24 h-20 bg-neutral-200 dark:bg-neutral-800 rounded-lg flex-shrink-0 overflow-hidden shadow-xs">
+            <img src="${art.image}" alt="${art.headline}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300"/>
           </div>
         ` : ''}
+      </div>
+      <div class="flex items-center justify-between gap-2 pt-1.5 border-t border-neutral-100 dark:border-neutral-800/80 font-nyt-ui text-xs">
+        <span class="text-[var(--text-light)] truncate">ដោយ ${art.author}</span>
+        <button onclick="event.stopPropagation(); shareArticleToTelegram('${art.id}')" class="text-xs text-[#229ED9] hover:underline font-bold flex items-center gap-1 px-2.5 py-0.5 rounded-full hover:bg-blue-50 dark:hover:bg-blue-950/40 transition flex-shrink-0 whitespace-nowrap" title="ចែករំលែកតាម Telegram">
+          <span>✈</span>
+          <span>Telegram</span>
+        </button>
       </div>
     </article>
   `).join('');
@@ -240,17 +250,21 @@ function renderOpinions(opinions) {
   if (!col3) return;
 
   col3.innerHTML = opinions.map((op, idx) => `
-    <article class="flex gap-3 items-start group cursor-pointer ${idx > 0 ? 'pt-3.5 border-t border-nyt-subtle' : ''}" onclick="alert('កំពុងបើកអត្ថបទវិចារណកថារបស់ ${op.author}')">
-      <div class="opinion-avatar bg-neutral-300 border border-nyt-subtle shadow-sm">
-        <img src="${op.image}" alt="${op.author}" class="w-full h-full object-cover"/>
+    <article class="p-3 sm:p-3.5 rounded-xl border border-neutral-200/80 dark:border-neutral-800 bg-[var(--bg-card)] hover:border-neutral-300 dark:hover:border-neutral-700 transition shadow-xs cursor-pointer space-y-2 group" onclick="alert('កំពុងបើកអត្ថបទវិចារណកថារបស់ ${op.author}')">
+      <!-- Row 1: Author Meta -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 border border-neutral-300 dark:border-neutral-700 bg-neutral-200 dark:bg-neutral-800 shadow-xs">
+          <img src="${op.image}" alt="${op.author}" class="w-full h-full object-cover"/>
+        </div>
+        <div class="min-w-0 flex-1">
+          <span class="text-xs sm:text-sm font-bold text-inherit block font-nyt-ui truncate leading-tight">${op.author}</span>
+          <span class="text-[11px] sm:text-xs text-[var(--text-muted)] block font-nyt-ui leading-tight">${op.readTime}</span>
+        </div>
       </div>
-      <div class="flex-1 min-w-0 space-y-1">
-        <span class="text-sm font-bold text-inherit block font-nyt-ui leading-tight">${op.author}</span>
-        <h4 class="font-nyt-headline text-base font-bold leading-[1.5] text-inherit group-hover:text-[#666666] transition">
-          ${op.headline}
-        </h4>
-        <span class="text-xs text-[var(--text-muted)] block font-nyt-ui">${op.readTime}</span>
-      </div>
+      <!-- Row 2: Full Width Headline -->
+      <h4 class="font-nyt-headline text-sm sm:text-[15.5px] font-bold leading-[1.55] text-inherit group-hover:text-red-700 transition">
+        ${op.headline}
+      </h4>
     </article>
   `).join('');
 }

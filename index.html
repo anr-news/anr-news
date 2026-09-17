@@ -53,7 +53,7 @@
       សារព័ត៌មាន អេអិនអ័រ
     </h1>
 
-    <div class="flex items-center justify-between text-xs sm:text-sm text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-2 font-nyt-ui">
+    <div class="flex items-center justify-between text-xs sm:text-sm text-[var(--text-muted)] mt-4 border-y border-neutral-200 dark:border-neutral-800 py-2.5 font-nyt-ui">
       <span class="hidden sm:inline">កម្រងទី ១៧៥ . . . លេខ ៦០,៨៩២</span>
       <span id="siteEditionText" class="font-semibold text-[var(--text-main)]">ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស តូក្យូ</span>
       <span class="hidden sm:inline">តម្លៃ ៤,០០០ រៀល</span>
@@ -62,12 +62,12 @@
 
   <!-- STICKY & SHRINK NAVIGATION BAR (Pinnable on Scroll) -->
   <div id="stickyNavWrapper" class="sticky-nav-wrapper">
-    <div class="max-w-[1280px] mx-auto px-2 sm:px-6">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6">
       
-      <nav class="border-b-2 border-t-2 border-[var(--border-dark)] py-2.5 px-2 my-1 bg-[var(--bg-subtle)] transition-all duration-300 flex items-center justify-between gap-3 shadow-sm rounded-sm">
+      <nav aria-label="ផ្នែកព័ត៌មានចម្បង" class="py-2.5 transition-all duration-200 flex items-center justify-between gap-3">
         
         <!-- Shrink Compact Brand / Masthead (Smoothly reveals on scroll) -->
-        <div id="shrinkBrandLogo" class="hidden items-center gap-2 flex-shrink-0 cursor-pointer group pr-2 border-r border-nyt-subtle" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="ឡើងទៅលើគេហទំព័រដើម">
+        <div id="shrinkBrandLogo" class="hidden items-center gap-2.5 flex-shrink-0 cursor-pointer group pr-3 border-r border-neutral-200 dark:border-neutral-800" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="ឡើងទៅលើគេហទំព័រដើម">
           <span class="font-nyt-masthead text-lg sm:text-xl font-bold text-[var(--text-main)] group-hover:text-red-700 transition">អានរឿង ញូវស៍</span>
           <span class="text-xs text-[var(--text-muted)] font-mono hidden md:inline">| ANR</span>
         </div>
@@ -132,14 +132,14 @@
 
   <!-- ACTIVE CATEGORY FILTER BADGE (Clear Confirmation for Seniors) -->
   <div id="activeCategoryFilterBar" class="max-w-[1280px] mx-auto px-4 sm:px-6 my-3 hidden">
-    <div class="bg-[var(--bg-subtle)] border-2 border-red-600/70 py-3 px-5 rounded-md flex flex-wrap items-center justify-between gap-3 font-nyt-ui shadow-sm">
+    <div class="bg-neutral-100 dark:bg-neutral-800/70 border border-neutral-200 dark:border-neutral-700 py-2.5 px-4 rounded-xl flex flex-wrap items-center justify-between gap-3 font-nyt-ui shadow-xs">
       <div class="flex items-center gap-2.5">
-        <span class="text-base text-[var(--text-muted)] font-medium">កំពុងបង្ហាញព័ត៌មានផ្នែក៖</span>
-        <span id="activeCategoryName" class="font-bold text-[#D0021B] text-lg sm:text-xl"></span>
+        <span class="text-sm sm:text-base text-[var(--text-muted)] font-medium">កំពុងបង្ហាញព័ត៌មានផ្នែក៖</span>
+        <span id="activeCategoryName" class="font-bold text-[#D0021B] text-base sm:text-lg"></span>
       </div>
-      <button onclick="resetCategoryFilter()" class="px-4 py-2 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] font-bold text-sm sm:text-base hover:opacity-90 transition flex items-center gap-2 shadow-sm">
-        <span>← បង្ហាញព័ត៌មានទាំងអស់ (ទំព័រដើម)</span>
-        <span class="text-base">✕</span>
+      <button onclick="resetCategoryFilter()" class="px-4 py-1.5 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] font-bold text-xs sm:text-sm hover:opacity-90 transition flex items-center gap-1.5 shadow-xs">
+        <span>← បង្ហាញទាំងអស់</span>
+        <span class="text-sm">✕</span>
       </button>
     </div>
   </div>
@@ -151,7 +151,7 @@
 
   <!-- MAIN 3-COLUMN NEWSPRINT GRID -->
   <main class="max-w-[1280px] mx-auto px-4 sm:px-6 py-6">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-nyt-subtle">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-neutral-200 dark:divide-neutral-800">
       
       <!-- COLUMN 1: LEAD ANCHOR (A-HED) STORY (5 COLS) -->
       <section class="lg:col-span-5 pr-0 lg:pr-6 space-y-5" id="colLeadStory">
@@ -160,14 +160,14 @@
 
       <!-- COLUMN 2: SECONDARY STORIES & ANALYSIS (4 COLS) -->
       <section class="lg:col-span-4 px-0 lg:px-6 space-y-6 pt-6 lg:pt-0">
-        <div id="colSecondaryStories" class="space-y-6">
+        <div id="colSecondaryStories" class="space-y-4">
           <!-- Rendered dynamically -->
         </div>
 
-        <!-- Food / Culture Callout -->
-        <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm space-y-2">
+        <!-- Food / Culture Callout (M3 Card) -->
+        <div class="bg-[var(--bg-card)] border border-neutral-200/90 dark:border-neutral-800 p-4 rounded-xl space-y-2 shadow-xs">
           <div class="text-[11px] font-bold text-inherit flex items-center justify-between font-nyt-ui">
-            <span>ម្ហូបអាហារ & វប្បធម៌</span>
+            <span class="text-neutral-500 dark:text-neutral-400 uppercase tracking-wider">ម្ហូបអាហារ & វប្បធម៌</span>
             <span class="text-[#D0021B]">★ ជម្រើសនិពន្ធនាយក</span>
           </div>
           <h4 class="font-nyt-headline text-base font-bold text-inherit leading-[1.45]">អាហារប្រពៃណីខ្មែរ៖ អាថ៌កំបាំងនៃរសជាតិដើម និងការអភិរក្ស</h4>
@@ -176,31 +176,31 @@
       </section>
 
       <!-- COLUMN 3: OPINION & ESSAYS (3 COLS) -->
-      <aside class="lg:col-span-3 pl-0 lg:pl-6 space-y-6 pt-6 lg:pt-0">
-        <div class="border-b-2 border-[var(--border-dark)] pb-1 flex items-center justify-between">
-          <h3 class="font-nyt-headline text-xl font-bold text-inherit leading-normal">ទស្សនៈ & វិចារណកថា</h3>
+      <aside class="lg:col-span-3 pl-0 lg:pl-6 space-y-5 pt-6 lg:pt-0">
+        <div class="border-b border-neutral-200 dark:border-neutral-800 pb-2 flex items-center justify-between">
+          <h3 class="font-nyt-headline text-lg sm:text-xl font-bold text-inherit leading-normal">ទស្សនៈ & វិចារណកថា</h3>
           <span class="text-[11px] text-[var(--text-muted)] font-nyt-ui">ក្រុមប្រឹក្សា & អ្នកសរសេរ</span>
         </div>
 
-        <!-- Opinion List with Circular Headshots -->
-        <div id="colOpinionList" class="space-y-4">
+        <!-- Opinion List with Circular Headshots (M3 Cards) -->
+        <div id="colOpinionList" class="space-y-3">
           <!-- Rendered dynamically -->
         </div>
 
-        <!-- Morning Newsletter Box -->
-        <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm space-y-2">
-          <h5 class="font-nyt-headline font-bold text-base text-inherit mb-1 leading-normal">ព្រឹត្តិបត្រព័ត៌មានពេលព្រឹក</h5>
-          <p class="text-xs sm:text-sm text-[var(--text-muted)] font-nyt-body leading-[1.7] mb-3">ទទួលបានការសង្ខេបព្រឹត្តិការណ៍សំខាន់ៗប្រចាំថ្ងៃ រៀបចំដោយនិពន្ធនាយកជាន់ខ្ពស់។</p>
-          <div class="flex gap-2 font-nyt-ui">
-            <input type="email" placeholder="អ៊ីមែលរបស់អ្នក..." class="text-xs px-3 py-2 border border-[var(--border-dark)] rounded-sm flex-1 min-w-0 outline-none bg-white text-black"/>
-            <button onclick="alert('សូមអរគុណចំពោះការចុះឈ្មោះជាវព្រឹត្តិបត្រព័ត៌មានរបស់យើង!')" class="bg-[var(--text-main)] text-[var(--bg-page)] text-xs font-bold px-3 py-2 rounded-sm hover:opacity-80 flex-shrink-0 whitespace-nowrap shadow-sm">ចុះឈ្មោះ</button>
+        <!-- Morning Newsletter Box (M3 Card) -->
+        <div class="bg-[var(--bg-card)] border border-neutral-200/90 dark:border-neutral-800 p-4 rounded-xl space-y-2.5 shadow-xs">
+          <h5 class="font-nyt-headline font-bold text-base text-inherit leading-snug">ព្រឹត្តិបត្រព័ត៌មានពេលព្រឹក</h5>
+          <p class="text-xs sm:text-sm text-[var(--text-muted)] font-nyt-body leading-[1.7]">ទទួលបានការសង្ខេបព្រឹត្តិការណ៍សំខាន់ៗប្រចាំថ្ងៃ រៀបចំដោយនិពន្ធនាយកជាន់ខ្ពស់។</p>
+          <div class="flex gap-2 font-nyt-ui pt-1">
+            <input type="email" placeholder="អ៊ីមែលរបស់អ្នក..." class="text-xs sm:text-sm px-3.5 py-2 border border-neutral-300 dark:border-neutral-700 rounded-full flex-1 min-w-0 outline-none bg-[var(--bg-page)] text-[var(--text-main)] focus:border-red-600"/>
+            <button onclick="alert('សូមអរគុណចំពោះការចុះឈ្មោះជាវព្រឹត្តិបត្រព័ត៌មានរបស់យើង!')" class="bg-[var(--text-main)] text-[var(--bg-page)] text-xs sm:text-sm font-bold px-4 py-2 rounded-full hover:opacity-85 flex-shrink-0 whitespace-nowrap shadow-sm transition">ចុះឈ្មោះ</button>
           </div>
         </div>
 
-        <!-- Quick Crossword teaser -->
-        <div class="border border-nyt-subtle p-3.5 text-center space-y-1.5 bg-[var(--bg-subtle)] rounded-sm">
+        <!-- Quick Crossword teaser (M3 Card) -->
+        <div class="border border-neutral-200/90 dark:border-neutral-800 p-3.5 text-center space-y-1.5 bg-[var(--bg-card)] rounded-xl shadow-xs">
           <span class="text-xs font-bold text-[var(--text-muted)] font-nyt-ui block">ល្បែងពាក្យបណ្តៅប្រចាំថ្ងៃ</span>
-          <p class="text-sm font-nyt-body text-inherit leading-[1.6]">ដោះស្រាយល្បែងកម្សាន្តថ្ងៃនេះក្នុងរយៈពេល ២ នាទី។</p>
+          <p class="text-xs sm:text-sm font-nyt-body text-inherit leading-[1.6]">ដោះស្រាយល្បែងកម្សាន្តថ្ងៃនេះក្នុងរយៈពេល ២ នាទី។</p>
         </div>
       </aside>
 
@@ -314,7 +314,7 @@
   </div>
 
   <!-- PRINT-INSPIRED COLOPHON FOOTER -->
-  <footer class="border-t-2 border-[var(--border-dark)] mt-16 py-10 bg-[var(--bg-subtle)] text-[var(--text-muted)]">
+  <footer class="border-t border-neutral-300 dark:border-neutral-800 mt-16 py-10 bg-[var(--bg-subtle)] text-[var(--text-muted)]">
     <div class="max-w-[1280px] mx-auto px-4 sm:px-6 text-center space-y-4">
       <h2 class="font-nyt-masthead text-2xl font-bold text-[var(--text-main)]">សារព័ត៌មាន អេអិនអ័រ</h2>
       <div class="flex flex-wrap justify-center gap-6 text-xs">

@@ -217,81 +217,114 @@ body {
   letter-spacing: 0 !important;
 }
 
-/* Senior-Friendly Category Navigation Pills */
+/* Google Material Design 3 (M3) Filter Chips */
 .nav-category-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.55rem 1.15rem;
+  padding: 0.45rem 1rem;
+  min-height: 38px;
   border-radius: 9999px;
-  border: 2px solid var(--border-color);
+  border: 1px solid rgba(0, 0, 0, 0.14);
   background-color: var(--bg-card);
   color: var(--text-main);
   font-family: var(--nyt-font-ui);
-  font-size: 1.05rem; /* ~18px clear readable text */
-  font-weight: 700;
+  font-size: 0.95rem; /* ~16px clear, elegant proportion */
+  font-weight: 600;
   white-space: nowrap;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
   cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   user-select: none;
   flex-shrink: 0;
 }
 
 .nav-category-pill:hover {
-  border-color: var(--accent-red);
-  color: var(--accent-red);
+  background-color: var(--bg-subtle);
+  border-color: rgba(0, 0, 0, 0.3);
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .nav-category-pill.active {
-  background-color: var(--text-main);
+  background-color: var(--text-main) !important;
   color: var(--bg-page) !important;
-  border-color: var(--text-main);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  border-color: var(--text-main) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  font-weight: 700;
+}
+
+body.theme-paper .nav-category-pill {
+  border-color: rgba(36, 29, 23, 0.18);
+  background-color: #FAF6F0;
 }
 
 body.theme-paper .nav-category-pill.active {
-  background-color: var(--accent-red);
-  border-color: var(--accent-red);
+  background-color: var(--accent-red) !important;
+  border-color: var(--accent-red) !important;
   color: #FFFFFF !important;
 }
 
+body.theme-night .nav-category-pill {
+  border-color: rgba(255, 255, 255, 0.15);
+  background-color: #1E222B;
+  color: #E2E8F0;
+}
+
+body.theme-night .nav-category-pill:hover {
+  background-color: #282D3A;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+body.theme-night .nav-category-pill.active {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #FFFFFF !important;
+}
+
 /* ==========================================================================
-   Shrink Navigation Menu on Scroll & Hoverable Dropdowns
+   Google Material Design 3 (M3) Sticky App Bar on Scroll
    ========================================================================== */
 
 .sticky-nav-wrapper {
   position: sticky;
   top: 0;
   z-index: 40;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
   background-color: var(--bg-page);
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Shrunk State when user scrolls past masthead */
+/* Shrunk & Elevated State when user scrolls */
 .sticky-nav-wrapper.is-shrunk {
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
-  border-bottom: 2px solid var(--border-dark);
-  background-color: var(--bg-page);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+body.theme-paper .sticky-nav-wrapper.is-shrunk {
+  background-color: rgba(245, 239, 235, 0.97);
+}
+
+body.theme-night .sticky-nav-wrapper.is-shrunk {
+  background-color: rgba(18, 19, 22, 0.97);
+}
+
+.sticky-nav-wrapper nav {
+  transition: all 0.2s ease;
 }
 
 .sticky-nav-wrapper.is-shrunk nav {
   padding-top: 0.35rem !important;
   padding-bottom: 0.35rem !important;
-  background-color: transparent !important;
-  border-top: none !important;
-  border-bottom: none !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  box-shadow: none !important;
 }
 
 .sticky-nav-wrapper.is-shrunk .nav-category-pill {
-  padding: 0.35rem 0.85rem;
-  font-size: 0.95rem; /* ~16.5px compact */
+  min-height: 34px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.88rem; /* ~15px */
 }
 
 /* Hide scrollbars for slick category bars */
@@ -303,17 +336,37 @@ body.theme-paper .nav-category-pill.active {
   scrollbar-width: none;
 }
 
-/* Opinion Author Avatar Constraint (Guarantees column 3 text never squishes) */
+/* Opinion Author Avatar Constraint */
 .opinion-avatar {
-  width: 48px !important;
-  height: 48px !important;
-  min-width: 48px !important;
-  min-height: 48px !important;
-  max-width: 48px !important;
-  max-height: 48px !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
   border-radius: 9999px;
   overflow: hidden;
   flex-shrink: 0;
+}
+
+/* W3C & M3 Multi-line Clamping Helpers */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* Print Stylesheet */
