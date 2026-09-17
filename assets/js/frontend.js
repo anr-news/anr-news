@@ -10,6 +10,7 @@ let activeCategory = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initStickyShrinkNav();
   loadContent();
 
   window.addEventListener('anr_news_updated', () => {
@@ -75,6 +76,7 @@ function resetCategoryFilter() {
   }
   updateCategoryNavPills(null);
   renderFilteredStories();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function updateCategoryNavPills(activeCat) {
@@ -512,3 +514,52 @@ function giftArticle() {
   navigator.clipboard.writeText(window.location.href);
   alert('🎁 [តំណភ្ជាប់អំណោយត្រូវបានចម្លង]\nតំណភ្ជាប់អានព័ត៌មានពេញលេញត្រូវបានចម្លងទៅកាន់ Clipboard។ លោកអ្នកអាចយកទៅ Paste ផ្ញើជូនមិត្តភក្តិ ឬគ្រួសារបានដោយសេរី។');
 }
+
+// Shrink Navigation on Scroll Controller
+function initStickyShrinkNav() {
+  const stickyNav = document.getElementById('stickyNavWrapper');
+  const shrinkLogo = document.getElementById('shrinkBrandLogo');
+  const shrinkBackToTop = document.getElementById('shrinkBackToTop');
+
+  if (!stickyNav) return;
+
+  function handleScroll() {
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    if (scrollY > 140) {
+      stickyNav.classList.add('is-shrunk');
+      if (shrinkLogo) {
+        shrinkLogo.classList.remove('hidden');
+        shrinkLogo.classList.add('flex');
+      }
+      if (shrinkBackToTop) {
+        shrinkBackToTop.classList.remove('hidden');
+        shrinkBackToTop.classList.add('flex');
+      }
+    } else {
+      stickyNav.classList.remove('is-shrunk');
+      if (shrinkLogo) {
+        shrinkLogo.classList.add('hidden');
+        shrinkLogo.classList.remove('flex');
+      }
+      if (shrinkBackToTop) {
+        shrinkBackToTop.classList.add('hidden');
+        shrinkBackToTop.classList.remove('flex');
+      }
+    }
+  }
+
+  // Initial check on load
+  handleScroll();
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+

@@ -58,57 +58,77 @@
       <span id="siteEditionText" class="font-semibold text-[var(--text-main)]">ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស តូក្យូ</span>
       <span class="hidden sm:inline">តម្លៃ ៤,០០០ រៀល</span>
     </div>
-
-    <!-- Section Categories Navigation (Senior-First Tactile Pill Cards) -->
-    <nav class="border-b-2 border-t-2 border-[var(--border-dark)] py-3 px-2 my-2 bg-[var(--bg-subtle)] overflow-x-auto no-scrollbar shadow-sm">
-      <div id="categoryNavList" class="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap min-w-max px-1">
-        <button onclick="resetCategoryFilter()" data-category="all" class="nav-category-pill active" title="ទំព័រដើម">
-          <span>🏠</span>
-          <span>ទំព័រដើម</span>
-        </button>
-        <button onclick="filterByCategory('ព័ត៌មានជាតិ')" data-category="ព័ត៌មានជាតិ" class="nav-category-pill" title="ព័ត៌មានជាតិ">
-          <span>🇰🇭</span>
-          <span>ព័ត៌មានជាតិ</span>
-        </button>
-        <button onclick="filterByCategory('សកលលោក')" data-category="សកលលោក" class="nav-category-pill" title="សកលលោក">
-          <span>🌍</span>
-          <span>សកលលោក</span>
-        </button>
-        <button onclick="filterByCategory('នយោបាយ')" data-category="នយោបាយ" class="nav-category-pill" title="នយោបាយ">
-          <span>🏛️</span>
-          <span>នយោបាយ</span>
-        </button>
-        <button onclick="filterByCategory('សេដ្ឋកិច្ច & ទីផ្សារ')" data-category="សេដ្ឋកិច្ច & ទីផ្សារ" class="nav-category-pill" title="សេដ្ឋកិច្ច">
-          <span>📈</span>
-          <span>សេដ្ឋកិច្ច</span>
-        </button>
-        <button onclick="filterByCategory('សុខភាព')" data-category="សុខភាព" class="nav-category-pill" title="សុខភាព">
-          <span>🏥</span>
-          <span>សុខភាព</span>
-        </button>
-        <button onclick="filterByCategory('បច្ចេកវិទ្យា & AI')" data-category="បច្ចេកវិទ្យា & AI" class="nav-category-pill" title="បច្ចេកវិទ្យា">
-          <span>💡</span>
-          <span>បច្ចេកវិទ្យា</span>
-        </button>
-        <button onclick="filterByCategory('បរិស្ថាន & ថាមពល')" data-category="បរិស្ថាន & ថាមពល" class="nav-category-pill" title="បរិស្ថាន">
-          <span>🌿</span>
-          <span>បរិស្ថាន</span>
-        </button>
-        <button onclick="filterByCategory('ការស៊ើបអង្កេតពិសេស')" data-category="ការស៊ើបអង្កេតពិសេស" class="nav-category-pill" title="ការស៊ើបអង្កេត">
-          <span>🔍</span>
-          <span>ការស៊ើបអង្កេត</span>
-        </button>
-        <button onclick="filterByCategory('វប្បធម៌ & សិល្បៈ')" data-category="វប្បធម៌ & សិល្បៈ" class="nav-category-pill" title="វប្បធម៌">
-          <span>🎭</span>
-          <span>វប្បធម៌</span>
-        </button>
-        <button onclick="filterByCategory('ទស្សនៈ & វិចារណកថា')" data-category="ទស្សនៈ & វិចារណកថា" class="nav-category-pill" title="ទស្សនៈ">
-          <span>✍️</span>
-          <span>ទស្សនៈ</span>
-        </button>
-      </div>
-    </nav>
   </header>
+
+  <!-- STICKY & SHRINK NAVIGATION BAR (Pinnable on Scroll) -->
+  <div id="stickyNavWrapper" class="sticky-nav-wrapper">
+    <div class="max-w-[1280px] mx-auto px-2 sm:px-6">
+      
+      <nav class="border-b-2 border-t-2 border-[var(--border-dark)] py-2.5 px-2 my-1 bg-[var(--bg-subtle)] transition-all duration-300 flex items-center justify-between gap-3 shadow-sm rounded-sm">
+        
+        <!-- Shrink Compact Brand / Masthead (Smoothly reveals on scroll) -->
+        <div id="shrinkBrandLogo" class="hidden items-center gap-2 flex-shrink-0 cursor-pointer group pr-2 border-r border-nyt-subtle" onclick="window.scrollTo({top:0, behavior:'smooth'})" title="ឡើងទៅលើគេហទំព័រដើម">
+          <span class="font-nyt-masthead text-lg sm:text-xl font-bold text-[var(--text-main)] group-hover:text-red-700 transition">អានរឿង ញូវស៍</span>
+          <span class="text-xs text-[var(--text-muted)] font-mono hidden md:inline">| ANR</span>
+        </div>
+
+        <!-- Category Pills Container with Horizontal Scroll -->
+        <div id="categoryNavList" class="flex items-center gap-2 sm:gap-2.5 overflow-x-auto no-scrollbar whitespace-nowrap py-1 flex-1">
+          <button onclick="resetCategoryFilter()" data-category="all" class="nav-category-pill active" title="ទំព័រដើម">
+            <span>🏠</span>
+            <span>ទំព័រដើម</span>
+          </button>
+          <button onclick="filterByCategory('ព័ត៌មានជាតិ')" data-category="ព័ត៌មានជាតិ" class="nav-category-pill" title="ព័ត៌មានជាតិ">
+            <span>🇰🇭</span>
+            <span>ព័ត៌មានជាតិ</span>
+          </button>
+          <button onclick="filterByCategory('សកលលោក')" data-category="សកលលោក" class="nav-category-pill" title="សកលលោក">
+            <span>🌍</span>
+            <span>សកលលោក</span>
+          </button>
+          <button onclick="filterByCategory('នយោបាយ')" data-category="នយោបាយ" class="nav-category-pill" title="នយោបាយ">
+            <span>🏛️</span>
+            <span>នយោបាយ</span>
+          </button>
+          <button onclick="filterByCategory('សេដ្ឋកិច្ច & ទីផ្សារ')" data-category="សេដ្ឋកិច្ច & ទីផ្សារ" class="nav-category-pill" title="សេដ្ឋកិច្ច">
+            <span>📈</span>
+            <span>សេដ្ឋកិច្ច</span>
+          </button>
+          <button onclick="filterByCategory('សុខភាព')" data-category="សុខភាព" class="nav-category-pill" title="សុខភាព">
+            <span>🏥</span>
+            <span>សុខភាព</span>
+          </button>
+          <button onclick="filterByCategory('បច្ចេកវិទ្យា & AI')" data-category="បច្ចេកវិទ្យា & AI" class="nav-category-pill" title="បច្ចេកវិទ្យា">
+            <span>💡</span>
+            <span>បច្ចេកវិទ្យា</span>
+          </button>
+          <button onclick="filterByCategory('បរិស្ថាន & ថាមពល')" data-category="បរិស្ថាន & ថាមពល" class="nav-category-pill" title="បរិស្ថាន">
+            <span>🌿</span>
+            <span>បរិស្ថាន</span>
+          </button>
+          <button onclick="filterByCategory('ការស៊ើបអង្កេតពិសេស')" data-category="ការស៊ើបអង្កេតពិសេស" class="nav-category-pill" title="ការស៊ើបអង្កេត">
+            <span>🔍</span>
+            <span>ការស៊ើបអង្កេត</span>
+          </button>
+          <button onclick="filterByCategory('វប្បធម៌ & សិល្បៈ')" data-category="វប្បធម៌ & សិល្បៈ" class="nav-category-pill" title="វប្បធម៌">
+            <span>🎭</span>
+            <span>វប្បធម៌</span>
+          </button>
+          <button onclick="filterByCategory('ទស្សនៈ & វិចារណកថា')" data-category="ទស្សនៈ & វិចារណកថា" class="nav-category-pill" title="ទស្សនៈ">
+            <span>✍️</span>
+            <span>ទស្សនៈ</span>
+          </button>
+        </div>
+
+        <!-- Quick Back to Top Button (visible only when shrunk) -->
+        <button id="shrinkBackToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--bg-subtle)] border border-neutral-300 dark:border-neutral-700 hover:border-red-600 text-xs sm:text-sm font-bold flex-shrink-0 transition font-nyt-ui shadow-sm" title="ឡើងទៅលើវិញ">
+          <span>↑</span>
+          <span class="hidden md:inline">ឡើងលើ</span>
+        </button>
+
+      </nav>
+    </div>
+  </div>
 
   <!-- ACTIVE CATEGORY FILTER BADGE (Clear Confirmation for Seniors) -->
   <div id="activeCategoryFilterBar" class="max-w-[1280px] mx-auto px-4 sm:px-6 my-3 hidden">
