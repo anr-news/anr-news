@@ -29,17 +29,17 @@
       <!-- Controls: Theme, Admin CMS link, Subscribe -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Theme Switcher -->
-        <div class="flex items-center border border-nyt-subtle rounded-sm bg-[var(--bg-subtle)] p-0.5 text-[11px]">
+        <div class="flex items-center border border-nyt-subtle rounded-sm bg-[var(--bg-subtle)] p-0.5 text-[11px] font-nyt-ui">
           <button onclick="setTheme('day')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-white/80 transition" title="ពន្លឺថ្ងៃធម្មជាតិ">ថ្ងៃ</button>
           <button onclick="setTheme('paper')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-amber-100/50 transition" title="ពណ៌ក្រដាសកាសែត">ក្រដាស</button>
           <button onclick="setTheme('night')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-neutral-800 transition" title="ផ្ទៃងងឹតពេលយប់">យប់</button>
         </div>
 
-        <a href="admin.html" class="px-2.5 py-1 rounded-sm border border-neutral-800 bg-neutral-900 text-white font-semibold text-[11px] hover:bg-neutral-700 transition flex items-center gap-1">
+        <a href="admin.html" class="px-2.5 py-1 rounded-sm border border-neutral-800 bg-neutral-900 text-white font-semibold text-[11px] hover:bg-neutral-700 transition flex items-center gap-1 font-nyt-ui">
           <span>⚙️ បន្ទប់ព័ត៌មាន CMS</span>
         </a>
 
-        <button class="hidden sm:inline-block px-3 py-1 rounded-sm bg-[#567b95] text-white text-[11px] font-bold tracking-wider uppercase hover:bg-[#326891] transition">
+        <button class="hidden sm:inline-block px-3 py-1 rounded-sm bg-[#567b95] text-white text-[11px] font-bold hover:bg-[#326891] transition font-nyt-ui">
           ជាវប្រចាំខែ
         </button>
       </div>
@@ -49,23 +49,23 @@
 
   <!-- MASTHEAD SECTION (Classic Khmer Blackletter / Moul) -->
   <header class="max-w-[1280px] mx-auto px-4 sm:px-6 pt-5 pb-3 text-center bg-[var(--bg-page)]">
-    <div id="siteMottoText" class="text-xs sm:text-sm uppercase tracking-[0.15em] text-[var(--text-muted)] mb-1.5 italic font-nyt-serif">
+    <div id="siteMottoText" class="text-xs sm:text-sm text-[var(--text-muted)] mb-1.5 font-nyt-body font-medium">
       «ព័ត៌មានពិត សុក្រឹត និងស៊ីជម្រៅ»
     </div>
     
-    <h1 onclick="resetCategoryFilter()" id="siteMastheadText" class="font-nyt-masthead text-3xl sm:text-5xl md:text-6xl font-bold tracking-normal text-[var(--text-main)] leading-tight select-none cursor-pointer hover:opacity-90 transition">
+    <h1 onclick="resetCategoryFilter()" id="siteMastheadText" class="font-nyt-masthead text-3xl sm:text-5xl md:text-6xl font-bold text-[var(--text-main)] leading-[1.3] select-none cursor-pointer hover:opacity-90 transition">
       សារព័ត៌មាន អេអិនអ័រ
     </h1>
 
-    <div class="flex items-center justify-between text-[11px] text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-1 font-nyt-serif">
-      <span class="hidden sm:inline italic">កម្រងទី ១៧៥ . . . លេខ ៦០,៨៩២</span>
-      <span id="siteEditionText" class="font-semibold uppercase tracking-wider text-[var(--text-main)]">ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស តូក្យូ</span>
-      <span class="hidden sm:inline italic">តម្លៃ ៤,០០០ រៀល</span>
+    <div class="flex items-center justify-between text-[11px] text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-1 font-nyt-ui">
+      <span class="hidden sm:inline">កម្រងទី ១៧៥ . . . លេខ ៦០,៨៩២</span>
+      <span id="siteEditionText" class="font-semibold text-[var(--text-main)]">ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស តូក្យូ</span>
+      <span class="hidden sm:inline">តម្លៃ ៤,០០០ រៀល</span>
     </div>
 
     <!-- Section Categories Navigation (Interactive Filter - Fix #3) -->
     <nav class="border-b-2 border-[var(--border-dark)] py-2.5 overflow-x-auto no-scrollbar mt-1">
-      <div id="categoryNavList" class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[var(--text-main)] whitespace-nowrap gap-5">
+      <div id="categoryNavList" class="flex items-center justify-between text-xs font-semibold text-[var(--text-main)] whitespace-nowrap gap-5 font-nyt-ui">
         <button onclick="resetCategoryFilter()" class="hover:text-red-700 font-bold transition text-red-700">ទំព័រដើម</button>
         <button onclick="filterByCategory('សកលលោក')" class="hover:text-red-700 transition">សកលលោក</button>
         <button onclick="filterByCategory('នយោបាយ')" class="hover:text-red-700 transition">នយោបាយ</button>
@@ -116,20 +116,20 @@
 
         <!-- Food / Culture Callout -->
         <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm space-y-2">
-          <div class="text-[10px] font-bold uppercase tracking-widest text-inherit flex items-center justify-between">
+          <div class="text-[11px] font-bold text-inherit flex items-center justify-between font-nyt-ui">
             <span>ម្ហូបអាហារ & វប្បធម៌</span>
             <span class="text-[#D0021B]">★ ជម្រើសនិពន្ធនាយក</span>
           </div>
-          <h4 class="font-nyt-serif text-sm font-bold text-inherit">អាហារប្រពៃណីខ្មែរ៖ អាថ៌កំបាំងនៃរសជាតិដើម និងការអភិរក្ស</h4>
-          <p class="text-xs text-[var(--text-muted)]">ការស្វែងយល់ស៊ីជម្រៅអំពីគ្រឿងផ្សំធម្មជាតិ និងបេតិកភណ្ឌធ្វើម្ហូបដែលបន្សល់ទុករាប់ជំនាន់។</p>
+          <h4 class="font-nyt-headline text-base font-bold text-inherit leading-[1.45]">អាហារប្រពៃណីខ្មែរ៖ អាថ៌កំបាំងនៃរសជាតិដើម និងការអភិរក្ស</h4>
+          <p class="text-xs sm:text-sm text-[var(--text-muted)] font-nyt-body leading-[1.7]">ការស្វែងយល់ស៊ីជម្រៅអំពីគ្រឿងផ្សំធម្មជាតិ និងបេតិកភណ្ឌធ្វើម្ហូបដែលបន្សល់ទុករាប់ជំនាន់។</p>
         </div>
       </section>
 
       <!-- COLUMN 3: OPINION & ESSAYS (3 COLS) -->
       <aside class="lg:col-span-3 pl-0 lg:pl-6 space-y-6 pt-6 lg:pt-0">
         <div class="border-b-2 border-[var(--border-dark)] pb-1 flex items-center justify-between">
-          <h3 class="font-nyt-serif text-xl font-bold tracking-tight text-inherit">ទស្សនៈ & វិចារណកថា</h3>
-          <span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">ក្រុមប្រឹក្សា & អ្នកសរសេរ</span>
+          <h3 class="font-nyt-headline text-xl font-bold text-inherit leading-normal">ទស្សនៈ & វិចារណកថា</h3>
+          <span class="text-[11px] text-[var(--text-muted)] font-nyt-ui">ក្រុមប្រឹក្សា & អ្នកសរសេរ</span>
         </div>
 
         <!-- Opinion List with Circular Headshots -->
@@ -138,10 +138,10 @@
         </div>
 
         <!-- Morning Newsletter Box -->
-        <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm">
-          <h5 class="font-nyt-serif font-bold text-sm text-inherit mb-1">ព្រឹត្តិបត្រព័ត៌មានពេលព្រឹក</h5>
-          <p class="text-xs text-[var(--text-muted)] mb-3">ទទួលបានការសង្ខេបព្រឹត្តិការណ៍សំខាន់ៗប្រចាំថ្ងៃ រៀបចំដោយនិពន្ធនាយកជាន់ខ្ពស់។</p>
-          <div class="flex gap-1">
+        <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm space-y-2">
+          <h5 class="font-nyt-headline font-bold text-base text-inherit mb-1 leading-normal">ព្រឹត្តិបត្រព័ត៌មានពេលព្រឹក</h5>
+          <p class="text-xs sm:text-sm text-[var(--text-muted)] font-nyt-body leading-[1.7] mb-3">ទទួលបានការសង្ខេបព្រឹត្តិការណ៍សំខាន់ៗប្រចាំថ្ងៃ រៀបចំដោយនិពន្ធនាយកជាន់ខ្ពស់។</p>
+          <div class="flex gap-1 font-nyt-ui">
             <input type="email" placeholder="អ៊ីមែលរបស់អ្នក..." class="text-xs px-2.5 py-1.5 border border-[var(--border-dark)] rounded-sm flex-1 outline-none bg-white text-black"/>
             <button onclick="alert('សូមអរគុណចំពោះការចុះឈ្មោះជាវព្រឹត្តិបត្រព័ត៌មានរបស់យើង!')" class="bg-[var(--text-main)] text-[var(--bg-page)] text-xs font-semibold px-3 py-1.5 rounded-sm hover:opacity-80">ចុះឈ្មោះ</button>
           </div>
@@ -149,8 +149,8 @@
 
         <!-- Quick Crossword teaser -->
         <div class="border border-nyt-subtle p-3 text-center space-y-1 bg-[var(--bg-subtle)]">
-          <span class="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">ល្បែងពាក្យបណ្តៅប្រចាំថ្ងៃ</span>
-          <p class="text-xs font-serif italic text-inherit">ដោះស្រាយល្បែងកម្សាន្តថ្ងៃនេះក្នុងរយៈពេល ២ នាទី។</p>
+          <span class="text-[11px] font-bold text-[var(--text-muted)] font-nyt-ui block">ល្បែងពាក្យបណ្តៅប្រចាំថ្ងៃ</span>
+          <p class="text-xs font-nyt-body text-inherit leading-[1.6]">ដោះស្រាយល្បែងកម្សាន្តថ្ងៃនេះក្នុងរយៈពេល ២ នាទី។</p>
         </div>
       </aside>
 
@@ -164,15 +164,23 @@
       <!-- Top Sticky Reader Bar -->
       <div class="sticky top-0 bg-[var(--bg-card)] border-b border-nyt-subtle p-4 flex items-center justify-between z-10">
         <div class="flex items-center gap-3">
-          <span class="font-nyt-masthead font-bold text-xs tracking-wider text-inherit">សារព័ត៌មាន អេអិនអ័រ</span>
-          <div class="flex items-center gap-1 border border-nyt-subtle rounded px-2 py-0.5 text-xs font-medium">
+          <span class="font-nyt-masthead font-bold text-xs text-inherit">សារព័ត៌មាន អេអិនអ័រ</span>
+          
+          <!-- Font Size Controls (A- / A+) -->
+          <div class="flex items-center gap-1 border border-nyt-subtle rounded px-2 py-0.5 text-xs font-medium font-nyt-ui">
             <button onclick="adjustFontSize(-1)" class="hover:text-[#D0021B]" title="បន្ថយទំហំអក្សរ">A-</button>
             <span class="text-[var(--text-light)] mx-1">|</span>
             <button onclick="adjustFontSize(1)" class="hover:text-[#D0021B] font-bold" title="បង្កើនទំហំអក្សរ">A+</button>
           </div>
+
+          <!-- Reader Font Family Switcher (Sans / Serif) -->
+          <div class="hidden sm:flex items-center border border-nyt-subtle rounded text-[11px] overflow-hidden font-nyt-ui">
+            <button id="btnReaderFontSans" onclick="setReaderFont('sans')" class="px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-page)] font-semibold transition" title="ពុម្ពអក្សរទំនើប អានស្រួលភ្នែក (Kantumruy Pro)">អក្សរមូល</button>
+            <button id="btnReaderFontSerif" onclick="setReaderFont('serif')" class="px-2 py-0.5 bg-[var(--bg-subtle)] text-[var(--text-main)] hover:bg-neutral-200 dark:hover:bg-neutral-700 transition" title="ពុម្ពអក្សរក្បាច់បែបកាសែត (Noto Serif Khmer)">អក្សរក្បាច់</button>
+          </div>
         </div>
         
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 font-nyt-ui">
           <button onclick="giftArticle()" class="px-2.5 py-1 rounded bg-[var(--bg-subtle)] border border-nyt-subtle text-xs hover:border-gray-500 transition font-medium flex items-center gap-1">
             <span>🎁 ចែករំលែកអត្ថបទ</span>
           </button>
@@ -182,12 +190,12 @@
 
       <!-- Modal Article Body -->
       <div class="p-6 sm:p-10 space-y-4">
-        <h2 id="modalTitle" class="font-nyt-serif text-2xl sm:text-3xl font-bold leading-tight text-inherit"></h2>
-        <p id="modalDeck" class="font-nyt-serif text-base text-[var(--text-muted)] leading-relaxed italic"></p>
-        <div id="modalByline" class="text-xs text-[var(--text-muted)] border-b border-nyt-subtle pb-4"></div>
-        <div id="modalBody" class="font-nyt-serif text-base sm:text-lg leading-relaxed text-[var(--text-body)] space-y-4 pt-2"></div>
+        <h2 id="modalTitle" class="font-nyt-headline text-2xl sm:text-3xl font-bold leading-[1.42] text-inherit"></h2>
+        <p id="modalDeck" class="font-nyt-body text-base sm:text-lg text-[var(--text-muted)] leading-[1.75]"></p>
+        <div id="modalByline" class="text-xs text-[var(--text-muted)] border-b border-nyt-subtle pb-4 font-nyt-ui"></div>
+        <div id="modalBody" class="font-nyt-body text-base sm:text-lg leading-[1.85] text-[var(--text-body)] space-y-5 pt-2"></div>
 
-        <div class="mt-8 pt-6 border-t border-nyt-subtle flex justify-between items-center text-xs text-[var(--text-muted)]">
+        <div class="mt-8 pt-6 border-t border-nyt-subtle flex justify-between items-center text-xs text-[var(--text-muted)] font-nyt-ui">
           <span class="italic">© ២០២៦ ក្រុមហ៊ុនបោះពុម្ពផ្សាយ អេអិនអ័រ</span>
           <button onclick="closeStoryModal()" class="px-4 py-2 bg-[var(--text-main)] text-[var(--bg-page)] rounded-sm font-semibold hover:opacity-90">បិទអត្ថបទ</button>
         </div>

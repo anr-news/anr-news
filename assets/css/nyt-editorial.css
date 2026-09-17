@@ -5,9 +5,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Kantumruy+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Moul&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Noto+Serif+Khmer:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --nyt-font-serif: 'Noto Serif Khmer', 'Newsreader', Georgia, serif;
-  --nyt-font-masthead: 'Moul', 'Cinzel', 'Old English Text MT', Georgia, serif;
-  --nyt-font-sans: 'Kantumruy Pro', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Khmer UX Editorial Typography Stack */
+  --nyt-font-masthead: 'Moul', 'Cinzel', serif;
+  --nyt-font-headline: 'Noto Serif Khmer', 'Newsreader', Georgia, serif;
+  --nyt-font-body: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --nyt-font-ui: 'Kantumruy Pro', 'Plus Jakarta Sans', sans-serif;
+
+  /* Aliases */
+  --nyt-font-serif: var(--nyt-font-headline);
+  --nyt-font-sans: var(--nyt-font-ui);
   
   /* Day Theme (Default NYT Editorial White) */
   --bg-page: #FFFFFF;
@@ -52,18 +58,91 @@ body.theme-night {
   --accent-blue: #54A0FF;
 }
 
+/* ==========================================================================
+   Khmer UX Typography & Tracking Optimization
+   - Disables letter-spacing on Khmer text to preserve consonant-vowel clusters
+   - Optimized leading (line-height) to prevent diacritic clipping
+   ========================================================================== */
+
+html, body, [lang="km"],
+.font-nyt-masthead, .font-nyt-headline, .font-nyt-serif, .font-nyt-body, .font-nyt-sans, .font-nyt-ui,
+h1, h2, h3, h4, h5, h6, p, span, a, button, input, textarea {
+  letter-spacing: normal !important;
+  word-spacing: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Base resets and smooth transition */
 body {
   background-color: var(--bg-page);
   color: var(--text-main);
-  font-family: var(--nyt-font-sans);
+  font-family: var(--nyt-font-body);
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  line-height: 1.65;
+  line-height: 1.8;
+  font-size: 16px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
-.font-nyt-serif { font-family: var(--nyt-font-serif); line-height: 1.6; }
-.font-nyt-sans { font-family: var(--nyt-font-sans); }
-.font-nyt-masthead { font-family: var(--nyt-font-masthead); letter-spacing: 0.02em; }
+/* Dedicated Typography Classes */
+.font-nyt-masthead { 
+  font-family: var(--nyt-font-masthead); 
+  letter-spacing: 0 !important; 
+  line-height: 1.35;
+}
+
+.font-nyt-headline,
+.font-nyt-serif { 
+  font-family: var(--nyt-font-headline); 
+  letter-spacing: 0 !important; 
+  line-height: 1.48; 
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.font-nyt-body { 
+  font-family: var(--nyt-font-body); 
+  letter-spacing: 0 !important; 
+  line-height: 1.82; 
+}
+
+.font-nyt-sans,
+.font-nyt-ui { 
+  font-family: var(--nyt-font-ui); 
+  letter-spacing: 0 !important; 
+  line-height: 1.6; 
+}
+
+/* Article Modal Reader Typography */
+#modalTitle {
+  font-family: var(--nyt-font-headline);
+  line-height: 1.42;
+  letter-spacing: 0 !important;
+}
+
+#modalDeck {
+  font-family: var(--nyt-font-body);
+  line-height: 1.75;
+  letter-spacing: 0 !important;
+  font-weight: 500;
+}
+
+#modalBody {
+  font-family: var(--nyt-font-body);
+  line-height: 1.85;
+  letter-spacing: 0 !important;
+}
+
+#modalBody.reader-font-serif {
+  font-family: var(--nyt-font-headline);
+  line-height: 1.9;
+}
+
+#modalBody p {
+  margin-bottom: 1.25rem;
+  line-height: 1.85;
+}
 
 /* Classic NYT Border Rules */
 .border-nyt-double {
@@ -83,29 +162,30 @@ body {
   border-color: var(--border-color);
 }
 
-/* Editorial Drop Cap */
-.drop-cap::first-letter {
-  font-family: var(--nyt-font-serif);
-  float: left;
-  font-size: 3.75rem;
-  line-height: 0.82;
-  padding-top: 4px;
-  padding-right: 8px;
-  font-weight: 700;
+/* Editorial Lead Paragraph Callout (Khmer-safe alternative to broken drop-caps) */
+.editorial-lead {
+  font-family: var(--nyt-font-body);
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.85;
   color: var(--text-main);
+  border-left: 3px solid var(--accent-red);
+  padding-left: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 /* New York Times Pull Quotes */
 .nyt-pull-quote {
-  font-family: var(--nyt-font-serif);
+  font-family: var(--nyt-font-headline);
   border-left: 3px solid var(--border-dark);
   padding: 0.75rem 1.25rem;
   margin: 1.5rem 0;
   font-style: italic;
   font-size: 1.25rem;
-  line-height: 1.4;
+  line-height: 1.65;
   color: var(--text-body);
   background-color: var(--bg-subtle);
+  letter-spacing: 0 !important;
 }
 
 /* Hide scrollbars for slick category bars */

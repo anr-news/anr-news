@@ -99,15 +99,15 @@ function renderBreaking(breaking) {
   container.innerHTML = `
     <div class="border-b border-t border-red-700 bg-red-50/40 dark:bg-red-950/20 py-2 px-3 flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2.5 flex-1 overflow-hidden">
-        <span class="px-2 py-0.5 bg-[#D0021B] text-white font-bold text-[10px] tracking-wider uppercase rounded-sm flex items-center gap-1.5 flex-shrink-0 font-nyt-sans">
+        <span class="px-2 py-0.5 bg-[#D0021B] text-white font-bold text-[10px] rounded-sm flex items-center gap-1.5 flex-shrink-0 font-nyt-ui">
           <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> ការផ្សាយផ្ទាល់
         </span>
         <span class="text-xs text-[#666666] font-mono flex-shrink-0">${breaking.updatedAt || 'ថ្មីៗនេះ'}</span>
-        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breaking.text)}')" class="text-xs font-semibold text-inherit hover:underline hover:text-red-700 truncate">
+        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breaking.text)}')" class="text-xs font-semibold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
           ${breaking.text}
         </a>
       </div>
-      <span class="text-xs text-red-700 font-semibold cursor-pointer hover:underline flex-shrink-0" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
+      <span class="text-xs text-red-700 font-semibold cursor-pointer hover:underline flex-shrink-0 font-nyt-ui" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
     </div>
   `;
 }
@@ -126,14 +126,14 @@ function renderLeadStory(lead) {
 
   col1.innerHTML = `
     <article class="space-y-3 cursor-pointer group" onclick="openStory('${lead.id}')">
-      <span class="text-[11px] font-bold tracking-wider uppercase text-[#D0021B] font-nyt-sans">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
-      <h2 class="font-nyt-serif text-2xl sm:text-3xl md:text-4xl font-bold leading-tight text-inherit group-hover:text-[#666666] transition">
+      <span class="text-[11px] font-bold text-[#D0021B] font-nyt-ui">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
+      <h2 class="font-nyt-headline text-2xl sm:text-3xl md:text-4xl font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
         ${lead.headline}
       </h2>
-      <p class="font-nyt-serif text-base text-[var(--text-body)] leading-relaxed">
+      <p class="font-nyt-body text-base sm:text-[17px] text-[var(--text-body)] leading-[1.8]">
         ${lead.deck}
       </p>
-      <div class="text-xs text-[var(--text-muted)] font-nyt-sans flex items-center gap-2">
+      <div class="text-xs text-[var(--text-muted)] font-nyt-ui flex items-center gap-2">
         <span class="font-semibold text-inherit">ដោយ ${lead.author}</span>
         <span>•</span>
         <span>${lead.readTime}</span>
@@ -144,14 +144,14 @@ function renderLeadStory(lead) {
           <div class="bg-neutral-800 text-neutral-300 rounded-sm overflow-hidden aspect-[16/9] flex items-center justify-center relative">
             <img src="${lead.image}" alt="រូបភាពអត្ថបទសំខាន់" class="w-full h-full object-cover"/>
           </div>
-          <p class="text-[11px] text-[var(--text-muted)] font-nyt-serif italic mt-1.5 leading-tight">
-            ${lead.caption || ''} <span class="not-italic text-[var(--text-light)] uppercase text-[9px] ml-1">${lead.credit || ''}</span>
+          <p class="text-xs text-[var(--text-muted)] font-nyt-body mt-1.5 leading-[1.6]">
+            ${lead.caption || ''} <span class="text-[var(--text-light)] text-[10px] ml-1 font-nyt-ui">${lead.credit || ''}</span>
           </p>
         </div>
       ` : ''}
 
       <!-- NYT Style Audio Bar (Khmer) -->
-      <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-2.5 rounded-sm flex items-center justify-between text-xs" onclick="event.stopPropagation()">
+      <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-2.5 rounded-sm flex items-center justify-between text-xs font-nyt-ui" onclick="event.stopPropagation()">
         <div class="flex items-center gap-2.5">
           <button onclick="toggleAudio(this)" class="w-7 h-7 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] flex items-center justify-center hover:opacity-80 transition shadow-sm">
             <span id="audioPlaySymbol">▶</span>
@@ -173,16 +173,16 @@ function renderSecondaryStories(secondaries) {
 
   col2.innerHTML = secondaries.map((art, idx) => `
     <article class="space-y-2 cursor-pointer group pb-4 border-b border-nyt-subtle" onclick="openStory('${art.id}')">
-      <span class="text-[10px] font-bold tracking-wider uppercase text-[var(--accent-blue)] font-nyt-sans">${art.category || 'ព័ត៌មាន'}</span>
+      <span class="text-[10px] font-bold text-[var(--accent-blue)] font-nyt-ui">${art.category || 'ព័ត៌មាន'}</span>
       <div class="flex gap-3">
         <div class="flex-1">
-          <h3 class="font-nyt-serif text-base sm:text-lg font-bold leading-snug text-inherit group-hover:text-[#666666] transition">
+          <h3 class="font-nyt-headline text-base sm:text-lg font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
             ${art.headline}
           </h3>
-          <p class="font-nyt-serif text-xs text-[var(--text-muted)] mt-1 leading-normal">
+          <p class="font-nyt-body text-xs sm:text-sm text-[var(--text-muted)] mt-1.5 leading-[1.7]">
             ${art.deck || ''}
           </p>
-          <span class="text-[10px] text-[var(--text-light)] block mt-1 font-nyt-sans">ដោយ ${art.author} • ${art.readTime}</span>
+          <span class="text-[11px] text-[var(--text-light)] block mt-1.5 font-nyt-ui">ដោយ ${art.author} • ${art.readTime}</span>
         </div>
         ${art.image ? `
           <div class="w-24 h-20 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden">
@@ -204,11 +204,11 @@ function renderOpinions(opinions) {
         <img src="${op.image}" alt="${op.author}" class="w-full h-full object-cover"/>
       </div>
       <div class="space-y-1">
-        <span class="text-xs font-semibold text-inherit block font-nyt-sans">${op.author}</span>
-        <h4 class="font-nyt-serif text-sm font-bold leading-snug text-inherit group-hover:text-[#666666] transition">
+        <span class="text-xs font-semibold text-inherit block font-nyt-ui">${op.author}</span>
+        <h4 class="font-nyt-headline text-sm font-bold leading-[1.48] text-inherit group-hover:text-[#666666] transition">
           ${op.headline}
         </h4>
-        <span class="text-[10px] text-[var(--text-muted)] block font-nyt-sans">${op.readTime}</span>
+        <span class="text-[11px] text-[var(--text-muted)] block font-nyt-ui">${op.readTime}</span>
       </div>
     </article>
   `).join('');
@@ -228,10 +228,50 @@ function openStory(id) {
   title.innerText = article.headline;
   deck.innerText = article.deck || '';
   byline.innerText = `ដោយ ${article.author} • ${article.date || 'ថ្ងៃនេះ'} • ${article.readTime}`;
-  body.innerHTML = article.content || `<p class="drop-cap">${article.deck}</p><p>អត្ថបទព័ត៌មានពេញលេញចេញពីការិយាល័យនិពន្ធ។</p>`;
+
+  // Use editorial-lead for safe Khmer cluster handling instead of broken drop-caps
+  let contentHtml = article.content || '';
+  if (contentHtml.includes('class="drop-cap"')) {
+    contentHtml = contentHtml.replace(/class="drop-cap"/g, 'class="editorial-lead"');
+  } else if (!contentHtml) {
+    contentHtml = `<p class="editorial-lead">${article.deck || ''}</p><p>អត្ថបទព័ត៌មានពេញលេញចេញពីការិយាល័យនិពន្ធ។</p>`;
+  }
+  body.innerHTML = contentHtml;
+
+  // Initialize saved font preference
+  const savedFont = localStorage.getItem('ANR_READER_FONT') || 'sans';
+  setReaderFont(savedFont, false);
 
   modal.classList.remove('hidden');
   document.body.style.overflow = 'hidden';
+}
+
+function setReaderFont(fontType, save = true) {
+  const body = document.getElementById('modalBody');
+  const btnSans = document.getElementById('btnReaderFontSans');
+  const btnSerif = document.getElementById('btnReaderFontSerif');
+
+  if (body) {
+    if (fontType === 'serif') {
+      body.classList.add('reader-font-serif');
+    } else {
+      body.classList.remove('reader-font-serif');
+    }
+  }
+
+  if (btnSans && btnSerif) {
+    if (fontType === 'serif') {
+      btnSerif.className = "px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-page)] font-semibold transition";
+      btnSans.className = "px-2 py-0.5 bg-[var(--bg-subtle)] text-[var(--text-main)] hover:bg-neutral-200 dark:hover:bg-neutral-700 transition";
+    } else {
+      btnSans.className = "px-2 py-0.5 bg-[var(--text-main)] text-[var(--bg-page)] font-semibold transition";
+      btnSerif.className = "px-2 py-0.5 bg-[var(--bg-subtle)] text-[var(--text-main)] hover:bg-neutral-200 dark:hover:bg-neutral-700 transition";
+    }
+  }
+
+  if (save) {
+    localStorage.setItem('ANR_READER_FONT', fontType);
+  }
 }
 
 function openStoryByHeadline(encoded) {
@@ -249,7 +289,7 @@ function adjustFontSize(delta) {
   const body = document.getElementById('modalBody');
   if (body) {
     body.style.fontSize = `${currentFontSize}px`;
-    body.style.lineHeight = '1.7';
+    body.style.lineHeight = '1.85';
   }
 }
 

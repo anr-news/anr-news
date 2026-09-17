@@ -79,33 +79,33 @@
     <div class="bg-white border border-gray-300 rounded-xl shadow-2xl max-w-md w-full overflow-hidden p-8 text-center space-y-5">
       
       <div>
-        <div class="text-[10px] uppercase tracking-[0.25em] text-[#666666] mb-1 italic font-nyt-serif">
+        <div class="text-[11px] text-[#666666] mb-1 font-nyt-body font-medium">
           «ព័ត៌មានពិត សុក្រឹត និងស៊ីជម្រៅ»
         </div>
-        <h2 class="font-nyt-masthead text-2xl sm:text-3xl font-bold text-[#121212]">
+        <h2 class="font-nyt-masthead text-2xl sm:text-3xl font-bold text-[#121212] leading-[1.3]">
           សារព័ត៌មាន អេអិនអ័រ
         </h2>
-        <div class="text-xs uppercase tracking-widest text-[#D0021B] font-bold mt-1 font-mono">
+        <div class="text-xs text-[#D0021B] font-bold mt-1 font-nyt-ui">
           បន្ទប់ព័ត៌មាននិពន្ធ // Scoop & Oak 4.0
         </div>
-        <p class="text-xs text-gray-500 mt-2">
+        <p class="text-xs text-gray-500 mt-2 font-nyt-body leading-[1.7]">
           ប្រព័ន្ធចូលប្រើប្រាស់សម្រាប់តែអ្នកកាសែត អ្នកយកព័ត៌មាន និងនិពន្ធនាយកដែលមានការអនុញ្ញាតប៉ុណ្ណោះ។
         </p>
       </div>
 
       <!-- Auth Error Alert Box -->
-      <div id="authErrorBox" class="hidden p-2.5 rounded bg-red-50 border border-red-200 text-xs text-red-700 font-medium text-left">
+      <div id="authErrorBox" class="hidden p-2.5 rounded bg-red-50 border border-red-200 text-xs text-red-700 font-medium text-left font-nyt-ui">
       </div>
 
       <!-- Option 1: 1-Click Google Sign-In -->
-      <button onclick="handleGoogleSignIn()" class="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-xs font-semibold text-gray-800 bg-white hover:bg-gray-50 flex items-center justify-center gap-2.5 shadow-sm transition">
+      <button onclick="handleGoogleSignIn()" class="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-xs font-semibold text-gray-800 bg-white hover:bg-gray-50 flex items-center justify-center gap-2.5 shadow-sm transition font-nyt-ui">
         <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
         <span>ចូលដោយប្រើគណនី Google បុគ្គលិក</span>
       </button>
 
       <div class="relative flex py-1 items-center">
         <div class="flex-grow border-t border-gray-200"></div>
-        <span class="flex-shrink mx-3 text-[10px] text-gray-400 uppercase tracking-widest font-mono">ឬ ប្រើអ៊ីមែល និងពាក្យសម្ងាត់</span>
+        <span class="flex-shrink mx-3 text-[11px] text-gray-400 font-nyt-ui">ឬ ប្រើអ៊ីមែល និងពាក្យសម្ងាត់</span>
         <div class="flex-grow border-t border-gray-200"></div>
       </div>
 
@@ -148,22 +148,22 @@
     <!-- ========================================================================= -->
     <aside class="col-span-12 lg:col-span-3 bg-white border-r border-gray-200 p-4 space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-gray-200">
-        <h3 class="font-bold text-xs uppercase tracking-wider text-gray-700 font-nyt-sans">បញ្ជីរង់ចាំការកែសម្រួល</h3>
+        <h3 class="font-bold text-xs text-gray-700 font-nyt-ui">បញ្ជីរង់ចាំការកែសម្រួល</h3>
         <!-- Fix #1: Real New Story creation -->
-        <button onclick="createNewStory()" class="px-2.5 py-1 bg-neutral-900 text-white rounded text-xs font-medium hover:bg-neutral-700 flex items-center gap-1 transition">
+        <button onclick="createNewStory()" class="px-2.5 py-1 bg-neutral-900 text-white rounded text-xs font-medium hover:bg-neutral-700 flex items-center gap-1 transition font-nyt-ui">
           <span>+ បង្កើតថ្មី</span>
         </button>
       </div>
 
       <!-- Filter tabs -->
-      <div class="flex gap-1 text-xs border-b border-gray-200 pb-2 overflow-x-auto no-scrollbar">
+      <div class="flex gap-1 text-xs border-b border-gray-200 pb-2 overflow-x-auto no-scrollbar font-nyt-ui">
         <button onclick="filterQueue('all')" id="queueTabAll" class="px-2.5 py-1 rounded bg-neutral-200 font-semibold text-gray-900 whitespace-nowrap">ទាំងអស់</button>
         <button onclick="filterQueue('draft')" id="queueTabDraft" class="px-2.5 py-1 rounded hover:bg-gray-100 text-gray-600 whitespace-nowrap">សេចក្តីព្រាង</button>
         <button onclick="filterQueue('published')" id="queueTabPublished" class="px-2.5 py-1 rounded hover:bg-gray-100 text-gray-600 whitespace-nowrap">បានផ្សាយ</button>
       </div>
 
       <!-- Live Story Desk List (Populated via cms.js) -->
-      <div id="storyQueueList" class="space-y-2 overflow-y-auto max-h-[calc(100vh-210px)] pr-1 text-xs">
+      <div id="storyQueueList" class="space-y-2 overflow-y-auto max-h-[calc(100vh-210px)] pr-1 text-xs font-nyt-ui">
         <!-- Rendered dynamically -->
       </div>
     </aside>
@@ -174,7 +174,7 @@
     <main class="col-span-12 lg:col-span-6 bg-white p-6 sm:p-10 overflow-y-auto max-h-[calc(100vh-52px)] border-r border-gray-200">
       
       <!-- Toolbar with Google Drive Direct Upload -->
-      <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-gray-200 pb-3 mb-6 flex flex-wrap items-center justify-between gap-2 z-10">
+      <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-gray-200 pb-3 mb-6 flex flex-wrap items-center justify-between gap-2 z-10 font-nyt-ui">
         <div class="flex flex-wrap items-center gap-1 text-xs border border-gray-300 rounded p-1 bg-gray-50">
           <button onclick="formatDoc('formatBlock', 'h2')" class="px-2 py-0.5 rounded font-bold hover:bg-gray-200" title="ចំណងជើងរងធំ H2">H2</button>
           <button onclick="formatDoc('formatBlock', 'h3')" class="px-2 py-0.5 rounded font-semibold hover:bg-gray-200" title="ចំណងជើងរងតូច H3">H3</button>
@@ -204,25 +204,25 @@
         
         <!-- Headline Grid Fit Validation -->
         <div>
-          <div class="flex items-center justify-between text-[11px] text-gray-500 font-nyt-sans mb-1">
+          <div class="flex items-center justify-between text-[11px] text-gray-500 font-nyt-ui mb-1">
             <span>ចំណងជើងអត្ថបទ (កម្រិត ៨០ តួអក្សរ)</span>
             <span id="headlineCharBadge" class="text-emerald-600 font-semibold font-mono">០ / ៨០ តួអក្សរ (សមរម្យ)</span>
           </div>
           <input 
             type="text" 
             id="editorHeadline" 
-            class="w-full font-nyt-serif text-2xl sm:text-3xl font-bold text-gray-900 border-b border-transparent focus:border-gray-400 outline-none pb-2 transition"
+            class="w-full font-nyt-headline text-2xl sm:text-3xl font-bold text-gray-900 border-b border-transparent focus:border-gray-400 outline-none pb-2 leading-[1.45] transition"
             placeholder="បញ្ចូលចំណងជើងព័ត៌មាន..."
           />
         </div>
 
         <!-- Deck / Summary Excerpt -->
         <div>
-          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">សេចក្តីសង្ខេប (DECK / EXCERPT)</span>
+          <span class="text-[11px] font-bold text-gray-400 block mb-1 font-nyt-ui">សេចក្តីសង្ខេប (DECK / EXCERPT)</span>
           <textarea 
             id="editorDeck" 
             rows="2" 
-            class="w-full font-nyt-serif text-base sm:text-lg text-gray-700 border-b border-gray-200 focus:border-gray-400 outline-none resize-none"
+            class="w-full font-nyt-body text-base text-gray-700 border-b border-gray-200 focus:border-gray-400 outline-none resize-none leading-[1.75]"
             placeholder="បញ្ចូលសេចក្តីសង្ខេប ២ ប្រយោគ..."
           ></textarea>
         </div>
@@ -267,7 +267,7 @@
         <!-- Document Body Contenteditable -->
         <div 
           id="editableBody" 
-          class="font-nyt-serif text-base sm:text-lg leading-relaxed text-gray-800 space-y-4 outline-none min-h-[300px]" 
+          class="font-nyt-body text-base sm:text-lg leading-[1.85] text-gray-800 space-y-4 outline-none min-h-[300px]" 
           contenteditable="true"
           oninput="updateWordCount()"
         >
@@ -281,15 +281,15 @@
     <!-- ========================================================================= -->
     <!-- PANEL 3 (3 COLS): SCOOP SECTION FRONT CURATOR & COPY STANDARDS            -->
     <!-- ========================================================================= -->
-    <aside class="col-span-12 lg:col-span-3 bg-white p-5 space-y-6 overflow-y-auto max-h-[calc(100vh-52px)]">
+    <aside class="col-span-12 lg:col-span-3 bg-white p-5 space-y-6 overflow-y-auto max-h-[calc(100vh-52px)] font-nyt-ui">
       
       <!-- SCOOP HOMEPAGE SLOT CURATOR -->
       <div class="space-y-3">
         <div class="flex items-center justify-between">
-          <h4 class="font-bold text-xs uppercase tracking-wider text-gray-800">ជ្រើសរើសទីតាំងលើទំព័រដើម</h4>
+          <h4 class="font-bold text-xs text-gray-800 font-nyt-ui">ជ្រើសរើសទីតាំងលើទំព័រដើម</h4>
           <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">ទំព័រផ្ទាល់</span>
         </div>
-        <p class="text-xs text-gray-500">កំណត់ទីតាំងដែលអត្ថបទនេះត្រូវបង្ហាញលើទំព័រមុខកាសែត៖</p>
+        <p class="text-xs text-gray-500 font-nyt-body leading-[1.6]">កំណត់ទីតាំងដែលអត្ថបទនេះត្រូវបង្ហាញលើទំព័រមុខកាសែត៖</p>
 
         <select id="editorSlot" class="w-full text-xs border border-gray-300 rounded p-2 bg-gray-50 font-semibold text-gray-800 outline-none">
           <option value="lead-anchor">★ អត្ថបទព័ត៌មានសំខាន់ (ជួរឈរ ១, A-Hed)</option>
@@ -300,13 +300,13 @@
 
         <!-- Visual Slot Blueprint -->
         <div class="border border-dashed border-gray-300 p-3 rounded bg-gray-50 text-[10px] text-gray-500 space-y-2">
-          <div class="font-semibold text-gray-700">ប្លង់ទម្រង់ទំព័រមុខ</div>
+          <div class="font-semibold text-gray-700 font-nyt-ui">ប្លង់ទម្រង់ទំព័រមុខ</div>
           <div class="grid grid-cols-3 gap-1.5 h-16">
             <div class="bg-[#121212] text-white flex items-center justify-center font-bold text-center rounded-sm text-[9px] p-1">ព័ត៌មានសំខាន់</div>
             <div class="bg-gray-200 text-gray-600 flex items-center justify-center text-center rounded-sm text-[9px] p-1">ជួរទី ២</div>
             <div class="bg-gray-200 text-gray-600 flex items-center justify-center text-center rounded-sm text-[9px] p-1">ទស្សនៈ</div>
           </div>
-          <span class="text-[9px] text-gray-400 block text-center">អត្ថបទដែលបានកំណត់នឹងបង្ហាញលេចធ្លោនៅលើទំព័រមុខ។</span>
+          <span class="text-[9px] text-gray-400 block text-center font-nyt-body">អត្ថបទដែលបានកំណត់នឹងបង្ហាញលេចធ្លោនៅលើទំព័រមុខ។</span>
         </div>
       </div>
 
@@ -315,11 +315,11 @@
       <!-- COPY DESK & FACT CHECK STANDARDS -->
       <div class="space-y-3">
         <div class="flex items-center justify-between">
-          <h4 class="font-bold text-xs uppercase tracking-wider text-gray-800">ស្តង់ដារគុណភាពព័ត៌មាន</h4>
+          <h4 class="font-bold text-xs text-gray-800 font-nyt-ui">ស្តង់ដារគុណភាពព័ត៌មាន</h4>
           <button onclick="requestLegalScreening()" class="text-[10px] text-[#326891] font-semibold hover:underline">ពិនិត្យផ្លូវច្បាប់</button>
         </div>
         
-        <div class="space-y-2.5 text-xs">
+        <div class="space-y-2.5 text-xs font-nyt-body">
           <label class="flex items-start gap-2 text-gray-700 cursor-pointer">
             <input type="checkbox" checked class="mt-0.5 rounded text-neutral-900"/>
             <span>ផ្ទៀងផ្ទាត់អក្ខរាវិរុទ្ធ ឈ្មោះ និងកាលបរិច្ឆេទត្រឹមត្រូវ</span>
@@ -343,19 +343,19 @@
 
       <!-- BREAKING PUSH ALERT DISPATCHER -->
       <div class="space-y-3">
-        <h4 class="font-bold text-xs uppercase tracking-wider text-[#D0021B] flex items-center gap-1.5">
+        <h4 class="font-bold text-xs text-[#D0021B] flex items-center gap-1.5 font-nyt-ui">
           <span>🚨</span> ចុចផ្សាយព័ត៌មានបន្ទាន់
         </h4>
-        <p class="text-[11px] text-gray-500">ធ្វើបច្ចុប្បន្នភាពផ្ទាំងព័ត៌មានបន្ទាន់ភ្លាមៗទៅកាន់អ្នកអានគ្រប់ឧបករណ៍៖</p>
+        <p class="text-[11px] text-gray-500 font-nyt-body leading-[1.6]">ធ្វើបច្ចុប្បន្នភាពផ្ទាំងព័ត៌មានបន្ទាន់ភ្លាមៗទៅកាន់អ្នកអានគ្រប់ឧបករណ៍៖</p>
         
         <textarea 
           id="breakingPushText" 
           rows="2" 
-          class="w-full text-xs p-2 border border-gray-300 rounded outline-none resize-none focus:border-red-600 font-nyt-serif"
+          class="w-full text-xs sm:text-sm p-2 border border-gray-300 rounded outline-none resize-none focus:border-red-600 font-nyt-body leading-[1.65]"
           placeholder="បញ្ចូលដំណឹងបន្ទាន់..."
         >ដំណឹងបន្ទាន់៖ ប្រទេសជាសមាជិកអង្គការសហប្រជាជាតិបានអនុម័តសន្ធិសញ្ញាជាប្រវត្តិសាស្ត្រស្តីពីការគ្រប់គ្រង AI នាទីក្រុងហ្សឺណែវ</textarea>
         
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between font-nyt-ui">
           <span class="text-[10px] text-gray-500 font-mono">ស្ថានភាព៖ ផ្សាយផ្ទាល់</span>
           <button onclick="dispatchBreakingPush()" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-semibold shadow-sm transition">
             ផ្សាយបន្ទាន់
@@ -366,8 +366,8 @@
       <hr class="border-gray-200" />
 
       <!-- ACCESS & METERING SETTINGS -->
-      <div class="space-y-2 text-xs">
-        <h4 class="font-bold uppercase tracking-wider text-gray-800 text-[11px]">ការកំណត់សិទ្ធិអាន</h4>
+      <div class="space-y-2 text-xs font-nyt-ui">
+        <h4 class="font-bold text-gray-800 text-xs">ការកំណត់សិទ្ធិអាន</h4>
         <div class="flex items-center justify-between text-gray-700">
           <span>កម្រិតសមាជិក៖</span>
           <span class="font-semibold text-neutral-900">ស្តង់ដារឥតគិតថ្លៃ</span>
