@@ -153,6 +153,9 @@ function renderLeadStory(lead) {
   const col1 = document.getElementById('colLeadStory');
   if (!col1 || !lead) return;
 
+  const fallbackImg = 'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1000&q=80';
+  const leadImg = (lead.image && !lead.image.includes('lh3.googleusercontent.com/d/1i0-X2f-FjqH1AqqW__AUOSeP9idg7W7u')) ? lead.image : fallbackImg;
+
   col1.innerHTML = `
     <article class="space-y-3.5 cursor-pointer group" onclick="openStory('${lead.id}')">
       <span class="text-xs sm:text-sm font-bold text-[#D0021B] font-nyt-ui">${lead.category || 'ការស៊ើបអង្កេតពិសេស'}</span>
@@ -168,16 +171,14 @@ function renderLeadStory(lead) {
         <span>${lead.readTime}</span>
       </div>
 
-      ${lead.image ? `
-        <div class="pt-2">
-          <div class="bg-neutral-800 text-neutral-300 rounded-sm overflow-hidden aspect-[16/9] flex items-center justify-center relative">
-            <img src="${lead.image}" alt="រូបភាពអត្ថបទសំខាន់" class="w-full h-full object-cover"/>
-          </div>
-          <p class="text-sm text-[var(--text-muted)] font-nyt-body mt-2 leading-[1.6]">
-            ${lead.caption || ''} <span class="text-[var(--text-light)] text-xs ml-1 font-nyt-ui">${lead.credit || ''}</span>
-          </p>
+      <div class="pt-2">
+        <div class="bg-neutral-800 text-neutral-300 rounded-sm overflow-hidden aspect-[16/9] flex items-center justify-center relative shadow-sm">
+          <img src="${leadImg}" alt="រូបភាពអត្ថបទសំខាន់" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='${fallbackImg}';"/>
         </div>
-      ` : ''}
+        <p class="text-sm text-[var(--text-muted)] font-nyt-body mt-2 leading-[1.6]">
+          ${lead.caption || 'គណៈប្រតិភូនានាជួបប្រជុំគ្នានៅវិមាន Palais des Nations ក្នុងទីក្រុងហ្សឺណែវ មុនពេលការបោះឆ្នោតចុងក្រោយ។'} <span class="text-[var(--text-light)] text-xs ml-1 font-nyt-ui">${lead.credit || 'អាន់ឌ្រូ ថេស្តា សម្រាប់ The Chronicle Times'}</span>
+        </p>
+      </div>
 
       <!-- Senior Quick Action Bar (Audio + 1-Tap Telegram Share) -->
       <div class="bg-[var(--bg-subtle)] border-2 border-nyt-subtle p-3.5 rounded-md flex flex-wrap items-center justify-between gap-3 text-sm sm:text-base font-nyt-ui shadow-sm" onclick="event.stopPropagation()">
@@ -191,7 +192,7 @@ function renderLeadStory(lead) {
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="shareArticleToTelegram('${lead.id}')" class="px-4 py-2 rounded-full bg-[#229ED9] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm hover:bg-[#1a8bc0] transition" title="ចែករំលែកទៅ Telegram">
+          <button onclick="shareArticleToTelegram('${lead.id}')" class="px-4 py-2 rounded-full bg-[#229ED9] text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 shadow-sm hover:bg-[#1a8bc0] transition flex-shrink-0 whitespace-nowrap" title="ចែករំលែកទៅ Telegram">
             <span>✈</span>
             <span>ចែករំលែក Telegram</span>
           </button>
@@ -209,23 +210,23 @@ function renderSecondaryStories(secondaries) {
     <article class="space-y-2 cursor-pointer group pb-4 border-b border-nyt-subtle" onclick="openStory('${art.id}')">
       <span class="text-xs font-bold text-[var(--accent-blue)] font-nyt-ui">${art.category || 'ព័ត៌មាន'}</span>
       <div class="flex gap-3">
-        <div class="flex-1">
+        <div class="flex-1 min-w-0">
           <h3 class="font-nyt-headline text-lg sm:text-xl font-bold leading-[1.45] text-inherit group-hover:text-[#666666] transition">
             ${art.headline}
           </h3>
-          <p class="font-nyt-body text-sm sm:text-base text-[var(--text-muted)] mt-1.5 leading-[1.75]">
+          <p class="font-nyt-body text-sm sm:text-base text-[var(--text-muted)] mt-1.5 leading-[1.75] line-clamp-3">
             ${art.deck || ''}
           </p>
-          <div class="flex items-center justify-between mt-2 pt-1.5 border-t border-dashed border-nyt-subtle">
-            <span class="text-xs sm:text-sm text-[var(--text-light)] font-nyt-ui">ដោយ ${art.author} • ${art.readTime}</span>
-            <button onclick="event.stopPropagation(); shareArticleToTelegram('${art.id}')" class="text-xs text-[#229ED9] hover:underline font-bold flex items-center gap-1 font-nyt-ui px-2 py-0.5 rounded hover:bg-blue-50 dark:hover:bg-blue-950/40 transition" title="ចែករំលែកតាម Telegram">
+          <div class="flex items-center justify-between gap-2 mt-2 pt-1.5 border-t border-dashed border-nyt-subtle">
+            <span class="text-xs sm:text-sm text-[var(--text-light)] font-nyt-ui truncate">ដោយ ${art.author} • ${art.readTime}</span>
+            <button onclick="event.stopPropagation(); shareArticleToTelegram('${art.id}')" class="text-xs text-[#229ED9] hover:underline font-bold flex items-center gap-1 font-nyt-ui px-2 py-0.5 rounded hover:bg-blue-50 dark:hover:bg-blue-950/40 transition flex-shrink-0 whitespace-nowrap" title="ចែករំលែកតាម Telegram">
               <span>✈</span>
               <span>Telegram</span>
             </button>
           </div>
         </div>
         ${art.image ? `
-          <div class="w-28 h-24 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden">
+          <div class="w-28 h-24 bg-neutral-200 rounded-sm flex-shrink-0 overflow-hidden shadow-sm">
             <img src="${art.image}" alt="${art.headline}" class="w-full h-full object-cover"/>
           </div>
         ` : ''}
@@ -239,12 +240,12 @@ function renderOpinions(opinions) {
   if (!col3) return;
 
   col3.innerHTML = opinions.map((op, idx) => `
-    <article class="flex gap-3.5 items-start group cursor-pointer ${idx > 0 ? 'pt-3.5 border-t border-nyt-subtle' : ''}" onclick="alert('កំពុងបើកអត្ថបទវិចារណកថារបស់ ${op.author}')">
-      <div class="w-13 h-13 rounded-full bg-neutral-300 overflow-hidden flex-shrink-0 border border-nyt-subtle">
+    <article class="flex gap-3 items-start group cursor-pointer ${idx > 0 ? 'pt-3.5 border-t border-nyt-subtle' : ''}" onclick="alert('កំពុងបើកអត្ថបទវិចារណកថារបស់ ${op.author}')">
+      <div class="opinion-avatar bg-neutral-300 border border-nyt-subtle shadow-sm">
         <img src="${op.image}" alt="${op.author}" class="w-full h-full object-cover"/>
       </div>
-      <div class="space-y-1">
-        <span class="text-sm font-bold text-inherit block font-nyt-ui">${op.author}</span>
+      <div class="flex-1 min-w-0 space-y-1">
+        <span class="text-sm font-bold text-inherit block font-nyt-ui leading-tight">${op.author}</span>
         <h4 class="font-nyt-headline text-base font-bold leading-[1.5] text-inherit group-hover:text-[#666666] transition">
           ${op.headline}
         </h4>

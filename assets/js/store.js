@@ -196,7 +196,15 @@ const Store = {
       }
     }
     const local = localStorage.getItem('ANR_NEWS_ARTICLES');
-    if (local) return JSON.parse(local);
+    if (local) {
+      try {
+        const parsed = JSON.parse(local);
+        // Guarantee authentic Khmer articles (ignore old English cache)
+        if (Array.isArray(parsed) && parsed.length > 0 && /[\u1780-\u17FF]/.test(parsed[0].headline)) {
+          return parsed;
+        }
+      } catch (e) {}
+    }
     localStorage.setItem('ANR_NEWS_ARTICLES', JSON.stringify(SEED_ARTICLES));
     return SEED_ARTICLES;
   },

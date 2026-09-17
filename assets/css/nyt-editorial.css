@@ -303,6 +303,19 @@ body.theme-paper .nav-category-pill.active {
   scrollbar-width: none;
 }
 
+/* Opinion Author Avatar Constraint (Guarantees column 3 text never squishes) */
+.opinion-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  max-width: 48px !important;
+  max-height: 48px !important;
+  border-radius: 9999px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
 /* Print Stylesheet */
 @media print {
   body {
