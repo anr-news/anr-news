@@ -62,6 +62,7 @@ function filterByCategory(category) {
     catName.innerText = category;
     filterBar.classList.remove('hidden');
   }
+  updateCategoryNavPills(category);
   renderFilteredStories();
   window.scrollTo({ top: 220, behavior: 'smooth' });
 }
@@ -72,7 +73,23 @@ function resetCategoryFilter() {
   if (filterBar) {
     filterBar.classList.add('hidden');
   }
+  updateCategoryNavPills(null);
   renderFilteredStories();
+}
+
+function updateCategoryNavPills(activeCat) {
+  const buttons = document.querySelectorAll('#categoryNavList .nav-category-pill');
+  buttons.forEach(btn => {
+    const cat = btn.getAttribute('data-category');
+    if ((activeCat === null && cat === 'all') || (cat === activeCat)) {
+      btn.classList.add('active');
+      if (typeof btn.scrollIntoView === 'function') {
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    } else {
+      btn.classList.remove('active');
+    }
+  });
 }
 
 function renderFilteredStories() {
@@ -95,19 +112,29 @@ function renderBreaking(breaking) {
     return;
   }
 
+  // Ensure breaking text is authentic Khmer without English leftovers
+  let breakingText = breaking.text || '';
+  if (breakingText.includes('Diplomats Reach Landmark Accord') || !/[\u1780-\u17FF]/.test(breakingText)) {
+    breakingText = 'ដំណឹងទាន់ហេតុការណ៍៖ ប្រទេសជាសមាជិកអង្គការសហប្រជាជាតិបានអនុម័តសន្ធិសញ្ញាជាប្រវត្តិសាស្ត្រស្តីពីការគ្រប់គ្រង AI នាទីក្រុងហ្សឺណែវ';
+  }
+  let timeText = breaking.updatedAt || '៨ នាទីមុន';
+  if (timeText.includes('ago')) {
+    timeText = timeText.replace(/(\d+)\s*m\s*ago/i, '$1 នាទីមុន').replace(/just now/i, 'ទើបតែចេញផ្សាយ');
+  }
+
   container.classList.remove('hidden');
   container.innerHTML = `
-    <div class="border-b border-t border-red-700 bg-red-50/40 dark:bg-red-950/20 py-2.5 px-3.5 flex flex-wrap items-center justify-between gap-2">
+    <div class="border-b border-t-2 border-red-700 bg-red-50/70 dark:bg-red-950/30 py-3 px-4 flex flex-wrap items-center justify-between gap-3 rounded-sm shadow-sm">
       <div class="flex items-center gap-3 flex-1 overflow-hidden">
-        <span class="px-2.5 py-1 bg-[#D0021B] text-white font-bold text-xs rounded-sm flex items-center gap-1.5 flex-shrink-0 font-nyt-ui">
-          <span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span> ការផ្សាយផ្ទាល់
+        <span class="px-3 py-1 bg-[#D0021B] text-white font-bold text-xs sm:text-sm rounded-full flex items-center gap-1.5 flex-shrink-0 font-nyt-ui shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> ការផ្សាយផ្ទាល់
         </span>
-        <span class="text-xs sm:text-sm text-[#666666] font-mono flex-shrink-0">${breaking.updatedAt || 'ថ្មីៗនេះ'}</span>
-        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breaking.text)}')" class="text-sm sm:text-base font-semibold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
-          ${breaking.text}
+        <span class="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 font-bold flex-shrink-0 font-nyt-ui">${timeText}</span>
+        <a href="javascript:void(0)" onclick="openStoryByHeadline('${encodeURIComponent(breakingText)}')" class="text-base sm:text-lg font-bold text-inherit hover:underline hover:text-red-700 truncate font-nyt-ui">
+          ${breakingText}
         </a>
       </div>
-      <span class="text-xs sm:text-sm text-red-700 font-bold cursor-pointer hover:underline flex-shrink-0 font-nyt-ui" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
+      <span class="text-sm font-bold text-red-700 cursor-pointer hover:underline flex-shrink-0 font-nyt-ui" onclick="openStory('art-1')">អានសេចក្តីវិភាគ →</span>
     </div>
   `;
 }

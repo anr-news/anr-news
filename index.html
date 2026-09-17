@@ -26,22 +26,18 @@
         </div>
       </div>
 
-      <!-- Controls: Theme, Admin CMS link, Subscribe -->
+      <!-- Controls: Theme, Admin CMS link -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Theme Switcher -->
-        <div class="flex items-center border border-nyt-subtle rounded-sm bg-[var(--bg-subtle)] p-0.5 text-[11px] font-nyt-ui">
-          <button onclick="setTheme('day')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-white/80 transition" title="ពន្លឺថ្ងៃធម្មជាតិ">ថ្ងៃ</button>
-          <button onclick="setTheme('paper')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-amber-100/50 transition" title="ពណ៌ក្រដាសកាសែត">ក្រដាស</button>
-          <button onclick="setTheme('night')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-neutral-800 transition" title="ផ្ទៃងងឹតពេលយប់">យប់</button>
+        <div class="flex items-center border border-nyt-subtle rounded-full bg-[var(--bg-subtle)] p-0.5 text-xs font-bold font-nyt-ui shadow-sm">
+          <button onclick="setTheme('day')" class="px-2.5 py-1 rounded-full font-bold hover:bg-white/90 transition" title="ពន្លឺថ្ងៃធម្មជាតិ">☀️ ថ្ងៃ</button>
+          <button onclick="setTheme('paper')" class="px-2.5 py-1 rounded-full font-bold hover:bg-amber-100/60 transition" title="ពណ៌ក្រដាសកាសែត">📜 ក្រដាស</button>
+          <button onclick="setTheme('night')" class="px-2.5 py-1 rounded-full font-bold hover:bg-neutral-800 transition" title="ផ្ទៃងងឹតពេលយប់">🌙 យប់</button>
         </div>
 
-        <a href="admin.html" class="px-2.5 py-1 rounded-sm border border-neutral-800 bg-neutral-900 text-white font-semibold text-[11px] hover:bg-neutral-700 transition flex items-center gap-1 font-nyt-ui">
+        <a href="admin.html" class="px-3.5 py-1.5 rounded-full border border-neutral-800 bg-neutral-900 text-white font-bold text-xs sm:text-sm hover:bg-neutral-700 transition flex items-center gap-1.5 font-nyt-ui shadow-sm">
           <span>⚙️ បន្ទប់ព័ត៌មាន CMS</span>
         </a>
-
-        <button class="hidden sm:inline-block px-3 py-1 rounded-sm bg-[#567b95] text-white text-[11px] font-bold hover:bg-[#326891] transition font-nyt-ui">
-          ជាវប្រចាំខែ
-        </button>
       </div>
 
     </div>
@@ -63,33 +59,67 @@
       <span class="hidden sm:inline">តម្លៃ ៤,០០០ រៀល</span>
     </div>
 
-    <!-- Section Categories Navigation (Interactive Filter - Fix #3) -->
-    <nav class="border-b-2 border-[var(--border-dark)] py-3 overflow-x-auto no-scrollbar mt-1">
-      <div id="categoryNavList" class="flex items-center justify-between text-sm sm:text-[15px] font-semibold text-[var(--text-main)] whitespace-nowrap gap-6 font-nyt-ui">
-        <button onclick="resetCategoryFilter()" class="hover:text-red-700 font-bold transition text-red-700">ទំព័រដើម</button>
-        <button onclick="filterByCategory('សកលលោក')" class="hover:text-red-700 transition">សកលលោក</button>
-        <button onclick="filterByCategory('នយោបាយ')" class="hover:text-red-700 transition">នយោបាយ</button>
-        <button onclick="filterByCategory('សេដ្ឋកិច្ច & ទីផ្សារ')" class="hover:text-red-700 transition">សេដ្ឋកិច្ច & ទីផ្សារ</button>
-        <button onclick="filterByCategory('បច្ចេកវិទ្យា & AI')" class="hover:text-red-700 transition">បច្ចេកវិទ្យា & AI</button>
-        <button onclick="filterByCategory('បរិស្ថាន & ថាមពល')" class="hover:text-red-700 transition">បរិស្ថាន & ថាមពល</button>
-        <button onclick="filterByCategory('ការស៊ើបអង្កេតពិសេស')" class="hover:text-red-700 transition">ការស៊ើបអង្កេត</button>
-        <button onclick="filterByCategory('វិទ្យាសាស្ត្រ')" class="hover:text-red-700 transition">វិទ្យាសាស្ត្រ</button>
-        <button onclick="filterByCategory('សុខភាព')" class="hover:text-red-700 transition">សុខភាព</button>
-        <button onclick="filterByCategory('ទស្សនៈ & វិចារណកថា')" class="hover:text-red-700 font-bold transition">ទស្សនៈ</button>
-        <button onclick="filterByCategory('វប្បធម៌ & សិល្បៈ')" class="hover:text-red-700 transition">វប្បធម៌</button>
+    <!-- Section Categories Navigation (Senior-First Tactile Pill Cards) -->
+    <nav class="border-b-2 border-t-2 border-[var(--border-dark)] py-3 px-2 my-2 bg-[var(--bg-subtle)] overflow-x-auto no-scrollbar shadow-sm">
+      <div id="categoryNavList" class="flex items-center gap-2.5 sm:gap-3 whitespace-nowrap min-w-max px-1">
+        <button onclick="resetCategoryFilter()" data-category="all" class="nav-category-pill active" title="ទំព័រដើម">
+          <span>🏠</span>
+          <span>ទំព័រដើម</span>
+        </button>
+        <button onclick="filterByCategory('ព័ត៌មានជាតិ')" data-category="ព័ត៌មានជាតិ" class="nav-category-pill" title="ព័ត៌មានជាតិ">
+          <span>🇰🇭</span>
+          <span>ព័ត៌មានជាតិ</span>
+        </button>
+        <button onclick="filterByCategory('សកលលោក')" data-category="សកលលោក" class="nav-category-pill" title="សកលលោក">
+          <span>🌍</span>
+          <span>សកលលោក</span>
+        </button>
+        <button onclick="filterByCategory('នយោបាយ')" data-category="នយោបាយ" class="nav-category-pill" title="នយោបាយ">
+          <span>🏛️</span>
+          <span>នយោបាយ</span>
+        </button>
+        <button onclick="filterByCategory('សេដ្ឋកិច្ច & ទីផ្សារ')" data-category="សេដ្ឋកិច្ច & ទីផ្សារ" class="nav-category-pill" title="សេដ្ឋកិច្ច">
+          <span>📈</span>
+          <span>សេដ្ឋកិច្ច</span>
+        </button>
+        <button onclick="filterByCategory('សុខភាព')" data-category="សុខភាព" class="nav-category-pill" title="សុខភាព">
+          <span>🏥</span>
+          <span>សុខភាព</span>
+        </button>
+        <button onclick="filterByCategory('បច្ចេកវិទ្យា & AI')" data-category="បច្ចេកវិទ្យា & AI" class="nav-category-pill" title="បច្ចេកវិទ្យា">
+          <span>💡</span>
+          <span>បច្ចេកវិទ្យា</span>
+        </button>
+        <button onclick="filterByCategory('បរិស្ថាន & ថាមពល')" data-category="បរិស្ថាន & ថាមពល" class="nav-category-pill" title="បរិស្ថាន">
+          <span>🌿</span>
+          <span>បរិស្ថាន</span>
+        </button>
+        <button onclick="filterByCategory('ការស៊ើបអង្កេតពិសេស')" data-category="ការស៊ើបអង្កេតពិសេស" class="nav-category-pill" title="ការស៊ើបអង្កេត">
+          <span>🔍</span>
+          <span>ការស៊ើបអង្កេត</span>
+        </button>
+        <button onclick="filterByCategory('វប្បធម៌ & សិល្បៈ')" data-category="វប្បធម៌ & សិល្បៈ" class="nav-category-pill" title="វប្បធម៌">
+          <span>🎭</span>
+          <span>វប្បធម៌</span>
+        </button>
+        <button onclick="filterByCategory('ទស្សនៈ & វិចារណកថា')" data-category="ទស្សនៈ & វិចារណកថា" class="nav-category-pill" title="ទស្សនៈ">
+          <span>✍️</span>
+          <span>ទស្សនៈ</span>
+        </button>
       </div>
     </nav>
   </header>
 
-  <!-- ACTIVE CATEGORY FILTER BADGE (Fix #3) -->
-  <div id="activeCategoryFilterBar" class="max-w-[1280px] mx-auto px-4 sm:px-6 mt-3 hidden">
-    <div class="bg-neutral-100 dark:bg-neutral-800 border border-nyt-subtle py-2 px-4 rounded-sm flex items-center justify-between text-sm font-nyt-ui">
-      <div class="flex items-center gap-2">
-        <span class="text-[var(--text-muted)]">កំពុងបង្ហាញផ្នែក៖</span>
-        <span id="activeCategoryName" class="font-bold text-[var(--accent-red)] text-base"></span>
+  <!-- ACTIVE CATEGORY FILTER BADGE (Clear Confirmation for Seniors) -->
+  <div id="activeCategoryFilterBar" class="max-w-[1280px] mx-auto px-4 sm:px-6 my-3 hidden">
+    <div class="bg-[var(--bg-subtle)] border-2 border-red-600/70 py-3 px-5 rounded-md flex flex-wrap items-center justify-between gap-3 font-nyt-ui shadow-sm">
+      <div class="flex items-center gap-2.5">
+        <span class="text-base text-[var(--text-muted)] font-medium">កំពុងបង្ហាញព័ត៌មានផ្នែក៖</span>
+        <span id="activeCategoryName" class="font-bold text-[#D0021B] text-lg sm:text-xl"></span>
       </div>
-      <button onclick="resetCategoryFilter()" class="text-xs sm:text-sm underline font-medium hover:text-red-600 transition">
-        បង្ហាញព័ត៌មានទាំងអស់ (ទំព័រដើម) ✕
+      <button onclick="resetCategoryFilter()" class="px-4 py-2 rounded-full bg-[var(--text-main)] text-[var(--bg-page)] font-bold text-sm sm:text-base hover:opacity-90 transition flex items-center gap-2 shadow-sm">
+        <span>← បង្ហាញព័ត៌មានទាំងអស់ (ទំព័រដើម)</span>
+        <span class="text-base">✕</span>
       </button>
     </div>
   </div>
