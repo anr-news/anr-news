@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The ANR Chronicle — Independent In-Depth Journalism</title>
+  <title>សារព័ត៌មាន អេអិនអ័រ — ព័ត៌មានឯករាជ្យ និងស៊ីជម្រៅ</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <link rel="stylesheet" href="assets/css/nyt-editorial.css">
 </head>
@@ -15,14 +15,14 @@
       
       <!-- Date, Edition & Markets -->
       <div class="flex items-center gap-4">
-        <span class="font-medium text-[var(--text-main)]">Thursday, September 17, 2026</span>
-        <span class="hidden sm:inline">Today’s Paper</span>
-        <span class="hidden md:inline">Video</span>
-        <span class="hidden md:inline">72°F Partly Cloudy</span>
+        <span class="font-medium text-[var(--text-main)]" id="headerDateText">ថ្ងៃព្រហស្បតិ៍ ទី១៧ ខែកញ្ញា ឆ្នាំ២០២៦</span>
+        <span class="hidden sm:inline">កាសែតថ្ងៃនេះ</span>
+        <span class="hidden md:inline">វីដេអូ</span>
+        <span class="hidden md:inline">៣១°C មេឃស្រឡះ</span>
         <span class="hidden lg:inline text-neutral-300">|</span>
         <div class="hidden lg:flex items-center gap-2 font-mono text-[11px]">
-          <span class="text-emerald-600 font-semibold">S&P 500 +0.42%</span>
-          <span class="text-emerald-600 font-semibold">NASDAQ +1.08%</span>
+          <span class="text-emerald-600 font-semibold">CSX +0.42%</span>
+          <span class="text-emerald-600 font-semibold">S&P 500 +0.65%</span>
         </div>
       </div>
 
@@ -30,57 +30,69 @@
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Theme Switcher -->
         <div class="flex items-center border border-nyt-subtle rounded-sm bg-[var(--bg-subtle)] p-0.5 text-[11px]">
-          <button onclick="setTheme('day')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-white/80 transition" title="Classic Editorial White">Day</button>
-          <button onclick="setTheme('paper')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-amber-100/50 transition" title="Warm Vintage Paper">Paper</button>
-          <button onclick="setTheme('night')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-neutral-800 transition" title="OLED Night Mode">Night</button>
+          <button onclick="setTheme('day')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-white/80 transition" title="ពន្លឺថ្ងៃធម្មជាតិ">ថ្ងៃ</button>
+          <button onclick="setTheme('paper')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-amber-100/50 transition" title="ពណ៌ក្រដាសកាសែត">ក្រដាស</button>
+          <button onclick="setTheme('night')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-neutral-800 transition" title="ផ្ទៃងងឹតពេលយប់">យប់</button>
         </div>
 
         <a href="admin.html" class="px-2.5 py-1 rounded-sm border border-neutral-800 bg-neutral-900 text-white font-semibold text-[11px] hover:bg-neutral-700 transition flex items-center gap-1">
-          <span>⚙️ Newsroom CMS</span>
+          <span>⚙️ បន្ទប់ព័ត៌មាន CMS</span>
         </a>
 
         <button class="hidden sm:inline-block px-3 py-1 rounded-sm bg-[#567b95] text-white text-[11px] font-bold tracking-wider uppercase hover:bg-[#326891] transition">
-          Subscribe $1/wk
+          ជាវប្រចាំខែ
         </button>
       </div>
 
     </div>
   </div>
 
-  <!-- MASTHEAD SECTION (Classic Gothic Blackletter) -->
+  <!-- MASTHEAD SECTION (Classic Khmer Blackletter / Moul) -->
   <header class="max-w-[1280px] mx-auto px-4 sm:px-6 pt-5 pb-3 text-center bg-[var(--bg-page)]">
-    <div class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[var(--text-muted)] mb-1 italic">
-      "All the News That's Fit to Print"
+    <div id="siteMottoText" class="text-xs sm:text-sm uppercase tracking-[0.15em] text-[var(--text-muted)] mb-1.5 italic font-nyt-serif">
+      «ព័ត៌មានពិត សុក្រឹត និងស៊ីជម្រៅ»
     </div>
     
-    <h1 class="font-nyt-masthead text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--text-main)] leading-none select-none cursor-pointer">
-      The ANR Chronicle
+    <h1 onclick="resetCategoryFilter()" id="siteMastheadText" class="font-nyt-masthead text-3xl sm:text-5xl md:text-6xl font-bold tracking-normal text-[var(--text-main)] leading-tight select-none cursor-pointer hover:opacity-90 transition">
+      សារព័ត៌មាន អេអិនអ័រ
     </h1>
 
     <div class="flex items-center justify-between text-[11px] text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-1 font-nyt-serif">
-      <span class="hidden sm:inline italic">VOL. CLXXV . . . No. 60,892</span>
-      <span class="font-semibold uppercase tracking-wider text-[var(--text-main)]">Global Edition — New York, London, Tokyo, Singapore</span>
-      <span class="hidden sm:inline italic">$3.50 Newsstand</span>
+      <span class="hidden sm:inline italic">កម្រងទី ១៧៥ . . . លេខ ៦០,៨៩២</span>
+      <span id="siteEditionText" class="font-semibold uppercase tracking-wider text-[var(--text-main)]">ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស តូក្យូ</span>
+      <span class="hidden sm:inline italic">តម្លៃ ៤,០០០ រៀល</span>
     </div>
 
-    <!-- Section Categories Navigation -->
-    <nav class="border-b-2 border-[var(--border-dark)] py-2 overflow-x-auto no-scrollbar mt-1">
-      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[var(--text-main)] whitespace-nowrap gap-5">
-        <a href="#" class="hover:text-red-700">World</a>
-        <a href="#" class="hover:text-red-700">U.S. Politics</a>
-        <a href="#" class="hover:text-red-700">Business</a>
-        <a href="#" class="hover:text-red-700">Tech & AI</a>
-        <a href="#" class="hover:text-red-700">Science</a>
-        <a href="#" class="hover:text-red-700">Health</a>
-        <a href="#" class="hover:text-red-700">Sports</a>
-        <a href="#" class="text-red-700 font-bold">Opinion</a>
-        <a href="#" class="hover:text-red-700">Arts</a>
-        <a href="#" class="hover:text-red-700">Style</a>
-        <a href="#" class="hover:text-red-700">Cooking</a>
-        <a href="#" class="hover:text-red-700">Games</a>
+    <!-- Section Categories Navigation (Interactive Filter - Fix #3) -->
+    <nav class="border-b-2 border-[var(--border-dark)] py-2.5 overflow-x-auto no-scrollbar mt-1">
+      <div id="categoryNavList" class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[var(--text-main)] whitespace-nowrap gap-5">
+        <button onclick="resetCategoryFilter()" class="hover:text-red-700 font-bold transition text-red-700">ទំព័រដើម</button>
+        <button onclick="filterByCategory('សកលលោក')" class="hover:text-red-700 transition">សកលលោក</button>
+        <button onclick="filterByCategory('នយោបាយ')" class="hover:text-red-700 transition">នយោបាយ</button>
+        <button onclick="filterByCategory('សេដ្ឋកិច្ច & ទីផ្សារ')" class="hover:text-red-700 transition">សេដ្ឋកិច្ច & ទីផ្សារ</button>
+        <button onclick="filterByCategory('បច្ចេកវិទ្យា & AI')" class="hover:text-red-700 transition">បច្ចេកវិទ្យា & AI</button>
+        <button onclick="filterByCategory('បរិស្ថាន & ថាមពល')" class="hover:text-red-700 transition">បរិស្ថាន & ថាមពល</button>
+        <button onclick="filterByCategory('ការស៊ើបអង្កេតពិសេស')" class="hover:text-red-700 transition">ការស៊ើបអង្កេត</button>
+        <button onclick="filterByCategory('វិទ្យាសាស្ត្រ')" class="hover:text-red-700 transition">វិទ្យាសាស្ត្រ</button>
+        <button onclick="filterByCategory('សុខភាព')" class="hover:text-red-700 transition">សុខភាព</button>
+        <button onclick="filterByCategory('ទស្សនៈ & វិចារណកថា')" class="hover:text-red-700 font-bold transition">ទស្សនៈ</button>
+        <button onclick="filterByCategory('វប្បធម៌ & សិល្បៈ')" class="hover:text-red-700 transition">វប្បធម៌</button>
       </div>
     </nav>
   </header>
+
+  <!-- ACTIVE CATEGORY FILTER BADGE (Fix #3) -->
+  <div id="activeCategoryFilterBar" class="max-w-[1280px] mx-auto px-4 sm:px-6 mt-3 hidden">
+    <div class="bg-neutral-100 dark:bg-neutral-800 border border-nyt-subtle py-1.5 px-3 rounded-sm flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2">
+        <span class="text-[var(--text-muted)]">កំពុងបង្ហាញផ្នែក៖</span>
+        <span id="activeCategoryName" class="font-bold text-[var(--accent-red)]"></span>
+      </div>
+      <button onclick="resetCategoryFilter()" class="text-[11px] underline font-medium hover:text-red-600 transition">
+        បង្ហាញព័ត៌មានទាំងអស់ (ទំព័រដើម) ✕
+      </button>
+    </div>
+  </div>
 
   <!-- DYNAMIC LIVE BREAKING NEWS ALERT CONTAINER -->
   <div id="breakingAlertContainer" class="max-w-[1280px] mx-auto px-4 sm:px-6 mt-2">
@@ -102,22 +114,22 @@
           <!-- Rendered dynamically -->
         </div>
 
-        <!-- NYT Style Food / Culture Callout -->
+        <!-- Food / Culture Callout -->
         <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm space-y-2">
           <div class="text-[10px] font-bold uppercase tracking-widest text-inherit flex items-center justify-between">
-            <span>Chronicle Cooking</span>
-            <span class="text-[#D0021B]">★ Editor's Selection</span>
+            <span>ម្ហូបអាហារ & វប្បធម៌</span>
+            <span class="text-[#D0021B]">★ ជម្រើសនិពន្ធនាយក</span>
           </div>
-          <h4 class="font-nyt-serif text-sm font-bold text-inherit">Crisp-Skinned Salmon With Warm French Lentils</h4>
-          <p class="text-xs text-[var(--text-muted)]">A 30-minute weeknight dinner developed by our culinary test kitchen.</p>
+          <h4 class="font-nyt-serif text-sm font-bold text-inherit">អាហារប្រពៃណីខ្មែរ៖ អាថ៌កំបាំងនៃរសជាតិដើម និងការអភិរក្ស</h4>
+          <p class="text-xs text-[var(--text-muted)]">ការស្វែងយល់ស៊ីជម្រៅអំពីគ្រឿងផ្សំធម្មជាតិ និងបេតិកភណ្ឌធ្វើម្ហូបដែលបន្សល់ទុករាប់ជំនាន់។</p>
         </div>
       </section>
 
       <!-- COLUMN 3: OPINION & ESSAYS (3 COLS) -->
       <aside class="lg:col-span-3 pl-0 lg:pl-6 space-y-6 pt-6 lg:pt-0">
         <div class="border-b-2 border-[var(--border-dark)] pb-1 flex items-center justify-between">
-          <h3 class="font-nyt-serif text-xl font-bold tracking-tight text-inherit">Opinion</h3>
-          <span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">The Board & Columnists</span>
+          <h3 class="font-nyt-serif text-xl font-bold tracking-tight text-inherit">ទស្សនៈ & វិចារណកថា</h3>
+          <span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">ក្រុមប្រឹក្សា & អ្នកសរសេរ</span>
         </div>
 
         <!-- Opinion List with Circular Headshots -->
@@ -127,18 +139,18 @@
 
         <!-- Morning Newsletter Box -->
         <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm">
-          <h5 class="font-nyt-serif font-bold text-sm text-inherit mb-1">The Morning Newsletter</h5>
-          <p class="text-xs text-[var(--text-muted)] mb-3">Make sense of the day’s news and ideas. Curated daily by senior editors.</p>
+          <h5 class="font-nyt-serif font-bold text-sm text-inherit mb-1">ព្រឹត្តិបត្រព័ត៌មានពេលព្រឹក</h5>
+          <p class="text-xs text-[var(--text-muted)] mb-3">ទទួលបានការសង្ខេបព្រឹត្តិការណ៍សំខាន់ៗប្រចាំថ្ងៃ រៀបចំដោយនិពន្ធនាយកជាន់ខ្ពស់។</p>
           <div class="flex gap-1">
-            <input type="email" placeholder="Your email address" class="text-xs px-2.5 py-1.5 border border-[var(--border-dark)] rounded-sm flex-1 outline-none bg-white text-black"/>
-            <button onclick="alert('Thank you for subscribing to The Morning Newsletter!')" class="bg-[var(--text-main)] text-[var(--bg-page)] text-xs font-semibold px-3 py-1.5 rounded-sm hover:opacity-80">Sign Up</button>
+            <input type="email" placeholder="អ៊ីមែលរបស់អ្នក..." class="text-xs px-2.5 py-1.5 border border-[var(--border-dark)] rounded-sm flex-1 outline-none bg-white text-black"/>
+            <button onclick="alert('សូមអរគុណចំពោះការចុះឈ្មោះជាវព្រឹត្តិបត្រព័ត៌មានរបស់យើង!')" class="bg-[var(--text-main)] text-[var(--bg-page)] text-xs font-semibold px-3 py-1.5 rounded-sm hover:opacity-80">ចុះឈ្មោះ</button>
           </div>
         </div>
 
-        <!-- Quick Crossword / Puzzle teaser -->
+        <!-- Quick Crossword teaser -->
         <div class="border border-nyt-subtle p-3 text-center space-y-1 bg-[var(--bg-subtle)]">
-          <span class="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">The Daily Mini Crossword</span>
-          <p class="text-xs font-serif italic text-inherit">Solve today's puzzle in under 2 minutes.</p>
+          <span class="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">ល្បែងពាក្យបណ្តៅប្រចាំថ្ងៃ</span>
+          <p class="text-xs font-serif italic text-inherit">ដោះស្រាយល្បែងកម្សាន្តថ្ងៃនេះក្នុងរយៈពេល ២ នាទី។</p>
         </div>
       </aside>
 
@@ -152,17 +164,17 @@
       <!-- Top Sticky Reader Bar -->
       <div class="sticky top-0 bg-[var(--bg-card)] border-b border-nyt-subtle p-4 flex items-center justify-between z-10">
         <div class="flex items-center gap-3">
-          <span class="font-nyt-masthead font-bold text-xs tracking-wider text-inherit">THE ANR CHRONICLE</span>
+          <span class="font-nyt-masthead font-bold text-xs tracking-wider text-inherit">សារព័ត៌មាន អេអិនអ័រ</span>
           <div class="flex items-center gap-1 border border-nyt-subtle rounded px-2 py-0.5 text-xs font-medium">
-            <button onclick="adjustFontSize(-1)" class="hover:text-[#D0021B]">A-</button>
+            <button onclick="adjustFontSize(-1)" class="hover:text-[#D0021B]" title="បន្ថយទំហំអក្សរ">A-</button>
             <span class="text-[var(--text-light)] mx-1">|</span>
-            <button onclick="adjustFontSize(1)" class="hover:text-[#D0021B] font-bold">A+</button>
+            <button onclick="adjustFontSize(1)" class="hover:text-[#D0021B] font-bold" title="បង្កើនទំហំអក្សរ">A+</button>
           </div>
         </div>
         
         <div class="flex items-center gap-2">
           <button onclick="giftArticle()" class="px-2.5 py-1 rounded bg-[var(--bg-subtle)] border border-nyt-subtle text-xs hover:border-gray-500 transition font-medium flex items-center gap-1">
-            <span>🎁 Gift Story</span>
+            <span>🎁 ចែករំលែកអត្ថបទ</span>
           </button>
           <button onclick="closeStoryModal()" class="text-[var(--text-muted)] hover:text-inherit text-lg font-bold p-1">✕</button>
         </div>
@@ -170,14 +182,14 @@
 
       <!-- Modal Article Body -->
       <div class="p-6 sm:p-10 space-y-4">
-        <h2 id="modalTitle" class="font-nyt-serif text-3xl sm:text-4xl font-bold leading-tight text-inherit"></h2>
-        <p id="modalDeck" class="font-nyt-serif text-lg text-[var(--text-muted)] leading-relaxed italic"></p>
+        <h2 id="modalTitle" class="font-nyt-serif text-2xl sm:text-3xl font-bold leading-tight text-inherit"></h2>
+        <p id="modalDeck" class="font-nyt-serif text-base text-[var(--text-muted)] leading-relaxed italic"></p>
         <div id="modalByline" class="text-xs text-[var(--text-muted)] border-b border-nyt-subtle pb-4"></div>
-        <div id="modalBody" class="font-nyt-serif text-lg leading-relaxed text-[var(--text-body)] space-y-4 pt-2"></div>
+        <div id="modalBody" class="font-nyt-serif text-base sm:text-lg leading-relaxed text-[var(--text-body)] space-y-4 pt-2"></div>
 
         <div class="mt-8 pt-6 border-t border-nyt-subtle flex justify-between items-center text-xs text-[var(--text-muted)]">
-          <span class="italic">© 2026 The ANR Publishing Company</span>
-          <button onclick="closeStoryModal()" class="px-4 py-2 bg-[var(--text-main)] text-[var(--bg-page)] rounded-sm font-semibold hover:opacity-90">Close Story</button>
+          <span class="italic">© ២០២៦ ក្រុមហ៊ុនបោះពុម្ពផ្សាយ អេអិនអ័រ</span>
+          <button onclick="closeStoryModal()" class="px-4 py-2 bg-[var(--text-main)] text-[var(--bg-page)] rounded-sm font-semibold hover:opacity-90">បិទអត្ថបទ</button>
         </div>
       </div>
 
@@ -187,16 +199,16 @@
   <!-- PRINT-INSPIRED COLOPHON FOOTER -->
   <footer class="border-t-2 border-[var(--border-dark)] mt-16 py-10 bg-[var(--bg-subtle)] text-[var(--text-muted)]">
     <div class="max-w-[1280px] mx-auto px-4 sm:px-6 text-center space-y-4">
-      <h2 class="font-nyt-masthead text-2xl font-bold text-[var(--text-main)]">The ANR Chronicle</h2>
+      <h2 class="font-nyt-masthead text-2xl font-bold text-[var(--text-main)]">សារព័ត៌មាន អេអិនអ័រ</h2>
       <div class="flex flex-wrap justify-center gap-6 text-xs">
-        <a href="#" class="hover:underline">Newsroom Ethics</a>
-        <a href="#" class="hover:underline">Editorial Staff</a>
-        <a href="#" class="hover:underline">Corrections & Archives</a>
-        <a href="#" class="hover:underline">Syndication</a>
-        <a href="#" class="hover:underline">Privacy Policy</a>
-        <a href="admin.html" class="font-bold text-[var(--text-main)] hover:underline">Editorial CMS Access</a>
+        <a href="#" class="hover:underline">ក្រមសីលធម៌វិជ្ជាជីវៈ</a>
+        <a href="#" class="hover:underline">ក្រុមនិពន្ធនាយក</a>
+        <a href="#" class="hover:underline">បណ្ណសារព័ត៌មាន</a>
+        <a href="#" class="hover:underline">ការចែកចាយបន្ត</a>
+        <a href="#" class="hover:underline">គោលការណ៍ឯកជនភាព</a>
+        <a href="admin.html" class="font-bold text-[var(--text-main)] hover:underline">ចូលបន្ទប់ព័ត៌មាន CMS</a>
       </div>
-      <p class="text-[11px] text-[var(--text-light)]">© 2026 The ANR Publishing Company. All rights reserved.</p>
+      <p class="text-[11px] text-[var(--text-light)]">© ២០២៦ ក្រុមហ៊ុនបោះពុម្ពផ្សាយ អេអិនអ័រ។ រក្សាសិទ្ធិគ្រប់យ៉ាង។</p>
     </div>
   </footer>
 
@@ -210,3 +222,4 @@
   <script src="assets/js/frontend.js"></script>
 </body>
 </html>
+

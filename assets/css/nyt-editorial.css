@@ -2,12 +2,12 @@
    ANR NEWS - The New York Times Editorial Design Tokens & Stylesheet
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Kantumruy+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Moul&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Noto+Serif+Khmer:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-  --nyt-font-serif: 'Newsreader', Georgia, serif;
-  --nyt-font-masthead: 'Cinzel', 'Old English Text MT', Georgia, serif;
-  --nyt-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --nyt-font-serif: 'Noto Serif Khmer', 'Newsreader', Georgia, serif;
+  --nyt-font-masthead: 'Moul', 'Cinzel', 'Old English Text MT', Georgia, serif;
+  --nyt-font-sans: 'Kantumruy Pro', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
   /* Day Theme (Default NYT Editorial White) */
   --bg-page: #FFFFFF;
@@ -58,11 +58,12 @@ body {
   color: var(--text-main);
   font-family: var(--nyt-font-sans);
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  line-height: 1.65;
 }
 
-.font-nyt-serif { font-family: var(--nyt-font-serif); }
+.font-nyt-serif { font-family: var(--nyt-font-serif); line-height: 1.6; }
 .font-nyt-sans { font-family: var(--nyt-font-sans); }
-.font-nyt-masthead { font-family: var(--nyt-font-masthead); }
+.font-nyt-masthead { font-family: var(--nyt-font-masthead); letter-spacing: 0.02em; }
 
 /* Classic NYT Border Rules */
 .border-nyt-double {

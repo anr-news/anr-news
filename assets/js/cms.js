@@ -1,10 +1,16 @@
 /**
  * ANR NEWS - Newsroom Editorial CMS Controller (Scoop & Oak System)
- * Enhanced with Direct File Upload to Google Drive, URL Converter, & Firebase Sync
+ * Fully Localized to Khmer (ភាសាខ្មែរ) with 5 Core Newsroom Fixes:
+ * Fix 1: Real New Story creation
+ * Fix 2: Real Delete / Retract Story flow
+ * Fix 3: Category filtering coordination
+ * Fix 4: Recent Google Drive Media Vault gallery
+ * Fix 5: In-app Site Control Panel modal
  */
 
 let allArticles = [];
 let activeArticleId = 'art-1';
+let currentQueueFilter = 'all';
 
 document.addEventListener('DOMContentLoaded', () => {
   initAuth();
@@ -14,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initCms() {
   allArticles = await ANR_Store.getArticles();
+  if (allArticles.length > 0) {
+    activeArticleId = allArticles[0].id;
+  }
   renderStoryDeskQueue();
   loadArticleIntoCanvas(activeArticleId);
 
@@ -22,6 +31,217 @@ async function initCms() {
     headlineInput.addEventListener('input', updateHeadlineCharCount);
   }
 }
+
+// =========================================================================
+// FIX #1: REAL NEW STORY CREATION
+// =========================================================================
+
+function createNewStory() {
+  const newId = 'art-' + Date.now();
+  const newArticle = {
+    id: newId,
+    headline: '',
+    deck: '',
+    author: 'ការិយាល័យនិពន្ធ អេអិនអ័រ',
+    category: 'សកលលោក',
+    slot: 'secondary-1',
+    image: '',
+    caption: '',
+    credit: '',
+    status: 'draft',
+    wordCount: 0,
+    readTime: '១ នាទីអាន',
+    date: 'ថ្ងៃទី១៧ ខែកញ្ញា ឆ្នាំ២០២៦',
+    content: '<p class="drop-cap">សូមចាប់ផ្តើមសរសេរខ្លឹមសារព័ត៌មានលម្អិតនៅទីនេះ...</p>',
+    updatedAt: 'ទើបបង្កើត'
+  };
+
+  allArticles.unshift(newArticle);
+  activeArticleId = newId;
+  renderStoryDeskQueue();
+  loadArticleIntoCanvas(newId);
+
+  const headlineEl = document.getElementById('editorHeadline');
+  if (headlineEl) headlineEl.focus();
+
+  showToast('✨ បានបង្កើតកញ្ចប់អត្ថបទថ្មី! សូមចាប់ផ្តើមតែងនិពន្ធ');
+}
+
+// =========================================================================
+// FIX #2: REAL DELETE / RETRACT STORY
+// =========================================================================
+
+async function deleteCurrentArticle() {
+  const art = allArticles.find(a => a.id === activeArticleId);
+  if (!art) {
+    alert('មិនមានអត្ថបទត្រូវបានជ្រើសរើសសម្រាប់លុបឡើយ។');
+    return;
+  }
+
+  const headlineLabel = art.headline ? `«${art.headline}»` : 'អត្ថបទនេះ';
+  const confirmed = confirm(`តើលោកអ្នកពិតជាចង់លុប ${headlineLabel} ចេញពីប្រព័ន្ធទាំងស្រុងមែនទេ?`);
+  if (!confirmed) return;
+
+  await ANR_Store.deleteArticle(activeArticleId);
+  allArticles = allArticles.filter(a => a.id !== activeArticleId);
+
+  if (allArticles.length === 0) {
+    createNewStory();
+  } else {
+    activeArticleId = allArticles[0].id;
+    loadArticleIntoCanvas(activeArticleId);
+  }
+
+  renderStoryDeskQueue();
+  showToast('🗑️ បានលុបអត្ថបទចេញពីប្រព័ន្ធដោយជោគជ័យ!');
+}
+
+// =========================================================================
+// STORY DESK QUEUE & CANVAS RENDERERS
+// =========================================================================
+
+function filterQueue(filter) {
+  currentQueueFilter = filter;
+  ['all', 'draft', 'published'].forEach(f => {
+    const btn = document.getElementById('queueTab' + f.charAt(0).toUpperCase() + f.slice(1));
+    if (btn) {
+      if (f === filter) {
+        btn.className = "px-2.5 py-1 rounded bg-neutral-200 font-semibold text-gray-900 whitespace-nowrap";
+      } else {
+        btn.className = "px-2.5 py-1 rounded hover:bg-gray-100 text-gray-600 whitespace-nowrap";
+      }
+    }
+  });
+  renderStoryDeskQueue();
+}
+
+function switchDeskFilter(desk) {
+  if (desk === 'all') {
+    renderStoryDeskQueue();
+  } else {
+    const filtered = allArticles.filter(a => a.category === desk);
+    renderQueueList(filtered);
+  }
+}
+
+function renderStoryDeskQueue() {
+  let list = allArticles;
+  if (currentQueueFilter === 'draft') {
+    list = allArticles.filter(a => a.status !== 'published');
+  } else if (currentQueueFilter === 'published') {
+    list = allArticles.filter(a => a.status === 'published');
+  }
+  renderQueueList(list);
+}
+
+function renderQueueList(articlesToRender) {
+  const queueContainer = document.getElementById('storyQueueList');
+  if (!queueContainer) return;
+
+  if (articlesToRender.length === 0) {
+    queueContainer.innerHTML = `
+      <div class="text-center py-8 text-gray-400">
+        <p class="text-xs">មិនមានអត្ថបទក្នុងបញ្ជីនេះទេ</p>
+      </div>
+    `;
+    return;
+  }
+
+  queueContainer.innerHTML = articlesToRender.map(art => {
+    const isActive = art.id === activeArticleId;
+    const isPub = art.status === 'published';
+    const badgeColor = isPub ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
+    const badgeText = isPub ? 'បានផ្សាយ' : 'សេចក្តីព្រាង';
+    const slotLabel = art.slot === 'lead-anchor' ? '★ ព័ត៌មានសំខាន់' : 'ជួរឈរទី ២';
+
+    return `
+      <div onclick="selectArticle('${art.id}')" class="p-3 rounded-lg border ${isActive ? 'border-2 border-[#121212] bg-neutral-100' : 'border-gray-200 bg-white hover:bg-gray-50'} cursor-pointer transition shadow-sm">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="px-1.5 py-0.5 rounded ${badgeColor} font-bold text-[10px] font-nyt-sans">${badgeText}</span>
+          <span class="text-[10px] text-gray-500 font-nyt-sans">${slotLabel}</span>
+        </div>
+        <h4 class="font-nyt-serif font-bold text-sm text-gray-900 line-clamp-2 leading-snug">
+          ${art.headline || '<span class="italic text-gray-400 font-normal">គ្មានចំណងជើង...</span>'}
+        </h4>
+        <div class="text-[11px] text-gray-500 mt-2 flex justify-between font-nyt-sans">
+          <span class="truncate max-w-[120px]">${art.author || 'បុគ្គលិក'}</span>
+          <span class="font-semibold text-neutral-800">${art.wordCount || 0} ពាក្យ</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function selectArticle(id) {
+  activeArticleId = id;
+  renderStoryDeskQueue();
+  loadArticleIntoCanvas(id);
+}
+
+function loadArticleIntoCanvas(id) {
+  const art = allArticles.find(a => a.id === id);
+  if (!art) return;
+
+  document.getElementById('editorHeadline').value = art.headline || '';
+  document.getElementById('editorDeck').value = art.deck || '';
+  document.getElementById('editorAuthor').value = art.author || 'ការិយាល័យនិពន្ធ អេអិនអ័រ';
+  document.getElementById('editorCategory').value = art.category || 'ការស៊ើបអង្កេតពិសេស';
+  document.getElementById('editorSlot').value = art.slot || 'lead-anchor';
+  document.getElementById('editableBody').innerHTML = art.content || `<p class="drop-cap">${art.deck || 'សូមបញ្ចូលខ្លឹមសារព័ត៌មាន...'}</p>`;
+
+  // Update lead cover photo preview if exists
+  const coverPreview = document.getElementById('coverPhotoPreview');
+  const coverUrlInput = document.getElementById('editorCoverPhotoUrl');
+  if (coverUrlInput) coverUrlInput.value = art.image || '';
+  if (coverPreview) {
+    if (art.image) {
+      coverPreview.src = art.image;
+      coverPreview.classList.remove('hidden');
+    } else {
+      coverPreview.classList.add('hidden');
+    }
+  }
+
+  updateHeadlineCharCount();
+  updateWordCount();
+}
+
+function updateHeadlineCharCount() {
+  const text = document.getElementById('editorHeadline').value;
+  const count = text.length;
+  const indicator = document.getElementById('headlineCharBadge');
+
+  if (count <= 80) {
+    indicator.className = 'text-emerald-600 font-semibold font-mono text-[11px]';
+    indicator.innerText = `${count} / ៨០ តួអក្សរ (ទំហំសមរម្យ)`;
+  } else {
+    indicator.className = 'text-red-600 font-semibold font-mono text-[11px]';
+    indicator.innerText = `${count} / ៨០ តួអក្សរ (លើសកម្រិតជួរឈរ)`;
+  }
+}
+
+function updateWordCount() {
+  const bodyEl = document.getElementById('editableBody');
+  if (!bodyEl) return;
+  const bodyText = bodyEl.innerText || '';
+  const words = bodyText.trim().split(/\s+/).filter(w => w.length > 0).length;
+  const wordBadge = document.getElementById('cmsWordCount');
+  const readTimeBadge = document.getElementById('cmsReadTime');
+
+  if (wordBadge) wordBadge.innerText = `${words} ពាក្យ`;
+  if (readTimeBadge) {
+    const mins = Math.max(1, Math.round(words / 180));
+    readTimeBadge.innerText = `${mins} នាទីអាន`;
+  }
+}
+
+function formatDoc(cmd, value = null) {
+  document.execCommand(cmd, false, value);
+}
+
+// =========================================================================
+// GOOGLE DRIVE DIRECT UPLOAD & RECENT MEDIA VAULT (FIX #4)
+// =========================================================================
 
 function initDriveUploader() {
   const savedUrl = localStorage.getItem('ANR_DRIVE_WEBAPP_URL') || (window.ANR_DRIVE_CONFIG ? window.ANR_DRIVE_CONFIG.webAppUrl : '');
@@ -58,100 +278,6 @@ function handleFileSelectPreview(e) {
   previewBox.classList.remove('hidden');
 }
 
-function renderStoryDeskQueue() {
-  const queueContainer = document.getElementById('storyQueueList');
-  if (!queueContainer) return;
-
-  queueContainer.innerHTML = allArticles.map(art => {
-    const isActive = art.id === activeArticleId;
-    const badgeColor = art.status === 'published' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800';
-    return `
-      <div onclick="selectArticle('${art.id}')" class="p-3 rounded-lg border ${isActive ? 'border-2 border-[#121212] bg-neutral-100' : 'border-gray-200 bg-white hover:bg-gray-50'} cursor-pointer transition shadow-sm">
-        <div class="flex items-center justify-between mb-1.5">
-          <span class="px-1.5 py-0.5 rounded ${badgeColor} font-bold text-[10px] uppercase">${art.status || 'DRAFT'}</span>
-          <span class="text-[10px] text-gray-500 font-mono">${art.slot === 'lead-anchor' ? '★ LEAD ANCHOR' : 'SLOT'}</span>
-        </div>
-        <h4 class="font-nyt-serif font-bold text-sm text-gray-900 line-clamp-2 leading-snug">
-          ${art.headline}
-        </h4>
-        <div class="text-[11px] text-gray-500 mt-2 flex justify-between">
-          <span>${art.author || 'Staff'}</span>
-          <span class="font-semibold text-neutral-800">${art.wordCount || 1000} words</span>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function selectArticle(id) {
-  activeArticleId = id;
-  renderStoryDeskQueue();
-  loadArticleIntoCanvas(id);
-}
-
-function loadArticleIntoCanvas(id) {
-  const art = allArticles.find(a => a.id === id);
-  if (!art) return;
-
-  document.getElementById('editorHeadline').value = art.headline;
-  document.getElementById('editorDeck').value = art.deck || '';
-  document.getElementById('editorAuthor').value = art.author || '';
-  document.getElementById('editorCategory').value = art.category || 'Special Investigation';
-  document.getElementById('editorSlot').value = art.slot || 'lead-anchor';
-  document.getElementById('editableBody').innerHTML = art.content || `<p class="drop-cap">${art.deck}</p>`;
-
-  // Update lead cover photo preview if exists
-  const coverPreview = document.getElementById('coverPhotoPreview');
-  const coverUrlInput = document.getElementById('editorCoverPhotoUrl');
-  if (coverUrlInput) coverUrlInput.value = art.image || '';
-  if (coverPreview) {
-    if (art.image) {
-      coverPreview.src = art.image;
-      coverPreview.classList.remove('hidden');
-    } else {
-      coverPreview.classList.add('hidden');
-    }
-  }
-
-  updateHeadlineCharCount();
-  updateWordCount();
-}
-
-function updateHeadlineCharCount() {
-  const text = document.getElementById('editorHeadline').value;
-  const count = text.length;
-  const indicator = document.getElementById('headlineCharBadge');
-
-  if (count <= 80) {
-    indicator.className = 'text-emerald-600 font-semibold font-mono text-[11px]';
-    indicator.innerText = `${count} / 80 Chars (Optimal Fit)`;
-  } else {
-    indicator.className = 'text-red-600 font-semibold font-mono text-[11px]';
-    indicator.innerText = `${count} / 80 Chars (Grid Overflow Warning)`;
-  }
-}
-
-function updateWordCount() {
-  const bodyText = document.getElementById('editableBody').innerText;
-  const words = bodyText.trim().split(/\s+/).filter(w => w.length > 0).length;
-  const wordBadge = document.getElementById('cmsWordCount');
-  const readTimeBadge = document.getElementById('cmsReadTime');
-
-  if (wordBadge) wordBadge.innerText = `${words} words`;
-  if (readTimeBadge) {
-    const mins = Math.max(1, Math.round(words / 200));
-    readTimeBadge.innerText = `${mins} min read`;
-  }
-}
-
-function formatDoc(cmd, value = null) {
-  document.execCommand(cmd, false, value);
-}
-
-// =========================================================================
-// GOOGLE DRIVE DIRECT UPLOAD & PARSER
-// =========================================================================
-
 function openDriveModal(tab = 'upload') {
   const modal = document.getElementById('driveMediaModal');
   if (modal) {
@@ -167,44 +293,89 @@ function closeDriveModal() {
 
 function switchDriveTab(tab) {
   const tabUpload = document.getElementById('driveTabUpload');
+  const tabRecent = document.getElementById('driveTabRecent');
   const tabPaste = document.getElementById('driveTabPaste');
   const tabAudio = document.getElementById('driveTabAudio');
 
   const btnUpload = document.getElementById('tabBtnDriveUpload');
+  const btnRecent = document.getElementById('tabBtnDriveRecent');
   const btnPaste = document.getElementById('tabBtnDrivePaste');
   const btnAudio = document.getElementById('tabBtnDriveAudio');
 
-  const activeClasses = "px-4 py-2 border-b-2 border-neutral-900 font-bold text-xs text-neutral-900";
-  const inactiveClasses = "px-4 py-2 border-b-2 border-transparent font-medium text-xs text-gray-500 hover:text-neutral-900";
+  const activeClasses = "px-4 py-2.5 border-b-2 border-neutral-900 font-bold text-xs text-neutral-900";
+  const inactiveClasses = "px-4 py-2.5 border-b-2 border-transparent font-medium text-xs text-gray-500 hover:text-neutral-900";
 
-  tabUpload.classList.add('hidden');
-  tabPaste.classList.add('hidden');
-  tabAudio.classList.add('hidden');
-  btnUpload.className = inactiveClasses;
-  btnPaste.className = inactiveClasses;
-  btnAudio.className = inactiveClasses;
+  [tabUpload, tabRecent, tabPaste, tabAudio].forEach(el => el && el.classList.add('hidden'));
+  [btnUpload, btnRecent, btnPaste, btnAudio].forEach(el => el && (el.className = inactiveClasses));
 
-  if (tab === 'upload') {
+  if (tab === 'upload' && tabUpload) {
     tabUpload.classList.remove('hidden');
-    btnUpload.className = activeClasses;
-  } else if (tab === 'paste') {
+    if (btnUpload) btnUpload.className = activeClasses;
+  } else if (tab === 'recent' && tabRecent) {
+    tabRecent.classList.remove('hidden');
+    if (btnRecent) btnRecent.className = activeClasses;
+    renderRecentDriveMedia();
+  } else if (tab === 'paste' && tabPaste) {
     tabPaste.classList.remove('hidden');
-    btnPaste.className = activeClasses;
-  } else if (tab === 'audio') {
+    if (btnPaste) btnPaste.className = activeClasses;
+  } else if (tab === 'audio' && tabAudio) {
     tabAudio.classList.remove('hidden');
-    btnAudio.className = activeClasses;
+    if (btnAudio) btnAudio.className = activeClasses;
   }
 }
 
 function toggleDriveSetupGuide() {
   const guide = document.getElementById('driveSetupGuide');
-  guide.classList.toggle('hidden');
+  if (guide) guide.classList.toggle('hidden');
+}
+
+function saveRecentUpload(item) {
+  let list = JSON.parse(localStorage.getItem('ANR_RECENT_UPLOADS') || '[]');
+  list = list.filter(x => x.url !== item.url);
+  list.unshift(item);
+  if (list.length > 24) list = list.slice(0, 24);
+  localStorage.setItem('ANR_RECENT_UPLOADS', JSON.stringify(list));
+}
+
+function renderRecentDriveMedia() {
+  const grid = document.getElementById('recentDriveImagesGrid');
+  if (!grid) return;
+
+  const defaultSample = {
+    url: "https://lh3.googleusercontent.com/d/1i0-X2f-FjqH1AqqW__AUOSeP9idg7W7u",
+    name: "រូបភាពគំរូ Drive",
+    caption: "រូបភាពផ្ទៀងផ្ទាត់ពី Google Drive Media Vault",
+    credit: "សារព័ត៌មាន អេអិនអ័រ"
+  };
+
+  let list = JSON.parse(localStorage.getItem('ANR_RECENT_UPLOADS') || '[]');
+  if (list.length === 0) {
+    list.push(defaultSample);
+    localStorage.setItem('ANR_RECENT_UPLOADS', JSON.stringify(list));
+  }
+
+  grid.innerHTML = list.map((item, idx) => `
+    <div class="border border-gray-200 rounded-lg p-2 bg-gray-50 hover:bg-white transition group space-y-1.5">
+      <div class="aspect-[4/3] rounded overflow-hidden bg-neutral-900 flex items-center justify-center">
+        <img src="${item.url}" alt="${item.caption || 'រូបភាព'}" class="w-full h-full object-cover"/>
+      </div>
+      <p class="text-[10px] text-gray-700 font-medium truncate">${item.name || item.caption || 'រូបភាព Drive'}</p>
+      <div class="flex gap-1 pt-1">
+        <button onclick="setCoverPhoto('${item.url}', '${encodeURIComponent(item.caption || '')}', '${encodeURIComponent(item.credit || '')}'); closeDriveModal(); showToast('🌟 ដាក់ជារូបភាពក្របមុខរួចរាល់!');" class="flex-1 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-[9px] font-bold">
+          ដាក់ជាក្រប
+        </button>
+        <button onclick="insertImageBlockIntoBody('${item.url}', '${item.caption || ''}', '${item.credit || ''}'); closeDriveModal(); showToast('📷 បញ្ចូលក្នុងអត្ថបទរួចរាល់!');" class="flex-1 py-1 bg-neutral-800 hover:bg-neutral-700 text-white rounded text-[9px] font-bold">
+          បញ្ចូលអត្ថបទ
+        </button>
+      </div>
+    </div>
+  `).join('');
 }
 
 async function startDirectDriveUpload(targetType = 'body') {
   const fileInput = document.getElementById('directDriveFileInput');
   if (!fileInput.files || fileInput.files.length === 0) {
-    alert('Please select a photo or audio file to upload.');
+    alert('សូមជ្រើសរើសរូបភាព ឬសំឡេងដើម្បីបង្ហោះ។');
     return;
   }
 
@@ -212,12 +383,11 @@ async function startDirectDriveUpload(targetType = 'body') {
   const webAppUrl = document.getElementById('driveWebAppUrlInput').value.trim();
 
   if (!webAppUrl || !webAppUrl.startsWith('https://script.google.com')) {
-    alert('⚠️ Please enter your Google Apps Script Web App URL in the setup section.\n\nSee "google_drive_uploader_script.js" in your project folder for the 3-minute setup instructions.');
+    alert('⚠️ សូមបញ្ចូលតំណ Google Apps Script Web App URL ជាមុនសិន។\n\nសូមមើលឯកសារ "google_drive_uploader_script.js" ក្នុងថតគម្រោងរបស់អ្នក។');
     toggleDriveSetupGuide();
     return;
   }
 
-  // Save for future uploads
   localStorage.setItem('ANR_DRIVE_WEBAPP_URL', webAppUrl);
   if (window.ANR_DRIVE_CONFIG) window.ANR_DRIVE_CONFIG.webAppUrl = webAppUrl;
 
@@ -227,7 +397,7 @@ async function startDirectDriveUpload(targetType = 'body') {
   const uploadBtn2 = document.getElementById('btnUploadToCover');
 
   progressBox.classList.remove('hidden');
-  progressText.innerText = `Uploading "${file.name}" directly to Google Drive (15 GB free)...`;
+  progressText.innerText = `កំពុងបង្ហោះ "${file.name}" ទៅកាន់ Google Drive (5 TB)...`;
   if (uploadBtn1) uploadBtn1.disabled = true;
   if (uploadBtn2) uploadBtn2.disabled = true;
 
@@ -243,7 +413,7 @@ async function startDirectDriveUpload(targetType = 'body') {
 
       const response = await fetch(webAppUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight triggers on GAS
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
 
@@ -251,23 +421,31 @@ async function startDirectDriveUpload(targetType = 'body') {
 
       if (result.status === 'success') {
         const imageUrl = result.imageUrl;
-        const caption = document.getElementById('directUploadCaption').value.trim() || 'News photograph.';
-        const credit = document.getElementById('directUploadCredit').value.trim() || 'Staff for ANR Chronicle';
+        const caption = document.getElementById('directUploadCaption').value.trim() || 'រូបភាពព័ត៌មាន។';
+        const credit = document.getElementById('directUploadCredit').value.trim() || 'ការិយាល័យព័ត៌មាន អេអិនអ័រ';
+
+        saveRecentUpload({
+          url: imageUrl,
+          name: file.name,
+          caption: caption,
+          credit: credit,
+          date: Date.now()
+        });
 
         if (targetType === 'cover') {
           setCoverPhoto(imageUrl, caption, credit);
-          showToast('🌟 Photo uploaded to Google Drive & set as Lead Cover!');
+          showToast('🌟 រូបភាពបានបង្ហោះទៅ Google Drive & ដាក់ជារូបភាពក្របមុខ!');
         } else {
           insertImageBlockIntoBody(imageUrl, caption, credit);
-          showToast('📷 Photo uploaded to Google Drive & inserted into article!');
+          showToast('📷 រូបភាពបានបង្ហោះទៅ Google Drive & បញ្ចូលក្នុងអត្ថបទ!');
         }
         closeDriveModal();
       } else {
-        alert('Upload Error: ' + (result.message || 'Unknown response from Google Apps Script'));
+        alert('កំហុសនៃការបង្ហោះ៖ ' + (result.message || 'មិនមានការឆ្លើយតបពី Google Apps Script'));
       }
     } catch (err) {
       console.error('Google Drive Upload Error:', err);
-      alert('Failed to upload to Google Drive: ' + err.message + '\n\nPlease ensure your Google Apps Script Web App has access set to "Anyone"!');
+      alert('មិនអាចបង្ហោះទៅ Google Drive បានទេ៖ ' + err.message);
     } finally {
       progressBox.classList.add('hidden');
       if (uploadBtn1) uploadBtn1.disabled = false;
@@ -282,7 +460,7 @@ function insertImageBlockIntoBody(directUrl, caption, credit) {
   const htmlBlock = `
     <div class="my-5 p-2.5 border border-gray-300 rounded bg-gray-50 text-center">
       <img src="${directUrl}" class="w-full h-auto rounded-sm object-cover max-h-96 mx-auto shadow-sm" alt="${caption}"/>
-      <p class="text-xs text-gray-600 font-nyt-serif italic mt-2">${caption} <span class="uppercase not-italic text-[10px] text-gray-400 font-sans ml-1">Credit: ${credit}</span></p>
+      <p class="text-xs text-gray-600 font-nyt-serif italic mt-2 leading-tight">${caption} <span class="uppercase not-italic text-[10px] text-gray-400 font-nyt-sans ml-1">ប្រភព៖ ${credit}</span></p>
     </div>
   `;
 
@@ -291,6 +469,13 @@ function insertImageBlockIntoBody(directUrl, caption, credit) {
 }
 
 function setCoverPhoto(directUrl, caption, credit) {
+  if (typeof caption === 'string' && caption.includes('%')) {
+    try { caption = decodeURIComponent(caption); } catch(e){}
+  }
+  if (typeof credit === 'string' && credit.includes('%')) {
+    try { credit = decodeURIComponent(credit); } catch(e){}
+  }
+
   const art = allArticles.find(a => a.id === activeArticleId);
   if (art) {
     art.image = directUrl;
@@ -347,28 +532,28 @@ function previewPastedDrivePhoto() {
 
 function insertPastedDrivePhoto() {
   const input = document.getElementById('drivePhotoUrlInput').value.trim();
-  const caption = document.getElementById('drivePhotoCaption').value.trim() || 'News photograph.';
-  const credit = document.getElementById('drivePhotoCredit').value.trim() || 'Staff for ANR Chronicle';
+  const caption = document.getElementById('drivePhotoCaption').value.trim() || 'រូបភាពព័ត៌មាន។';
+  const credit = document.getElementById('drivePhotoCredit').value.trim() || 'ការិយាល័យព័ត៌មាន អេអិនអ័រ';
   const directUrl = convertGoogleDriveImage(input);
 
   if (!directUrl) {
-    alert('Please paste a valid Google Drive image link.');
+    alert('សូមបញ្ចូលតំណភ្ជាប់រូបភាព Google Drive ដែលត្រឹមត្រូវ។');
     return;
   }
 
   insertImageBlockIntoBody(directUrl, caption, credit);
   closeDriveModal();
-  showToast('📷 Google Drive Photo inserted into article body');
+  showToast('📷 បានបញ្ចូលរូបភាព Google Drive ក្នុងខ្លឹមសារអត្ថបទ');
 }
 
 function attachDriveAudio() {
   const input = document.getElementById('driveAudioUrlInput').value.trim();
-  const narrator = document.getElementById('driveAudioNarrator').value.trim() || 'Michael Barbaro';
-  const duration = document.getElementById('driveAudioDuration').value.trim() || '7:14';
+  const narrator = document.getElementById('driveAudioNarrator').value.trim() || 'សម មករា';
+  const duration = document.getElementById('driveAudioDuration').value.trim() || '៧:១៤';
   const directAudioUrl = convertGoogleDriveAudio(input);
 
   if (!directAudioUrl) {
-    alert('Please paste a valid Google Drive audio link.');
+    alert('សូមបញ្ចូលតំណភ្ជាប់ឯកសារសំឡេង Google Drive ដែលត្រឹមត្រូវ។');
     return;
   }
 
@@ -382,7 +567,7 @@ function attachDriveAudio() {
   }
 
   closeDriveModal();
-  showToast(`🎙️ Google Drive Narration attached (${narrator} • ${duration})`);
+  showToast(`🎙️ បានភ្ជាប់សំឡេងអាន (${narrator} • ${duration})`);
 }
 
 // =========================================================================
@@ -400,7 +585,7 @@ async function saveArticleDraft() {
     author: document.getElementById('editorAuthor').value,
     category: document.getElementById('editorCategory').value,
     slot: document.getElementById('editorSlot').value,
-    image: (coverInput && coverInput.value) ? coverInput.value : currentArt.image,
+    image: (coverInput && coverInput.value) ? coverInput.value : (currentArt.image || ''),
     content: document.getElementById('editableBody').innerHTML,
     status: 'draft',
     updatedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -409,7 +594,7 @@ async function saveArticleDraft() {
   await ANR_Store.saveArticle(updatedArticle);
   allArticles = await ANR_Store.getArticles();
   renderStoryDeskQueue();
-  showToast('💾 Draft saved successfully');
+  showToast('💾 បានរក្សាទុកសេចក្តីព្រាងដោយជោគជ័យ!');
 }
 
 async function publishToLiveFront() {
@@ -435,7 +620,7 @@ async function publishToLiveFront() {
     author: document.getElementById('editorAuthor').value,
     category: document.getElementById('editorCategory').value,
     slot: assignedSlot,
-    image: (coverInput && coverInput.value) ? coverInput.value : currentArt.image,
+    image: (coverInput && coverInput.value) ? coverInput.value : (currentArt.image || ''),
     content: document.getElementById('editableBody').innerHTML,
     status: 'published',
     updatedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -445,16 +630,13 @@ async function publishToLiveFront() {
   allArticles = await ANR_Store.getArticles();
   renderStoryDeskQueue();
 
-  showToast('🚀 Published to live front page!');
-  setTimeout(() => {
-    window.location.href = 'index.html';
-  }, 1200);
+  showToast('🚀 បានបោះពុម្ពផ្សាយទៅកាន់ទំព័រមុខដោយជោគជ័យ!');
 }
 
 async function dispatchBreakingPush() {
   const alertText = document.getElementById('breakingPushText').value.trim();
   if (!alertText) {
-    alert('Please enter breaking news alert text.');
+    alert('សូមបញ្ចូលខ្លឹមសារព័ត៌មានបន្ទាន់។');
     return;
   }
 
@@ -463,13 +645,55 @@ async function dispatchBreakingPush() {
     active: true
   });
 
-  showToast('🚨 Breaking Push Notification Dispatched to 4.8M readers!');
+  showToast('🚨 បានចុះផ្សាយព័ត៌មានបន្ទាន់ទៅកាន់អ្នកអានផ្ទាល់!');
 }
 
 function requestLegalScreening() {
   const checkbox = document.getElementById('legalCheckbox');
   if (checkbox) checkbox.checked = true;
-  showToast('⚖️ Legal Counsel flagged: PENDING REVIEW APPROVED');
+  showToast('⚖️ ផ្នែកច្បាប់បានត្រួតពិនិត្យ និងអនុម័តរួចរាល់');
+}
+
+// =========================================================================
+// FIX #5: IN-APP SITE CONTROL PANEL MODAL LOGIC
+// =========================================================================
+
+async function openSiteSettingsModal() {
+  const modal = document.getElementById('siteSettingsModal');
+  if (!modal) return;
+
+  const settings = await ANR_Store.getSiteSettings();
+  document.getElementById('settingsSiteName').value = settings.siteName || 'សារព័ត៌មាន អេអិនអ័រ';
+  document.getElementById('settingsTagline').value = settings.tagline || '«ព័ត៌មានពិត សុក្រឹត និងស៊ីជម្រៅ»';
+  document.getElementById('settingsEdition').value = settings.edition || 'ការផ្សាយសកល — ភ្នំពេញ ញូវយ៉ក ឡុងដ៍ ប៉ារីស';
+  document.getElementById('settingsCategories').value = (settings.categories || []).join(', ');
+
+  modal.classList.remove('hidden');
+}
+
+function closeSiteSettingsModal() {
+  const modal = document.getElementById('siteSettingsModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+async function saveSiteSettingsFromModal() {
+  const siteName = document.getElementById('settingsSiteName').value.trim();
+  const tagline = document.getElementById('settingsTagline').value.trim();
+  const edition = document.getElementById('settingsEdition').value.trim();
+  const catText = document.getElementById('settingsCategories').value.trim();
+
+  const categories = catText.split(',').map(c => c.trim()).filter(c => c.length > 0);
+
+  const updatedSettings = {
+    siteName,
+    tagline,
+    edition,
+    categories
+  };
+
+  await ANR_Store.saveSiteSettings(updatedSettings);
+  closeSiteSettingsModal();
+  showToast('💾 បានរក្សាទុកការកំណត់គេហទំព័រដោយជោគជ័យ!');
 }
 
 function showToast(message) {
@@ -477,7 +701,7 @@ function showToast(message) {
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'cmsToast';
-    toast.className = 'fixed bottom-6 right-6 bg-[#121212] text-white px-5 py-3 rounded-lg shadow-2xl z-50 text-xs font-semibold flex items-center gap-2 border border-neutral-700 transition-all duration-300';
+    toast.className = 'fixed bottom-6 right-6 bg-[#121212] text-white px-5 py-3 rounded-lg shadow-2xl z-50 text-xs font-semibold flex items-center gap-2 border border-neutral-700 transition-all duration-300 font-nyt-sans';
     document.body.appendChild(toast);
   }
   toast.innerText = message;
@@ -517,7 +741,6 @@ function initAuth() {
       }
     });
   } else {
-    // Offline / Local fallback mode
     const overlay = document.getElementById('newsroomLoginOverlay');
     if (overlay) overlay.classList.add('hidden');
   }
@@ -525,13 +748,13 @@ function initAuth() {
 
 function handleGoogleSignIn() {
   if (typeof firebase === 'undefined' || !firebase.auth) {
-    alert('Firebase Auth is not available.');
+    alert('Firebase Auth មិនទាន់ភ្ជាប់។');
     return;
   }
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
     .catch(err => {
-      showAuthError(err.message + ' (Tip: Enable Google Sign-In provider in Firebase Console -> Build -> Authentication)');
+      showAuthError(err.message);
     });
 }
 
@@ -542,7 +765,7 @@ function handleEmailSignIn(e) {
 
   firebase.auth().signInWithEmailAndPassword(email, password)
     .catch(err => {
-      showAuthError(err.message + ' (Tip: If you are new, click "Register Staff")');
+      showAuthError(err.message);
     });
 }
 
@@ -551,23 +774,23 @@ function handleCreateStaffAccount() {
   const password = document.getElementById('authPasswordInput').value;
 
   if (!email || !password || password.length < 6) {
-    alert('Please enter a valid staff email and a password with at least 6 characters.');
+    alert('សូមបញ្ចូលអ៊ីមែល និងពាក្យសម្ងាត់យ៉ាងតិច ៦ តួអក្សរ។');
     return;
   }
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(() => {
-      showToast('🎉 Staff account registered and signed in!');
+      showToast('🎉 គណនីបុគ្គលិកត្រូវបានចុះឈ្មោះ និងចូលប្រើដោយជោគជ័យ!');
     })
     .catch(err => {
-      showAuthError(err.message + ' (Tip: Enable Email/Password in Firebase Console -> Build -> Authentication)');
+      showAuthError(err.message);
     });
 }
 
 function handleSignOut() {
   if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().signOut().then(() => {
-      showToast('Signed out of Newsroom CMS');
+      showToast('បានចាកចេញពីបន្ទប់ព័ត៌មាន');
     });
   }
 }
@@ -589,6 +812,6 @@ function handleLocalBypass() {
     userBadge.classList.remove('hidden');
     userBadge.classList.add('flex');
   }
-  if (userName) userName.innerText = "Guest Editor (Local)";
-  showToast('Entered as Local Guest Editor');
+  if (userName) userName.innerText = "ភ្ញៀវនិពន្ធ (Local)";
+  showToast('បានចូលប្រើជាភ្ញៀវនិពន្ធ');
 }
