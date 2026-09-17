@@ -45,10 +45,12 @@
     <!-- Actions, User Profile & Reader Switcher -->
     <div class="flex items-center gap-2">
       <!-- Authenticated User Tag -->
-      <div id="authUserBadge" class="hidden items-center gap-2 text-xs bg-neutral-800 border border-neutral-700 px-2.5 py-1 rounded">
+      <div id="authUserBadge" class="hidden items-center gap-2 text-xs bg-neutral-800 border border-neutral-700 px-2.5 py-1 rounded font-nyt-ui">
         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
         <span id="authUserName" class="text-neutral-200 font-medium truncate max-w-[140px]">បុគ្គលិក</span>
-        <button onclick="handleSignOut()" class="text-neutral-400 hover:text-red-400 ml-1 text-[11px]" title="ចាកចេញ">ចាកចេញ</button>
+        <button onclick="handleSignOut()" class="text-red-400 hover:text-red-300 ml-1 text-[11px] font-medium transition" title="ចាកចេញពីបន្ទប់ព័ត៌មាន">
+          🚪 ចាកចេញ
+        </button>
       </div>
 
       <!-- + New Story Button in Header -->
