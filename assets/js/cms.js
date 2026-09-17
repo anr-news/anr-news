@@ -598,6 +598,13 @@ async function saveArticleDraft() {
 }
 
 async function publishToLiveFront() {
+  const headline = document.getElementById('editorHeadline').value.trim();
+  if (!headline) {
+    alert('⚠️ សូមបញ្ចូលចំណងជើងព័ត៌មានជាមុនសិន មុននឹងចុចបោះពុម្ពផ្សាយ!');
+    document.getElementById('editorHeadline').focus();
+    return;
+  }
+
   const coverInput = document.getElementById('editorCoverPhotoUrl');
   const assignedSlot = document.getElementById('editorSlot').value;
   const currentArt = allArticles.find(a => a.id === activeArticleId) || {};
@@ -615,9 +622,9 @@ async function publishToLiveFront() {
   const updatedArticle = {
     ...currentArt,
     id: activeArticleId,
-    headline: document.getElementById('editorHeadline').value,
+    headline: headline,
     deck: document.getElementById('editorDeck').value,
-    author: document.getElementById('editorAuthor').value,
+    author: document.getElementById('editorAuthor').value || 'ការិយាល័យនិពន្ធ អេអិនអ័រ',
     category: document.getElementById('editorCategory').value,
     slot: assignedSlot,
     image: (coverInput && coverInput.value) ? coverInput.value : (currentArt.image || ''),
@@ -631,6 +638,12 @@ async function publishToLiveFront() {
   renderStoryDeskQueue();
 
   showToast('🚀 បានបោះពុម្ពផ្សាយទៅកាន់ទំព័រមុខដោយជោគជ័យ!');
+
+  setTimeout(() => {
+    if (confirm('🎉 អត្ថបទរបស់អ្នកត្រូវបានបោះពុម្ពផ្សាយផ្ទាល់លើទំព័រមុខដោយជោគជ័យ!\n\nតើលោកអ្នកចង់បើកមើលទំព័រអ្នកអាន (Home Page) ឥឡូវនេះដែរឬទេ?')) {
+      window.location.href = 'index.html';
+    }
+  }, 400);
 }
 
 async function dispatchBreakingPush() {
@@ -719,6 +732,8 @@ function showToast(message) {
 // =========================================================================
 
 function initAuth() {
+  const hasBypass = localStorage.getItem('ANR_CMS_AUTH_BYPASS') === 'true';
+
   if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().onAuthStateChanged(user => {
       const overlay = document.getElementById('newsroomLoginOverlay');
@@ -732,6 +747,8 @@ function initAuth() {
           userBadge.classList.add('flex');
         }
         if (userName) userName.innerText = user.displayName || user.email.split('@')[0];
+      } else if (hasBypass) {
+        handleLocalBypass(false);
       } else {
         if (overlay) overlay.classList.remove('hidden');
         if (userBadge) {
@@ -741,8 +758,7 @@ function initAuth() {
       }
     });
   } else {
-    const overlay = document.getElementById('newsroomLoginOverlay');
-    if (overlay) overlay.classList.add('hidden');
+    handleLocalBypass(false);
   }
 }
 
@@ -788,10 +804,16 @@ function handleCreateStaffAccount() {
 }
 
 function handleSignOut() {
+  localStorage.removeItem('ANR_CMS_AUTH_BYPASS');
   if (typeof firebase !== 'undefined' && firebase.auth) {
     firebase.auth().signOut().then(() => {
       showToast('បានចាកចេញពីបន្ទប់ព័ត៌មាន');
+      const overlay = document.getElementById('newsroomLoginOverlay');
+      if (overlay) overlay.classList.remove('hidden');
     });
+  } else {
+    const overlay = document.getElementById('newsroomLoginOverlay');
+    if (overlay) overlay.classList.remove('hidden');
   }
 }
 
@@ -803,7 +825,7 @@ function showAuthError(msg) {
   }
 }
 
-function handleLocalBypass() {
+function handleLocalBypass(shouldSave = true) {
   const overlay = document.getElementById('newsroomLoginOverlay');
   const userBadge = document.getElementById('authUserBadge');
   const userName = document.getElementById('authUserName');
@@ -812,6 +834,9 @@ function handleLocalBypass() {
     userBadge.classList.remove('hidden');
     userBadge.classList.add('flex');
   }
-  if (userName) userName.innerText = "ភ្ញៀវនិពន្ធ (Local)";
-  showToast('បានចូលប្រើជាភ្ញៀវនិពន្ធ');
+  if (userName) userName.innerText = "អ្នកនិពន្ធ (Staff Editor)";
+  if (shouldSave) {
+    localStorage.setItem('ANR_CMS_AUTH_BYPASS', 'true');
+    showToast('🔓 បានចូលប្រើប្រាស់បន្ទប់ព័ត៌មានដោយជោគជ័យ');
+  }
 }
