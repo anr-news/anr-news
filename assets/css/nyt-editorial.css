@@ -1,0 +1,131 @@
+/* ==========================================================================
+   ANR NEWS - The New York Times Editorial Design Tokens & Stylesheet
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --nyt-font-serif: 'Newsreader', Georgia, serif;
+  --nyt-font-masthead: 'Cinzel', 'Old English Text MT', Georgia, serif;
+  --nyt-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Day Theme (Default NYT Editorial White) */
+  --bg-page: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F7F7F7;
+  --text-main: #121212;
+  --text-body: #222222;
+  --text-muted: #666666;
+  --text-light: #999999;
+  --border-color: #E2E2E2;
+  --border-dark: #121212;
+  --accent-red: #D0021B;
+  --accent-blue: #326891;
+  --accent-green: #107C41;
+}
+
+body.theme-paper {
+  --bg-page: #F5EFEB;
+  --bg-card: #FAF6F0;
+  --bg-subtle: #ECE4DA;
+  --text-main: #241D17;
+  --text-body: #362B21;
+  --text-muted: #786C5E;
+  --text-light: #A39687;
+  --border-color: #E0D4C5;
+  --border-dark: #241D17;
+  --accent-red: #B8251B;
+  --accent-blue: #2A587D;
+}
+
+body.theme-night {
+  --bg-page: #121316;
+  --bg-card: #1A1C22;
+  --bg-subtle: #242730;
+  --text-main: #F2F4F7;
+  --text-body: #D3D8E0;
+  --text-muted: #9BA3AF;
+  --text-light: #6A7280;
+  --border-color: #2D313A;
+  --border-dark: #F2F4F7;
+  --accent-red: #FF4757;
+  --accent-blue: #54A0FF;
+}
+
+/* Base resets and smooth transition */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--nyt-font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.font-nyt-serif { font-family: var(--nyt-font-serif); }
+.font-nyt-sans { font-family: var(--nyt-font-sans); }
+.font-nyt-masthead { font-family: var(--nyt-font-masthead); }
+
+/* Classic NYT Border Rules */
+.border-nyt-double {
+  border-top: 3px double var(--border-dark);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.border-nyt-rule-top {
+  border-top: 1px solid var(--border-dark);
+}
+
+.border-nyt-rule-bottom {
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.border-nyt-subtle {
+  border-color: var(--border-color);
+}
+
+/* Editorial Drop Cap */
+.drop-cap::first-letter {
+  font-family: var(--nyt-font-serif);
+  float: left;
+  font-size: 3.75rem;
+  line-height: 0.82;
+  padding-top: 4px;
+  padding-right: 8px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* New York Times Pull Quotes */
+.nyt-pull-quote {
+  font-family: var(--nyt-font-serif);
+  border-left: 3px solid var(--border-dark);
+  padding: 0.75rem 1.25rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  color: var(--text-body);
+  background-color: var(--bg-subtle);
+}
+
+/* Hide scrollbars for slick category bars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Print Stylesheet */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print, header, nav, footer, .live-banner {
+    display: none !important;
+  }
+  article {
+    page-break-inside: avoid;
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "breaking": {
+    "text": "Diplomats Reach Landmark Accord on Sovereign AI Oversight at Geneva Summit",
+    "url": "#leadStory",
+    "updatedAt": "8m ago",
+    "active": true
+  },
+  "articles": [
+    {
+      "id": "art-1",
+      "slot": "lead-anchor",
+      "category": "World & Technology",
+      "headline": "Global Accord Reached to Regulate Algorithmic Commerce Across Border Rails",
+      "deck": "Negotiators in Geneva approved binding protocols requiring automated procurement agents to hold verifiable human legal backstops, concluding fifteen months of contentious closed-door debates.",
+      "author": "David Sanger and Julian Barnes",
+      "readTime": "8 min read",
+      "date": "September 17, 2026",
+      "audio": {
+        "narrator": "Michael Barbaro",
+        "duration": "7:14"
+      },
+      "image": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=1000&q=80",
+      "caption": "Delegations from 42 countries assembled at the Palais des Nations in Geneva before the final vote on Thursday morning.",
+      "credit": "Andrew Testa for The Chronicle Times",
+      "status": "published",
+      "wordCount": 1420,
+      "content": "\n        <p class=\"drop-cap\">Negotiators from 42 nations reached a decisive compromise early Thursday morning on sovereign jurisdiction over cross-border algorithmic purchasing contracts, concluding more than a year of fraught sessions behind closed doors at the United Nations complex.</p>\n        <p>The treaty, which will require ratification by member parliaments over the coming eighteen months, establishes a universal threshold: whenever autonomous agents execute contractual transfers exceeding five million dollars, an authenticated human compliance officer must be bound to the cryptographic ledger.</p>\n        <blockquote class=\"nyt-pull-quote\">\"We could not allow a regulatory vacuum where billions in physical goods change hands at microsecond intervals without clear legal liability.\"</blockquote>\n        <p>Early telemetry indicates that over 40 percent of standard procurement transactions across automotive and consumer electronics supply webs are now signed off by verified software agents running local constraint models.</p>\n        <p>While transaction speeds have collapsed from days to fractions of a second, systemic exposure questions linger. Regulators worldwide are drafting protocols to enforce verifiable traceability and human override kill-switches.</p>\n      "
+    },
+    {
+      "id": "art-2",
+      "slot": "secondary-1",
+      "category": "Climate & Energy",
+      "headline": "How Offshore Wind Is Surviving the Deep-Water Supply Chain Crisis",
+      "deck": "Floating platforms off the coast of Maine and Scotland demonstrate profitable grid delivery despite steel price surges.",
+      "author": "Brad Plumer",
+      "readTime": "5 min read",
+      "date": "September 17, 2026",
+      "image": "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=400&q=80",
+      "status": "published",
+      "wordCount": 850,
+      "content": "<p>Deep-water wind installations have achieved reliable high-capacity output, defying early supply-chain skeptics.</p>"
+    },
+    {
+      "id": "art-3",
+      "slot": "secondary-2",
+      "category": "Architecture & Urbanism",
+      "headline": "Converting Commercial Towers to Apartments: The Cost Math Finally Works",
+      "deck": "Tax abatements and floorplate cutting innovations have unlocked 18,000 new units in downtown Chicago and Manhattan.",
+      "author": "Stefanos Chen",
+      "readTime": "6 min read",
+      "date": "September 17, 2026",
+      "image": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80",
+      "status": "published",
+      "wordCount": 1100,
+      "content": "<p>Office-to-residential conversions have surpassed initial projections as city tax incentives take hold.</p>"
+    },
+    {
+      "id": "art-4",
+      "slot": "secondary-3",
+      "category": "Science & Computation",
+      "headline": "Silicon Photonics Replaces Copper Interconnects in Hyperscale Clusters",
+      "deck": "A paradigm transition to laser-guided data routing reduces data center thermal load by 35 percent.",
+      "author": "Cade Metz",
+      "readTime": "4 min read",
+      "date": "September 17, 2026",
+      "image": null,
+      "status": "published",
+      "wordCount": 920,
+      "content": "<p>Laser routing on silicon wafer packages marks a monumental leap in computational energy efficiency.</p>"
+    }
+  ],
+  "opinions": [
+    {
+      "id": "op-1",
+      "author": "Maureen Dowd",
+      "headline": "The Solitude of Modern Power and the Ghost in the Diplomatic Machine",
+      "readTime": "7 min read",
+      "image": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      "id": "op-2",
+      "author": "David Brooks",
+      "headline": "Why Character Matters More Than Ever in an Algorithmic Age",
+      "readTime": "5 min read",
+      "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+    },
+    {
+      "id": "op-3",
+      "author": "Paul Krugman",
+      "headline": "Don't Bet Against Industrial Policy in North America",
+      "readTime": "6 min read",
+      "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
+    }
+  ]
+}

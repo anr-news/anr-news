@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The ANR Chronicle — Independent In-Depth Journalism</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="stylesheet" href="assets/css/nyt-editorial.css">
+</head>
+<body class="antialiased min-h-screen">
+
+  <!-- TOP UTILITY & EDITIONS BAR -->
+  <div class="border-b border-nyt-subtle text-xs bg-[var(--bg-page)]">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-3 text-[var(--text-muted)]">
+      
+      <!-- Date, Edition & Markets -->
+      <div class="flex items-center gap-4">
+        <span class="font-medium text-[var(--text-main)]">Thursday, September 17, 2026</span>
+        <span class="hidden sm:inline">Today’s Paper</span>
+        <span class="hidden md:inline">Video</span>
+        <span class="hidden md:inline">72°F Partly Cloudy</span>
+        <span class="hidden lg:inline text-neutral-300">|</span>
+        <div class="hidden lg:flex items-center gap-2 font-mono text-[11px]">
+          <span class="text-emerald-600 font-semibold">S&P 500 +0.42%</span>
+          <span class="text-emerald-600 font-semibold">NASDAQ +1.08%</span>
+        </div>
+      </div>
+
+      <!-- Controls: Theme, Admin CMS link, Subscribe -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Theme Switcher -->
+        <div class="flex items-center border border-nyt-subtle rounded-sm bg-[var(--bg-subtle)] p-0.5 text-[11px]">
+          <button onclick="setTheme('day')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-white/80 transition" title="Classic Editorial White">Day</button>
+          <button onclick="setTheme('paper')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-amber-100/50 transition" title="Warm Vintage Paper">Paper</button>
+          <button onclick="setTheme('night')" class="px-2 py-0.5 rounded-sm font-medium hover:bg-neutral-800 transition" title="OLED Night Mode">Night</button>
+        </div>
+
+        <a href="admin.html" class="px-2.5 py-1 rounded-sm border border-neutral-800 bg-neutral-900 text-white font-semibold text-[11px] hover:bg-neutral-700 transition flex items-center gap-1">
+          <span>⚙️ Newsroom CMS</span>
+        </a>
+
+        <button class="hidden sm:inline-block px-3 py-1 rounded-sm bg-[#567b95] text-white text-[11px] font-bold tracking-wider uppercase hover:bg-[#326891] transition">
+          Subscribe $1/wk
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MASTHEAD SECTION (Classic Gothic Blackletter) -->
+  <header class="max-w-[1280px] mx-auto px-4 sm:px-6 pt-5 pb-3 text-center bg-[var(--bg-page)]">
+    <div class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[var(--text-muted)] mb-1 italic">
+      "All the News That's Fit to Print"
+    </div>
+    
+    <h1 class="font-nyt-masthead text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--text-main)] leading-none select-none cursor-pointer">
+      The ANR Chronicle
+    </h1>
+
+    <div class="flex items-center justify-between text-[11px] text-[var(--text-muted)] mt-4 border-b border-t border-[var(--border-dark)] py-1 font-nyt-serif">
+      <span class="hidden sm:inline italic">VOL. CLXXV . . . No. 60,892</span>
+      <span class="font-semibold uppercase tracking-wider text-[var(--text-main)]">Global Edition — New York, London, Tokyo, Singapore</span>
+      <span class="hidden sm:inline italic">$3.50 Newsstand</span>
+    </div>
+
+    <!-- Section Categories Navigation -->
+    <nav class="border-b-2 border-[var(--border-dark)] py-2 overflow-x-auto no-scrollbar mt-1">
+      <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[var(--text-main)] whitespace-nowrap gap-5">
+        <a href="#" class="hover:text-red-700">World</a>
+        <a href="#" class="hover:text-red-700">U.S. Politics</a>
+        <a href="#" class="hover:text-red-700">Business</a>
+        <a href="#" class="hover:text-red-700">Tech & AI</a>
+        <a href="#" class="hover:text-red-700">Science</a>
+        <a href="#" class="hover:text-red-700">Health</a>
+        <a href="#" class="hover:text-red-700">Sports</a>
+        <a href="#" class="text-red-700 font-bold">Opinion</a>
+        <a href="#" class="hover:text-red-700">Arts</a>
+        <a href="#" class="hover:text-red-700">Style</a>
+        <a href="#" class="hover:text-red-700">Cooking</a>
+        <a href="#" class="hover:text-red-700">Games</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- DYNAMIC LIVE BREAKING NEWS ALERT CONTAINER -->
+  <div id="breakingAlertContainer" class="max-w-[1280px] mx-auto px-4 sm:px-6 mt-2">
+    <!-- Populated dynamically via store.js & frontend.js -->
+  </div>
+
+  <!-- MAIN 3-COLUMN NEWSPRINT GRID -->
+  <main class="max-w-[1280px] mx-auto px-4 sm:px-6 py-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-nyt-subtle">
+      
+      <!-- COLUMN 1: LEAD ANCHOR (A-HED) STORY (5 COLS) -->
+      <section class="lg:col-span-5 pr-0 lg:pr-6 space-y-5" id="colLeadStory">
+        <!-- Rendered dynamically -->
+      </section>
+
+      <!-- COLUMN 2: SECONDARY STORIES & ANALYSIS (4 COLS) -->
+      <section class="lg:col-span-4 px-0 lg:px-6 space-y-6 pt-6 lg:pt-0">
+        <div id="colSecondaryStories" class="space-y-6">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- NYT Style Food / Culture Callout -->
+        <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm space-y-2">
+          <div class="text-[10px] font-bold uppercase tracking-widest text-inherit flex items-center justify-between">
+            <span>Chronicle Cooking</span>
+            <span class="text-[#D0021B]">★ Editor's Selection</span>
+          </div>
+          <h4 class="font-nyt-serif text-sm font-bold text-inherit">Crisp-Skinned Salmon With Warm French Lentils</h4>
+          <p class="text-xs text-[var(--text-muted)]">A 30-minute weeknight dinner developed by our culinary test kitchen.</p>
+        </div>
+      </section>
+
+      <!-- COLUMN 3: OPINION & ESSAYS (3 COLS) -->
+      <aside class="lg:col-span-3 pl-0 lg:pl-6 space-y-6 pt-6 lg:pt-0">
+        <div class="border-b-2 border-[var(--border-dark)] pb-1 flex items-center justify-between">
+          <h3 class="font-nyt-serif text-xl font-bold tracking-tight text-inherit">Opinion</h3>
+          <span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">The Board & Columnists</span>
+        </div>
+
+        <!-- Opinion List with Circular Headshots -->
+        <div id="colOpinionList" class="space-y-4">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Morning Newsletter Box -->
+        <div class="bg-[var(--bg-subtle)] border border-nyt-subtle p-4 rounded-sm">
+          <h5 class="font-nyt-serif font-bold text-sm text-inherit mb-1">The Morning Newsletter</h5>
+          <p class="text-xs text-[var(--text-muted)] mb-3">Make sense of the day’s news and ideas. Curated daily by senior editors.</p>
+          <div class="flex gap-1">
+            <input type="email" placeholder="Your email address" class="text-xs px-2.5 py-1.5 border border-[var(--border-dark)] rounded-sm flex-1 outline-none bg-white text-black"/>
+            <button onclick="alert('Thank you for subscribing to The Morning Newsletter!')" class="bg-[var(--text-main)] text-[var(--bg-page)] text-xs font-semibold px-3 py-1.5 rounded-sm hover:opacity-80">Sign Up</button>
+          </div>
+        </div>
+
+        <!-- Quick Crossword / Puzzle teaser -->
+        <div class="border border-nyt-subtle p-3 text-center space-y-1 bg-[var(--bg-subtle)]">
+          <span class="text-[10px] uppercase font-bold tracking-widest text-[var(--text-muted)]">The Daily Mini Crossword</span>
+          <p class="text-xs font-serif italic text-inherit">Solve today's puzzle in under 2 minutes.</p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ARTICLE READING MODAL (Focus / Distraction-Free Reader) -->
+  <div id="storyModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-[var(--bg-card)] border border-nyt-subtle rounded-sm max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+      
+      <!-- Top Sticky Reader Bar -->
+      <div class="sticky top-0 bg-[var(--bg-card)] border-b border-nyt-subtle p-4 flex items-center justify-between z-10">
+        <div class="flex items-center gap-3">
+          <span class="font-nyt-masthead font-bold text-xs tracking-wider text-inherit">THE ANR CHRONICLE</span>
+          <div class="flex items-center gap-1 border border-nyt-subtle rounded px-2 py-0.5 text-xs font-medium">
+            <button onclick="adjustFontSize(-1)" class="hover:text-[#D0021B]">A-</button>
+            <span class="text-[var(--text-light)] mx-1">|</span>
+            <button onclick="adjustFontSize(1)" class="hover:text-[#D0021B] font-bold">A+</button>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <button onclick="giftArticle()" class="px-2.5 py-1 rounded bg-[var(--bg-subtle)] border border-nyt-subtle text-xs hover:border-gray-500 transition font-medium flex items-center gap-1">
+            <span>🎁 Gift Story</span>
+          </button>
+          <button onclick="closeStoryModal()" class="text-[var(--text-muted)] hover:text-inherit text-lg font-bold p-1">✕</button>
+        </div>
+      </div>
+
+      <!-- Modal Article Body -->
+      <div class="p-6 sm:p-10 space-y-4">
+        <h2 id="modalTitle" class="font-nyt-serif text-3xl sm:text-4xl font-bold leading-tight text-inherit"></h2>
+        <p id="modalDeck" class="font-nyt-serif text-lg text-[var(--text-muted)] leading-relaxed italic"></p>
+        <div id="modalByline" class="text-xs text-[var(--text-muted)] border-b border-nyt-subtle pb-4"></div>
+        <div id="modalBody" class="font-nyt-serif text-lg leading-relaxed text-[var(--text-body)] space-y-4 pt-2"></div>
+
+        <div class="mt-8 pt-6 border-t border-nyt-subtle flex justify-between items-center text-xs text-[var(--text-muted)]">
+          <span class="italic">© 2026 The ANR Publishing Company</span>
+          <button onclick="closeStoryModal()" class="px-4 py-2 bg-[var(--text-main)] text-[var(--bg-page)] rounded-sm font-semibold hover:opacity-90">Close Story</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRINT-INSPIRED COLOPHON FOOTER -->
+  <footer class="border-t-2 border-[var(--border-dark)] mt-16 py-10 bg-[var(--bg-subtle)] text-[var(--text-muted)]">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 text-center space-y-4">
+      <h2 class="font-nyt-masthead text-2xl font-bold text-[var(--text-main)]">The ANR Chronicle</h2>
+      <div class="flex flex-wrap justify-center gap-6 text-xs">
+        <a href="#" class="hover:underline">Newsroom Ethics</a>
+        <a href="#" class="hover:underline">Editorial Staff</a>
+        <a href="#" class="hover:underline">Corrections & Archives</a>
+        <a href="#" class="hover:underline">Syndication</a>
+        <a href="#" class="hover:underline">Privacy Policy</a>
+        <a href="admin.html" class="font-bold text-[var(--text-main)] hover:underline">Editorial CMS Access</a>
+      </div>
+      <p class="text-[11px] text-[var(--text-light)]">© 2026 The ANR Publishing Company. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Firebase Cloud SDKs (Free Tier) -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="assets/js/firebase-config.js"></script>
+
+  <!-- Scripts -->
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/frontend.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public news articles: Anyone can read, newsroom editors can write
+    match /articles/{articleId} {
+      allow read: if true;
+      allow write: if true; // In production, change to: request.auth != null;
+    }
+    
+    // Breaking news alerts: Anyone can read, newsroom editors can dispatch
+    match /breaking/{alertId} {
+      allow read: if true;
+      allow write: if true; // In production, change to: request.auth != null;
+    }
+  }
+}

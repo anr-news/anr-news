@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANR Scoop // Oak 4.0 — Newsroom Editorial CMS</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="stylesheet" href="assets/css/nyt-editorial.css">
+</head>
+<body class="bg-[#F4F5F7] text-[#1E2022] font-nyt-sans antialiased min-h-screen">
+
+  <!-- TOP NEWSROOM SYSTEM BAR -->
+  <header class="bg-[#181A1F] text-white px-5 py-2.5 flex flex-wrap items-center justify-between border-b border-neutral-800 shadow-sm sticky top-0 z-40">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-7 h-7 rounded bg-[#D0021B] flex items-center justify-center font-bold text-xs shadow-inner">S</span>
+        <span class="font-bold text-sm tracking-wide text-white font-mono">SCOOP // OAK 4.0</span>
+      </div>
+      <span class="text-neutral-600">|</span>
+      <div class="flex items-center gap-2 text-xs text-neutral-300">
+        <span class="font-semibold text-neutral-400">Desk:</span>
+        <select class="bg-neutral-800 text-white rounded px-2.5 py-1 text-xs border border-neutral-700 outline-none">
+          <option>International / Foreign</option>
+          <option>National Politics</option>
+          <option>Business & Economics</option>
+          <option>Technology & AI</option>
+          <option>Culture & Arts</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Active Collaborators Pill -->
+    <div class="hidden md:flex items-center gap-3 text-xs bg-neutral-800/80 px-3.5 py-1 rounded-full border border-neutral-700">
+      <div class="flex -space-x-1.5 overflow-hidden">
+        <div class="inline-block h-5 w-5 rounded-full ring-1 ring-neutral-900 bg-amber-500 text-neutral-900 font-bold text-[9px] flex items-center justify-center">DS</div>
+        <div class="inline-block h-5 w-5 rounded-full ring-1 ring-neutral-900 bg-emerald-500 text-neutral-900 font-bold text-[9px] flex items-center justify-center">JB</div>
+        <div class="inline-block h-5 w-5 rounded-full ring-1 ring-neutral-900 bg-sky-500 text-neutral-900 font-bold text-[9px] flex items-center justify-center">CP</div>
+      </div>
+      <span class="text-neutral-300">3 Editors in Document</span>
+      <span class="text-emerald-400 font-mono text-[10px]">● Autosaved</span>
+    </div>
+
+    <!-- Actions, User Profile & Reader Switcher -->
+    <div class="flex items-center gap-2">
+      <!-- Authenticated User Tag -->
+      <div id="authUserBadge" class="hidden items-center gap-2 text-xs bg-neutral-800 border border-neutral-700 px-2.5 py-1 rounded">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span id="authUserName" class="text-neutral-200 font-medium truncate max-w-[140px]">Staff</span>
+        <button onclick="handleSignOut()" class="text-neutral-400 hover:text-red-400 ml-1 text-[11px]" title="Sign Out">Sign Out</button>
+      </div>
+
+      <a href="index.html" class="px-3 py-1.5 rounded text-xs font-semibold bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 transition flex items-center gap-1">
+        <span>📰 View Live Portal</span>
+      </a>
+      <button onclick="saveArticleDraft()" class="px-3.5 py-1.5 rounded text-xs font-semibold bg-neutral-700 hover:bg-neutral-600 text-white transition">
+        Save Draft
+      </button>
+      <button onclick="publishToLiveFront()" class="px-4 py-1.5 rounded text-xs font-bold bg-[#D0021B] hover:bg-red-700 text-white shadow-sm transition flex items-center gap-1.5">
+        <span>🚀 Publish to Front Page</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- NEWSROOM AUTHENTICATION LOGIN GATE OVERLAY -->
+  <div id="newsroomLoginOverlay" class="fixed inset-0 bg-neutral-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-white border border-gray-300 rounded-xl shadow-2xl max-w-md w-full overflow-hidden p-8 text-center space-y-5">
+      
+      <div>
+        <div class="text-[10px] uppercase tracking-[0.25em] text-[#666666] mb-1 italic">
+          "All the News That's Fit to Print"
+        </div>
+        <h2 class="font-nyt-masthead text-3xl font-bold text-[#121212]">
+          The ANR Chronicle
+        </h2>
+        <div class="text-xs uppercase tracking-widest text-[#D0021B] font-bold mt-1">
+          Editorial Newsroom // Scoop & Oak 4.0
+        </div>
+        <p class="text-xs text-gray-500 mt-2">
+          Restricted access for credentialed journalists, copy editors, and senior editorial staff.
+        </p>
+      </div>
+
+      <!-- Auth Error Alert Box -->
+      <div id="authErrorBox" class="hidden p-2.5 rounded bg-red-50 border border-red-200 text-xs text-red-700 font-medium text-left">
+      </div>
+
+      <!-- Option 1: 1-Click Google Sign-In -->
+      <button onclick="handleGoogleSignIn()" class="w-full py-2.5 px-4 border border-gray-300 rounded-lg text-xs font-semibold text-gray-800 bg-white hover:bg-gray-50 flex items-center justify-center gap-2.5 shadow-sm transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+        <span>Sign In with Staff Google Account</span>
+      </button>
+
+      <div class="relative flex py-1 items-center">
+        <div class="flex-grow border-t border-gray-200"></div>
+        <span class="flex-shrink mx-3 text-[10px] text-gray-400 uppercase tracking-widest font-mono">OR EMAIL CREDENTIALS</span>
+        <div class="flex-grow border-t border-gray-200"></div>
+      </div>
+
+      <!-- Option 2: Email & Password Sign In -->
+      <form onsubmit="handleEmailSignIn(event)" class="space-y-3 text-left">
+        <div>
+          <label class="block text-[11px] font-semibold text-gray-700 mb-1">Staff Email</label>
+          <input type="email" id="authEmailInput" required placeholder="editor@anrnews.com" class="w-full text-xs p-2 border border-gray-300 rounded outline-none focus:border-neutral-900 bg-gray-50"/>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-gray-700 mb-1">Password</label>
+          <input type="password" id="authPasswordInput" required placeholder="••••••••" class="w-full text-xs p-2 border border-gray-300 rounded outline-none focus:border-neutral-900 bg-gray-50"/>
+        </div>
+        
+        <div class="flex gap-2 pt-1">
+          <button type="submit" class="flex-1 py-2 bg-[#121212] hover:bg-neutral-800 text-white rounded text-xs font-semibold shadow-sm transition">
+            Sign In
+          </button>
+          <button type="button" onclick="handleCreateStaffAccount()" class="py-2 px-3 border border-gray-300 rounded text-xs font-medium text-gray-700 hover:bg-gray-50 transition" title="Create first admin account if not registered">
+            Register Staff
+          </button>
+        </div>
+      </form>
+
+      <div class="pt-2 text-[11px] text-gray-400 space-y-1">
+        <div>Protected by Google Firebase Authentication</div>
+        <button type="button" onclick="handleLocalBypass()" class="text-[11px] text-gray-500 hover:text-gray-900 underline block mx-auto pt-1">
+          Local Testing: Enter as Guest Editor (Bypass)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3-PANEL NEWSROOM CMS WORKSPACE (Hidden until authenticated) -->
+  <div id="newsroomWorkspace" class="grid grid-cols-12 min-h-[calc(100vh-52px)]">
+
+    <!-- ========================================================================= -->
+    <!-- PANEL 1 (3 COLS): THE STORY DESK QUEUE                                    -->
+    <!-- ========================================================================= -->
+    <aside class="col-span-12 lg:col-span-3 bg-white border-r border-gray-200 p-4 space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-gray-200">
+        <h3 class="font-bold text-xs uppercase tracking-wider text-gray-700">Story Desk Queue</h3>
+        <button onclick="alert('Creating new blank story package...')" class="px-2 py-1 bg-neutral-900 text-white rounded text-xs font-medium hover:bg-neutral-700">+ New Story</button>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="flex gap-1 text-xs border-b border-gray-200 pb-2 overflow-x-auto no-scrollbar">
+        <button class="px-2.5 py-1 rounded bg-neutral-200 font-semibold text-gray-900 whitespace-nowrap">All Stories</button>
+        <button class="px-2.5 py-1 rounded hover:bg-gray-100 text-gray-600 whitespace-nowrap">My Drafts</button>
+        <button class="px-2.5 py-1 rounded hover:bg-gray-100 text-gray-600 whitespace-nowrap">Copy Desk</button>
+        <button class="px-2.5 py-1 rounded hover:bg-gray-100 text-gray-600 whitespace-nowrap">Ready</button>
+      </div>
+
+      <!-- Live Story Desk List (Populated via cms.js) -->
+      <div id="storyQueueList" class="space-y-2 overflow-y-auto max-h-[calc(100vh-210px)] pr-1 text-xs">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- ========================================================================= -->
+    <!-- PANEL 2 (6 COLS): OAK COLLABORATIVE STORY CANVAS (WYSIWYG EDITOR)         -->
+    <!-- ========================================================================= -->
+    <main class="col-span-12 lg:col-span-6 bg-white p-6 sm:p-10 overflow-y-auto max-h-[calc(100vh-52px)] border-r border-gray-200">
+      
+      <!-- Toolbar with Google Drive Direct Upload -->
+      <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-gray-200 pb-3 mb-6 flex flex-wrap items-center justify-between gap-2 z-10">
+        <div class="flex flex-wrap items-center gap-1 text-xs border border-gray-300 rounded p-1 bg-gray-50">
+          <button onclick="formatDoc('formatBlock', 'h2')" class="px-2 py-0.5 rounded font-bold hover:bg-gray-200" title="Section Heading H2">H2</button>
+          <button onclick="formatDoc('formatBlock', 'h3')" class="px-2 py-0.5 rounded font-semibold hover:bg-gray-200" title="Subhed H3">H3</button>
+          <span class="text-gray-300 mx-1">|</span>
+          <button onclick="formatDoc('bold')" class="px-2 py-0.5 rounded font-bold hover:bg-gray-200">B</button>
+          <button onclick="formatDoc('italic')" class="px-2 py-0.5 rounded italic hover:bg-gray-200">I</button>
+          <button onclick="formatDoc('formatBlock', 'blockquote')" class="px-2 py-0.5 rounded hover:bg-gray-200" title="Pull Quote">“ ”</button>
+          <button onclick="formatDoc('insertUnorderedList')" class="px-2 py-0.5 rounded hover:bg-gray-200" title="Bullet List">•≡</button>
+          <span class="text-gray-300 mx-1">|</span>
+          
+          <!-- GOOGLE DRIVE DIRECT UPLOAD BUTTON -->
+          <button onclick="openDriveModal('upload')" class="px-2.5 py-1 rounded bg-blue-50 border border-blue-200 text-blue-800 hover:bg-blue-100 font-semibold flex items-center gap-1.5 transition shadow-xs" title="Upload files or attach media from Google Drive">
+            <svg class="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M7.71 3.5L1.15 15l3.43 6 6.55-11.5L7.71 3.5zm8.58 0L9.74 15h13.11l-3.43-6-3.13-5.5zM8.01 16.5l3.43 6h11.41l-3.43-6H8.01z"/></svg>
+            <span>Upload to Google Drive</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 text-xs text-gray-500 font-mono">
+          <span id="cmsWordCount">1,420 words</span>
+          <span>•</span>
+          <span id="cmsReadTime">7 min read</span>
+        </div>
+      </div>
+
+      <!-- Canvas Form Fields -->
+      <div class="max-w-xl mx-auto space-y-6">
+        
+        <!-- NYT Headline Grid Fit Validation -->
+        <div>
+          <div class="flex items-center justify-between text-[11px] text-gray-500 font-mono mb-1">
+            <span>HEADLINE (CHELTENHAM SERIF)</span>
+            <span id="headlineCharBadge" class="text-emerald-600 font-semibold">68 / 80 Chars (Optimal Fit)</span>
+          </div>
+          <input 
+            type="text" 
+            id="editorHeadline" 
+            class="w-full font-nyt-serif text-3xl sm:text-4xl font-bold text-gray-900 border-b border-transparent focus:border-gray-400 outline-none pb-2 transition"
+            placeholder="Enter editorial headline..."
+          />
+        </div>
+
+        <!-- Deck / Summary Excerpt -->
+        <div>
+          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">DECK / SUMMARY EXCERPT</span>
+          <textarea 
+            id="editorDeck" 
+            rows="2" 
+            class="w-full font-nyt-serif text-lg text-gray-700 border-b border-gray-200 focus:border-gray-400 outline-none resize-none"
+            placeholder="Enter 2-sentence summary deck..."
+          ></textarea>
+        </div>
+
+        <!-- Lead Story Cover Photo Preview & Drive Connector -->
+        <div class="border border-dashed border-gray-300 rounded-lg p-3 bg-gray-50/50 space-y-2">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-semibold text-gray-700">Lead Cover Photo (Google Drive / Wire)</span>
+            <button onclick="openDriveModal('upload')" class="text-blue-600 hover:underline font-medium text-[11px] flex items-center gap-1">
+              <span>📤 Upload from PC to Google Drive</span>
+            </button>
+          </div>
+          <input type="hidden" id="editorCoverPhotoUrl" value=""/>
+          <div class="relative max-h-48 overflow-hidden rounded border border-gray-200 bg-neutral-900 flex items-center justify-center">
+            <img id="coverPhotoPreview" src="" alt="Cover Photo" class="w-full h-auto object-cover max-h-48 hidden"/>
+          </div>
+        </div>
+
+        <!-- Metadata Attributes -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 py-3 border-y border-gray-200 text-xs">
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Byline (Authors)</label>
+            <input type="text" id="editorAuthor" class="w-full border border-gray-300 rounded p-1.5 outline-none font-medium text-gray-800" value="David Sanger and Julian Barnes"/>
+          </div>
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Section / Desk Category</label>
+            <select id="editorCategory" class="w-full border border-gray-300 rounded p-1.5 outline-none font-medium text-gray-800">
+              <option value="Special Investigation">Special Investigation</option>
+              <option value="World & Geopolitics">World & Geopolitics</option>
+              <option value="Tech & Artificial Intelligence">Tech & Artificial Intelligence</option>
+              <option value="Climate & Energy">Climate & Energy</option>
+              <option value="Economy & Markets">Economy & Markets</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Document Body Contenteditable -->
+        <div 
+          id="editableBody" 
+          class="font-nyt-serif text-lg leading-relaxed text-gray-800 space-y-4 outline-none min-h-[300px]" 
+          contenteditable="true"
+          oninput="updateWordCount()"
+        >
+          <!-- Loaded dynamically -->
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- PANEL 3 (3 COLS): SCOOP SECTION FRONT CURATOR & COPY STANDARDS            -->
+    <!-- ========================================================================= -->
+    <aside class="col-span-12 lg:col-span-3 bg-white p-5 space-y-6 overflow-y-auto max-h-[calc(100vh-52px)]">
+      
+      <!-- SCOOP HOMEPAGE SLOT CURATOR -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-gray-800">Homepage Slot Curator</h4>
+          <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">LIVE FRONT</span>
+        </div>
+        <p class="text-xs text-gray-500">Designate where this package appears on the web front page:</p>
+
+        <select id="editorSlot" class="w-full text-xs border border-gray-300 rounded p-2 bg-gray-50 font-semibold text-gray-800 outline-none">
+          <option value="lead-anchor">★ Lead Anchor Story (Col 1, A-Hed)</option>
+          <option value="secondary-1">Featured Secondary (Col 2, Top)</option>
+          <option value="secondary-2">Secondary Package (Col 2, Mid)</option>
+          <option value="secondary-3">Analysis Brief (Col 2, Bottom)</option>
+        </select>
+
+        <!-- Visual Slot Blueprint -->
+        <div class="border border-dashed border-gray-300 p-3 rounded bg-gray-50 text-[10px] text-gray-500 space-y-2">
+          <div class="font-semibold text-gray-700">Grid Layout Preview</div>
+          <div class="grid grid-cols-3 gap-1.5 h-16">
+            <div class="bg-[#121212] text-white flex items-center justify-center font-bold text-center rounded-sm">Lead Anchor</div>
+            <div class="bg-gray-200 text-gray-600 flex items-center justify-center text-center rounded-sm">Sec 1</div>
+            <div class="bg-gray-200 text-gray-600 flex items-center justify-center text-center rounded-sm">Opinion</div>
+          </div>
+          <span class="text-[9px] text-gray-400 block text-center">Assigned package claims prominent above-the-fold real estate.</span>
+        </div>
+      </div>
+
+      <hr class="border-gray-200" />
+
+      <!-- COPY DESK & FACT CHECK STANDARDS -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="font-bold text-xs uppercase tracking-wider text-gray-800">Copy Desk Standards</h4>
+          <button onclick="requestLegalScreening()" class="text-[10px] text-[#326891] font-semibold hover:underline">Fast-Track Legal</button>
+        </div>
+        
+        <div class="space-y-2.5 text-xs">
+          <label class="flex items-start gap-2 text-gray-700 cursor-pointer">
+            <input type="checkbox" checked class="mt-0.5 rounded text-neutral-900"/>
+            <span>NYT Style Guide: Spelling, dates & titles verified</span>
+          </label>
+          <label class="flex items-start gap-2 text-gray-700 cursor-pointer">
+            <input type="checkbox" checked class="mt-0.5 rounded text-neutral-900"/>
+            <span>Minimum 2 primary on-the-record citations</span>
+          </label>
+          <label class="flex items-start gap-2 text-gray-700 cursor-pointer">
+            <input type="checkbox" checked class="mt-0.5 rounded text-neutral-900"/>
+            <span>Photo rights cleared & high-res caption filed</span>
+          </label>
+          <label class="flex items-start gap-2 text-gray-700 cursor-pointer">
+            <input type="checkbox" id="legalCheckbox" class="mt-0.5 rounded text-neutral-900"/>
+            <span>Legal department defamation screening</span>
+          </label>
+        </div>
+      </div>
+
+      <hr class="border-gray-200" />
+
+      <!-- BREAKING PUSH ALERT DISPATCHER -->
+      <div class="space-y-3">
+        <h4 class="font-bold text-xs uppercase tracking-wider text-[#D0021B] flex items-center gap-1.5">
+          <span>🚨</span> Breaking Push Dispatcher
+        </h4>
+        <p class="text-[11px] text-gray-500">Instantly update the public reader banner and dispatch mobile alerts:</p>
+        
+        <textarea 
+          id="breakingPushText" 
+          rows="2" 
+          class="w-full text-xs p-2 border border-gray-300 rounded outline-none resize-none focus:border-red-600"
+          placeholder="Draft breaking news alert..."
+        >Diplomats Reach Landmark Accord on Sovereign AI Oversight at Geneva Summit</textarea>
+        
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] text-gray-500 font-mono">Audience: 4.8M subscribers</span>
+          <button onclick="dispatchBreakingPush()" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-semibold shadow-sm transition">
+            Dispatch Alert
+          </button>
+        </div>
+      </div>
+
+      <hr class="border-gray-200" />
+
+      <!-- ACCESS & METERING SETTINGS -->
+      <div class="space-y-2 text-xs">
+        <h4 class="font-bold uppercase tracking-wider text-gray-800 text-[11px]">Paywall & Gift Access</h4>
+        <div class="flex items-center justify-between text-gray-700">
+          <span>Subscriber Tier:</span>
+          <span class="font-semibold text-neutral-900">Standard Metered</span>
+        </div>
+        <div class="flex items-center justify-between text-gray-700">
+          <span>Gift Article Tokens:</span>
+          <span class="text-emerald-700 font-semibold">Enabled (10/user)</span>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- GOOGLE DRIVE MEDIA MODAL (DIRECT UPLOAD + LINK CONVERTER)                 -->
+  <!-- ========================================================================= -->
+  <div id="driveMediaModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl border border-gray-300 max-w-xl w-full overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="bg-[#181A1F] text-white p-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M7.71 3.5L1.15 15l3.43 6 6.55-11.5L7.71 3.5zm8.58 0L9.74 15h13.11l-3.43-6-3.13-5.5zM8.01 16.5l3.43 6h11.41l-3.43-6H8.01z"/></svg>
+          <span class="font-bold text-sm">Google Drive Newsroom Media</span>
+          <span class="text-[10px] bg-blue-900/80 text-blue-300 px-2 py-0.5 rounded font-mono">15 GB Free Storage</span>
+        </div>
+        <button onclick="closeDriveModal()" class="text-gray-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex border-b border-gray-200 bg-gray-50 px-4">
+        <button id="tabBtnDriveUpload" onclick="switchDriveTab('upload')" class="px-4 py-2.5 border-b-2 border-neutral-900 font-bold text-xs text-neutral-900">
+          📤 Direct Upload to Drive
+        </button>
+        <button id="tabBtnDrivePaste" onclick="switchDriveTab('paste')" class="px-4 py-2.5 border-b-2 border-transparent font-medium text-xs text-gray-500 hover:text-neutral-900">
+          🔗 Paste Existing Drive Link
+        </button>
+        <button id="tabBtnDriveAudio" onclick="switchDriveTab('audio')" class="px-4 py-2.5 border-b-2 border-transparent font-medium text-xs text-gray-500 hover:text-neutral-900">
+          🎙️ Audio Narration
+        </button>
+      </div>
+
+      <!-- TAB 1: DIRECT FILE UPLOAD TO GOOGLE DRIVE (Default) -->
+      <div id="driveTabUpload" class="p-5 space-y-4 text-xs">
+        
+        <!-- File Dropzone -->
+        <div class="border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl p-5 text-center bg-gray-50 cursor-pointer transition relative" onclick="document.getElementById('directDriveFileInput').click()">
+          <input type="file" id="directDriveFileInput" accept="image/*,audio/mpeg,audio/wav" class="hidden"/>
+          <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+          <div class="font-semibold text-gray-800 text-sm">Click to select photo or audio from your PC</div>
+          <p class="text-[11px] text-gray-500 mt-0.5">JPEG, PNG, WebP or MP3 (Stored straight in your Google Drive folder)</p>
+        </div>
+
+        <!-- Selected File Preview Box -->
+        <div id="directUploadFilePreviewBox" class="hidden border border-gray-200 rounded-lg p-3 bg-white flex items-center gap-3">
+          <img id="directUploadThumbnailImg" src="" alt="Thumbnail" class="w-14 h-14 object-cover rounded border border-gray-200 flex-shrink-0"/>
+          <div class="flex-1 overflow-hidden">
+            <div id="directUploadFileName" class="font-bold text-gray-800 truncate">photo.jpg</div>
+            <div id="directUploadFileSize" class="text-[10px] text-gray-500 font-mono">1.2 MB</div>
+          </div>
+          <span class="text-xs text-blue-600 font-medium">Ready to upload</span>
+        </div>
+
+        <!-- Captions & Metadata -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Photo Caption</label>
+            <input type="text" id="directUploadCaption" placeholder="e.g. Delegations assemble in Geneva" class="w-full border border-gray-300 rounded p-2 outline-none"/>
+          </div>
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Photographer / Wire Credit</label>
+            <input type="text" id="directUploadCredit" placeholder="e.g. Staff for ANR Chronicle" class="w-full border border-gray-300 rounded p-2 outline-none"/>
+          </div>
+        </div>
+
+        <!-- Expandable Google Drive Setup Drawer -->
+        <div class="border border-gray-200 rounded-lg bg-gray-50 p-2.5">
+          <div class="flex items-center justify-between cursor-pointer" onclick="toggleDriveSetupGuide()">
+            <span class="font-semibold text-gray-700 flex items-center gap-1.5 text-[11px]">
+              <span>⚙️</span> Google Drive Uploader Endpoint
+            </span>
+            <span class="text-[10px] text-blue-600 hover:underline">Setup Guide & Key ▼</span>
+          </div>
+          <div id="driveSetupGuide" class="hidden mt-2 pt-2 border-t border-gray-200 space-y-2">
+            <label class="font-medium text-gray-600 block text-[10px]">Google Apps Script Web App URL:</label>
+            <input 
+              type="text" 
+              id="driveWebAppUrlInput" 
+              placeholder="https://script.google.com/macros/s/.../exec" 
+              class="w-full border border-gray-300 rounded p-1.5 font-mono text-[11px] outline-none bg-white focus:border-blue-500"
+            />
+            <p class="text-[10px] text-gray-500">
+              💡 See <strong>google_drive_uploader_script.js</strong> in your project folder for the 3-minute free script setup.
+            </p>
+          </div>
+        </div>
+
+        <!-- Upload Progress Status -->
+        <div id="driveUploadProgressBox" class="hidden border border-blue-200 bg-blue-50 rounded-lg p-3 text-center space-y-2">
+          <div class="flex items-center justify-center gap-2 text-blue-800 font-semibold text-xs">
+            <svg class="animate-spin h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+            <span id="driveUploadProgressText">Uploading directly to Google Drive...</span>
+          </div>
+          <div class="w-full bg-blue-200 rounded-full h-1.5 overflow-hidden">
+            <div class="bg-blue-600 h-1.5 rounded-full animate-pulse" style="width: 75%"></div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-2 border-t border-gray-200 flex flex-wrap gap-2 justify-end">
+          <button id="btnUploadToBody" onclick="startDirectDriveUpload('body')" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white font-semibold rounded transition flex items-center gap-1.5">
+            <span>💾 Upload & Insert into Article</span>
+          </button>
+          <button id="btnUploadToCover" onclick="startDirectDriveUpload('cover')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition flex items-center gap-1.5">
+            <span>🌟 Upload & Set as Lead Cover</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: PASTE EXISTING GOOGLE DRIVE LINK -->
+      <div id="driveTabPaste" class="p-5 space-y-4 text-xs hidden">
+        <div>
+          <label class="font-semibold text-gray-700 block mb-1">Paste Google Drive Image Share Link</label>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="drivePhotoUrlInput" 
+              placeholder="https://drive.google.com/file/d/1A2B3C.../view?usp=sharing" 
+              class="w-full border border-gray-300 rounded p-2 outline-none font-mono text-xs focus:border-blue-500"
+            />
+            <button onclick="previewPastedDrivePhoto()" class="px-3 py-1.5 bg-neutral-800 text-white rounded font-medium hover:bg-neutral-700">Preview</button>
+          </div>
+          <p class="text-[10px] text-gray-500 mt-1">Make sure the file in Drive is set to <strong>"Anyone with the link can view"</strong>.</p>
+        </div>
+
+        <div id="drivePhotoPreviewBox" class="hidden border border-gray-200 rounded p-2 bg-gray-50 text-center">
+          <img id="drivePhotoPreviewImg" src="" alt="Drive Preview" class="max-h-48 mx-auto rounded object-cover shadow-sm"/>
+          <span class="text-[10px] text-emerald-600 font-semibold block mt-1">✓ High-speed Google CDN link resolved</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Photo Caption</label>
+            <input type="text" id="drivePhotoCaption" placeholder="e.g. Delegations assemble in Geneva" class="w-full border border-gray-300 rounded p-2 outline-none"/>
+          </div>
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Photographer Credit</label>
+            <input type="text" id="drivePhotoCredit" placeholder="e.g. Staff for ANR Chronicle" class="w-full border border-gray-300 rounded p-2 outline-none"/>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-gray-200 flex justify-end">
+          <button onclick="insertPastedDrivePhoto()" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-white font-semibold rounded transition">
+            Insert Into Body Copy
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 3: AUDIO NARRATION -->
+      <div id="driveTabAudio" class="p-5 space-y-4 text-xs hidden">
+        <div>
+          <label class="font-semibold text-gray-700 block mb-1">Paste Google Drive Audio (MP3) Link</label>
+          <input 
+            type="text" 
+            id="driveAudioUrlInput" 
+            placeholder="https://drive.google.com/file/d/1X2Y3Z.../view?usp=sharing" 
+            class="w-full border border-gray-300 rounded p-2 outline-none font-mono text-xs focus:border-blue-500"
+          />
+          <p class="text-[10px] text-gray-500 mt-1">Directly streams MP3 narration clips in the reader player.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Narrator Name</label>
+            <input type="text" id="driveAudioNarrator" value="Michael Barbaro" class="w-full border border-gray-300 rounded p-2 outline-none"/>
+          </div>
+          <div>
+            <label class="font-semibold text-gray-700 block mb-1">Audio Duration</label>
+            <input type="text" id="driveAudioDuration" value="7:14" class="w-full border border-gray-300 rounded p-2 outline-none font-mono"/>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-gray-200 flex justify-end">
+          <button onclick="attachDriveAudio()" class="px-4 py-2 bg-[#D0021B] hover:bg-red-700 text-white font-semibold rounded transition">
+            Attach Audio Narration
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Firebase Cloud SDKs (Free Tier) -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="assets/js/firebase-config.js"></script>
+
+  <!-- Google Drive Configuration -->
+  <script src="assets/js/drive-config.js"></script>
+
+  <!-- Scripts -->
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/cms.js"></script>
+</body>
+</html>

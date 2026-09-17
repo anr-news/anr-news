@@ -1,0 +1,19 @@
+{
+  "name": "anr-news",
+  "version": "1.0.0",
+  "description": "ANR NEWS - The New York Times style digital publishing platform with Scoop & Oak editorial CMS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "news",
+    "nyt-style",
+    "editorial",
+    "cms",
+    "journalism"
+  ],
+  "author": "ANR Publishing Company",
+  "license": "MIT"
+}
